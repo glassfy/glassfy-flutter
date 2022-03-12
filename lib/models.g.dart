@@ -69,41 +69,17 @@ Map<String, dynamic> _$GlassfyVersionToJson(GlassfyVersion instance) =>
 
 GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
     GlassfyPermission(
-      json['permissionIdentifier'] as String?,
-      $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
+      json['permissionId'] as String?,
       json['isValid'] as bool?,
-      json['expireDate'] as String?,
-      (json['accountableSkus'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      json['expireDate'] as int?,
     );
 
 Map<String, dynamic> _$GlassfyPermissionToJson(GlassfyPermission instance) =>
     <String, dynamic>{
-      'permissionIdentifier': instance.permissionIdentifier,
-      'entitlement': _$GlassfyEntitlementEnumMap[instance.entitlement],
+      'permissionId': instance.permissionId,
       'isValid': instance.isValid,
       'expireDate': instance.expireDate,
-      'accountableSkus': instance.accountableSkus,
     };
-
-const _$GlassfyEntitlementEnumMap = {
-  GlassfyEntitlement.neverbuy: -9,
-  GlassfyEntitlement.otherrefund: -8,
-  GlassfyEntitlement.issuerefund: -7,
-  GlassfyEntitlement.upgraded: -6,
-  GlassfyEntitlement.expiredvoluntary: -5,
-  GlassfyEntitlement.productnotavailable: -4,
-  GlassfyEntitlement.failtoacceptincrease: -3,
-  GlassfyEntitlement.expiredfrombilling: -2,
-  GlassfyEntitlement.inretry: -1,
-  GlassfyEntitlement.missinginfo: 0,
-  GlassfyEntitlement.expiredingrace: 1,
-  GlassfyEntitlement.offplatform: 2,
-  GlassfyEntitlement.nonrenewing: 3,
-  GlassfyEntitlement.autorenewoff: 4,
-  GlassfyEntitlement.autorenewon: 5,
-};
 
 GlassfyPermissions _$GlassfyPermissionsFromJson(Map<String, dynamic> json) =>
     GlassfyPermissions(

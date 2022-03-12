@@ -54,6 +54,13 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler {
       "offerings" -> {
         GlassfyGlue.offerings() { v, e -> pluginCompletion(result, v, e) }
       }
+      "permissions" -> {
+        GlassfyGlue.permissions() { v, e -> pluginCompletion(result, v, e) }
+      }
+      "skuWithIdentifier" -> {
+        val identifier: String = call.argument("identifier") ?: ""
+        GlassfyGlue.skuWithIdentifier(identifier) { v, e -> pluginCompletion(result, v, e) }
+      }
       else -> {
         result.notImplemented()
       }

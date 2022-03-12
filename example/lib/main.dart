@@ -35,10 +35,20 @@ class _MyAppState extends State<MyApp> {
 
       await GlassfyFlutter.initialize(
           '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
-
+    } catch(e) {
+      print(e);
+      platformVersion = e.toString();
+    }
+    try {
       var offerings = await GlassfyFlutter.offerings();
       print(offerings);
+
+      new DateTime.now().millisecondsSinceEpoch;
+
+      var permission = await GlassfyFlutter.permissions();
+      print(permission);
     } catch (e) {
+      print(e);
       platformVersion = e.toString();
     }
 

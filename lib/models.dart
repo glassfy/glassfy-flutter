@@ -146,14 +146,14 @@ class GlassfyVersion {
 
 @JsonSerializable()
 class GlassfyPermission {
-  final String? permissionIdentifier;
-  final GlassfyEntitlement? entitlement;
+  final String? permissionId;
+  // final GlassfyEntitlement? entitlement;
   final bool? isValid;
-  final String? expireDate;
-  final List<String>? accountableSkus;
+  final int? expireDate;
+  // final List<String>? accountableSkus;
 
-  GlassfyPermission(this.permissionIdentifier, this.entitlement, this.isValid,
-      this.expireDate, this.accountableSkus);
+  GlassfyPermission(this.permissionId, this.isValid,
+      this.expireDate);
   factory GlassfyPermission.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
