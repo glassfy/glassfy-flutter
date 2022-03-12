@@ -31,9 +31,9 @@ const _$GlassfyElegibilityEnumMap = {
   GlassfyElegibility.unknown: 0,
 };
 
-GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) => 
+GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
     GlassfyOffering(
-      json['identifier'] as String?,
+      json['offeringId'] as String?,
       (json['skus'] as List<dynamic>?)
           ?.map((e) => GlassfySku.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -41,7 +41,7 @@ GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GlassfyOfferingToJson(GlassfyOffering instance) =>
     <String, dynamic>{
-      'identifier': instance.identifier,
+      'offeringId': instance.offeringId,
       'skus': instance.skus,
     };
 

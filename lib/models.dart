@@ -95,10 +95,10 @@ class GlassfySku {
 
 @JsonSerializable()
 class GlassfyOffering {
-  final String? identifier;
+  final String? offeringId;
   final List<GlassfySku>? skus;
 
-  GlassfyOffering(this.identifier, this.skus);
+  GlassfyOffering(this.offeringId, this.skus);
 
   factory GlassfyOffering.fromJson(Map<String, dynamic> json) =>
       _$GlassfyOfferingFromJson(json);
