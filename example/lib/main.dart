@@ -43,13 +43,13 @@ class _MyAppState extends State<MyApp> {
       var offerings = await GlassfyFlutter.offerings();
       print(offerings);
 
-      new DateTime.now().millisecondsSinceEpoch;
-
       var permission = await GlassfyFlutter.permissions();
       print(permission);
 
       var sku = await GlassfyFlutter.skuWithIdentifier('monthly_article_subscription');
-      print(permission);
+      print(sku);
+
+      await GlassfyFlutter.purchaseSku(sku);
 
     } catch (e) {
       print(e);
