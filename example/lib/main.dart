@@ -47,6 +47,10 @@ class _MyAppState extends State<MyApp> {
 
       var permission = await GlassfyFlutter.permissions();
       print(permission);
+
+      var sku = await GlassfyFlutter.skuWithIdentifier('monthly_article_subscription');
+      print(permission);
+
     } catch (e) {
       print(e);
       platformVersion = e.toString();
