@@ -1,4 +1,3 @@
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
@@ -131,11 +130,11 @@ class GlassfyPermission {
   final String? permissionId;
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
-  final String? expireDate;
+  final int? expireDate;
   final List<String>? accountableSkus;
 
-  GlassfyPermission(this.permissionId, this.entitlement,this.isValid,
-      this.expireDate,this.accountableSkus);
+  GlassfyPermission(this.permissionId, this.entitlement, this.isValid,
+      this.expireDate, this.accountableSkus);
   factory GlassfyPermission.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
@@ -145,9 +144,11 @@ class GlassfyPermission {
 class GlassfyPermissions {
   final String? installationId;
   final String? subscriberId;
+  final String? originalApplicationVersion;
+  final int? originalApplicationDate;
   List<GlassfyPermission>? all;
 
-  GlassfyPermissions(this.installationId, this.subscriberId);
+  GlassfyPermissions(this.installationId, this.subscriberId,this.originalApplicationVersion,this.originalApplicationDate,this.all);
   factory GlassfyPermissions.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionsFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);
@@ -159,7 +160,8 @@ class GlassfyTransaction {
   final bool? receiptValidated;
   final GlassfyPermissions? permissions;
 
-  GlassfyTransaction(this.productIdentifier, this.receiptValidated, this.permissions);
+  GlassfyTransaction(
+      this.productIdentifier, this.receiptValidated, this.permissions);
 
   factory GlassfyTransaction.fromJson(Map<String, dynamic> json) =>
       _$GlassfyTransactionFromJson(json);

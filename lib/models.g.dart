@@ -72,7 +72,7 @@ GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
       json['permissionId'] as String?,
       $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
       json['isValid'] as bool?,
-      json['expireDate'] as String?,
+      json['expireDate'] as int?,
       (json['accountableSkus'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -109,14 +109,19 @@ GlassfyPermissions _$GlassfyPermissionsFromJson(Map<String, dynamic> json) =>
     GlassfyPermissions(
       json['installationId'] as String?,
       json['subscriberId'] as String?,
-    )..all = (json['all'] as List<dynamic>?)
-        ?.map((e) => GlassfyPermission.fromJson(e as Map<String, dynamic>))
-        .toList();
+      json['originalApplicationVersion'] as String?,
+      json['originalApplicationDate'] as int?,
+      (json['all'] as List<dynamic>?)
+          ?.map((e) => GlassfyPermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$GlassfyPermissionsToJson(GlassfyPermissions instance) =>
     <String, dynamic>{
       'installationId': instance.installationId,
       'subscriberId': instance.subscriberId,
+      'originalApplicationVersion': instance.originalApplicationVersion,
+      'originalApplicationDate': instance.originalApplicationDate,
       'all': instance.all,
     };
 

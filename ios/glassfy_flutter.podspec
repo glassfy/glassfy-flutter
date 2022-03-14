@@ -15,7 +15,7 @@ Glassfy SDK.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'GlassfyGlue','1.1.81'
+  s.dependency 'GlassfyGlue','1.1.83'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.

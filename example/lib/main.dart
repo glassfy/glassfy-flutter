@@ -32,10 +32,10 @@ class _MyAppState extends State<MyApp> {
       var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
 
-      // await Glassfy.initialize(
-      //     '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
       await Glassfy.initialize(
-          '50af3c1afb6f473bbaf1ad0d5fb19b41');
+          '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
+      // await Glassfy.initialize(
+      //     '50af3c1afb6f473bbaf1ad0d5fb19b41');
           
     } catch(e) {
       debugPrint(e.toString());

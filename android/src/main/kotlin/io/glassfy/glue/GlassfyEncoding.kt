@@ -3,6 +3,8 @@ package io.glassfy.glue
 import io.glassfy.androidsdk.model.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 
 fun encodeArray(array:List<JSONObject>):JSONArray {
