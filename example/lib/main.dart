@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:glassfy_flutter/glassfy_flutter.dart';
 
 void main() {
@@ -36,23 +35,23 @@ class _MyAppState extends State<MyApp> {
       await GlassfyFlutter.initialize(
           '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
     } catch(e) {
-      print(e);
+      debugPrint(e.toString());
       platformVersion = e.toString();
     }
     try {
       var offerings = await GlassfyFlutter.offerings();
-      print(offerings);
+      debugPrint(offerings.toString());
 
       var permission = await GlassfyFlutter.permissions();
-      print(permission);
+      debugPrint(permission.toString());
 
       var sku = await GlassfyFlutter.skuWithIdentifier('monthly_article_subscription');
-      print(sku);
+      debugPrint(sku.toString());
 
       await GlassfyFlutter.purchaseSku(sku);
 
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       platformVersion = e.toString();
     }
 
