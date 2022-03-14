@@ -27,7 +27,7 @@ Map<String, dynamic> _$GlassfySkuToJson(GlassfySku instance) =>
 
 const _$GlassfyElegibilityEnumMap = {
   GlassfyElegibility.elegibile: 1,
-  GlassfyElegibility.nonElegible: 2,
+  GlassfyElegibility.nonElegible: -1,
   GlassfyElegibility.unknown: 0,
 };
 
@@ -72,7 +72,7 @@ GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
       json['permissionId'] as String?,
       $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
       json['isValid'] as bool?,
-      json['expireDate'] as int?,
+      json['expireDate'] as String?,
       (json['accountableSkus'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

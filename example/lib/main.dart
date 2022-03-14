@@ -32,8 +32,11 @@ class _MyAppState extends State<MyApp> {
       var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
 
+      // await Glassfy.initialize(
+      //     '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
       await Glassfy.initialize(
-          '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
+          '50af3c1afb6f473bbaf1ad0d5fb19b41');
+          
     } catch(e) {
       debugPrint(e.toString());
       platformVersion = e.toString();
@@ -45,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       var permission = await Glassfy.permissions();
       debugPrint(permission.toString());
 
-      var sku = await Glassfy.skuWithIdentifier('monthly_article_subscription');
+      var sku = await Glassfy.skuWithId('monthly_article_subscription');
       debugPrint(sku.toString());
 
       await Glassfy.purchaseSku(sku);

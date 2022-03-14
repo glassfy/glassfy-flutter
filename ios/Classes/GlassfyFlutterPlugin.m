@@ -1,15 +1,90 @@
 #import "GlassfyFlutterPlugin.h"
-#if __has_include(<glassfy_flutter/glassfy_flutter-Swift.h>)
-#import <glassfy_flutter/glassfy_flutter-Swift.h>
-#else
-// Support project import fallback if the generated compatibility header
-// is not copied when this plugin is created as a library.
-// https://forums.swift.org/t/swift-static-libraries-dont-copy-generated-objective-c-header/19816
-#import "glassfy_flutter-Swift.h"
-#endif
+#import <GlassfyGlue/GlassfyGlue.h>
 
 @implementation GlassfyFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftGlassfyFlutterPlugin registerWithRegistrar:registrar];
+  FlutterMethodChannel* channel = [FlutterMethodChannel
+      methodChannelWithName:@"glassfy_flutter"
+            binaryMessenger:[registrar messenger]];
+  GlassfyFlutterPlugin* instance = [[GlassfyFlutterPlugin alloc] init];
+  [registrar addMethodCallDelegate:instance channel:channel];
 }
+
+- (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+    NSDictionary *arguments = call.arguments;
+
+  if ([@"getPlatformVersion" isEqualToString:call.method]) {
+    result([@"VER " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+  } else if ([@"sdkVersion" isEqualToString:call.method]) {
+      [GlassfyGlue sdkVersionWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"initialize" isEqualToString:call.method]) {
+    NSString *apiKey = arguments[@"apiKey"];
+    BOOL watcherMode = [arguments[@"watcherMode"] boolValue];
+    [GlassfyGlue initializeWithApiKey:apiKey watcherMode:watcherMode withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"offerings" isEqualToString:call.method]) {
+    [GlassfyGlue offeringsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"skuWithIdentifier" isEqualToString:call.method]) {
+    NSString *identifier = arguments[@"identifier"];
+    [GlassfyGlue skuWithId:identifier withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"login" isEqualToString:call.method]) {
+    NSString *userid = arguments[@"userid"];
+    [GlassfyGlue loginUser:userid withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"logout" isEqualToString:call.method]) {
+      [GlassfyGlue logoutUserWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"permissions" isEqualToString:call.method]) {
+      [GlassfyGlue permissionsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"purchaseSku" isEqualToString:call.method]) {
+      NSDictionary *sku = arguments[@"sku"];
+      [GlassfyGlue purchaseSku:sku withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"restorePurchases" isEqualToString:call.method]) {
+      [GlassfyGlue restorePurchasesWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"setDeviceToken" isEqualToString:call.method]) {
+      NSString *token = arguments[@"token"];
+      [GlassfyGlue setDeviceToken:token withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"setEmailUserProperty" isEqualToString:call.method]) {
+      NSString *email = arguments[@"email"];
+      [GlassfyGlue setEmailUserProperty:email withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"setExtraUserProperty" isEqualToString:call.method]) {
+      NSDictionary *extraProp = arguments[@"extraProp"];
+      [GlassfyGlue setExtraUserProperty:extraProp withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"getExtraUserProperty" isEqualToString:call.method]) {
+      [GlassfyGlue getExtraUserPropertyWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else {
+    result(FlutterMethodNotImplemented);
+  }
+}
+
+
+
+
+- (void (^)(NSDictionary *, NSError *))convertGlassfyGlueResultToFlutter:(FlutterResult)result {
+    return ^(NSDictionary * _Nullable resultDictionary, NSError * _Nullable error) {
+        if (error) {
+            result([FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long) error.code]
+                                                                    message:error.localizedDescription
+                                                                    details:error.description]);
+        } else {
+            if (resultDictionary==nil) {
+                result(nil);
+                return;
+            }
+            NSError *error;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultDictionary
+                                                             options:0 // Pass 0 if you don't care about the readability of the generated string
+                                                               error:&error];
+            if (error) {
+                result([FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long) error.code]
+                                                                        message:error.localizedDescription
+                                                                        details:error.description]);
+                return;
+            }
+
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            result(jsonString);
+        }
+    };
+}
+
+
+
 @end

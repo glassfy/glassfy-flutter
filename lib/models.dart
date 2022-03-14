@@ -7,7 +7,7 @@ enum GlassfyElegibility {
   @JsonValue(1)
   elegibile,
 
-  @JsonValue(2)
+  @JsonValue(-1)
   nonElegible,
 
   @JsonValue(0)
@@ -131,7 +131,7 @@ class GlassfyPermission {
   final String? permissionId;
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
-  final int? expireDate;
+  final String? expireDate;
   final List<String>? accountableSkus;
 
   GlassfyPermission(this.permissionId, this.entitlement,this.isValid,
