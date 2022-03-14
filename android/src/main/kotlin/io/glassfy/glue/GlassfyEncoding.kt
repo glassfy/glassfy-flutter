@@ -13,6 +13,15 @@ fun encodeArray(array:List<JSONObject>):JSONArray {
     return all
 }
 
+fun encodeStringArray(array:List<String>):JSONArray {
+    val all = JSONArray()
+    array.forEach {
+        all.put(it)
+    }
+    return all
+}
+
+
 fun Offering.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("offeringId",this.offeringId)
@@ -29,19 +38,22 @@ fun Offerings.encodedJson(): JSONObject {
     return jo
 }
 
+
 fun Permission.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("permissionId",this.permissionId)
-    jo.put("entitlement",this.entitlement)
+    jo.put("entitlement",this.entitlement.value)
     jo.put("isValid",this.isValid)
     jo.put("expireDate",this.expireDate)
-    jo.put("accountableSkus",this.accountableSkus)
+    val accountableSkus = encodeStringArray(this.accountableSkus)
+    jo.put("accountableSkus",accountableSkus)
     return jo
 }
 
 fun Permissions.encodedJson(): JSONObject {
     val jo = JSONObject()
     val permissions = encodeArray(this.all.map { it.encodedJson() })
+    jo.put("subscriberId",subscriberId)
     jo.put("all",permissions)
     return jo
 }

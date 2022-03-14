@@ -70,23 +70,45 @@ Map<String, dynamic> _$GlassfyVersionToJson(GlassfyVersion instance) =>
 GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
     GlassfyPermission(
       json['permissionId'] as String?,
+      $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
       json['isValid'] as bool?,
       json['expireDate'] as int?,
+      (json['accountableSkus'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$GlassfyPermissionToJson(GlassfyPermission instance) =>
     <String, dynamic>{
       'permissionId': instance.permissionId,
+      'entitlement': _$GlassfyEntitlementEnumMap[instance.entitlement],
       'isValid': instance.isValid,
       'expireDate': instance.expireDate,
+      'accountableSkus': instance.accountableSkus,
     };
+
+const _$GlassfyEntitlementEnumMap = {
+  GlassfyEntitlement.neverbuy: -9,
+  GlassfyEntitlement.otherrefund: -8,
+  GlassfyEntitlement.issuerefund: -7,
+  GlassfyEntitlement.upgraded: -6,
+  GlassfyEntitlement.expiredvoluntary: -5,
+  GlassfyEntitlement.productnotavailable: -4,
+  GlassfyEntitlement.failtoacceptincrease: -3,
+  GlassfyEntitlement.expiredfrombilling: -2,
+  GlassfyEntitlement.inretry: -1,
+  GlassfyEntitlement.missinginfo: 0,
+  GlassfyEntitlement.expiredingrace: 1,
+  GlassfyEntitlement.offplatform: 2,
+  GlassfyEntitlement.nonrenewing: 3,
+  GlassfyEntitlement.autorenewoff: 4,
+  GlassfyEntitlement.autorenewon: 5,
+};
 
 GlassfyPermissions _$GlassfyPermissionsFromJson(Map<String, dynamic> json) =>
     GlassfyPermissions(
       json['installationId'] as String?,
       json['subscriberId'] as String?,
-      json['originalApplicationVersion'] as String?,
-      json['originalApplicationDate'] as String?,
     )..all = (json['all'] as List<dynamic>?)
         ?.map((e) => GlassfyPermission.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -95,8 +117,6 @@ Map<String, dynamic> _$GlassfyPermissionsToJson(GlassfyPermissions instance) =>
     <String, dynamic>{
       'installationId': instance.installationId,
       'subscriberId': instance.subscriberId,
-      'originalApplicationVersion': instance.originalApplicationVersion,
-      'originalApplicationDate': instance.originalApplicationDate,
       'all': instance.all,
     };
 

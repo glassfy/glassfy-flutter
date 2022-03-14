@@ -128,32 +128,16 @@ class GlassfyVersion {
   Map<String, dynamic> toJson() => _$GlassfyVersionToJson(this);
 }
 
-// export interface GlassfyPermission {
-//   readonly permissionIdentifier: string;
-//   readonly entitlement: GLASSFY_ENTITLEMENT;
-//   readonly isValid: boolean;
-//   readonly expireDate: string;
-//   readonly accountableSkus: [string];
-// }
-
-// export interface GlassfyPermissions {
-//   readonly installationId: string;
-//   readonly subscriberId: string;
-//   readonly originalApplicationVersion: string;
-//   readonly originalApplicationDate: string;
-//   readonly all: [GlassfyPermission];
-// }
-
 @JsonSerializable()
 class GlassfyPermission {
   final String? permissionId;
-  // final GlassfyEntitlement? entitlement;
+  final GlassfyEntitlement? entitlement;
   final bool? isValid;
   final int? expireDate;
-  // final List<String>? accountableSkus;
+  final List<String>? accountableSkus;
 
-  GlassfyPermission(this.permissionId, this.isValid,
-      this.expireDate);
+  GlassfyPermission(this.permissionId, this.entitlement,this.isValid,
+      this.expireDate,this.accountableSkus);
   factory GlassfyPermission.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
@@ -163,12 +147,9 @@ class GlassfyPermission {
 class GlassfyPermissions {
   final String? installationId;
   final String? subscriberId;
-  final String? originalApplicationVersion;
-  final String? originalApplicationDate;
   List<GlassfyPermission>? all;
 
-  GlassfyPermissions(this.installationId, this.subscriberId,
-      this.originalApplicationVersion, this.originalApplicationDate);
+  GlassfyPermissions(this.installationId, this.subscriberId);
   factory GlassfyPermissions.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionsFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);
