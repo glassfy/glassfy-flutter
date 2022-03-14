@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await GlassfyFlutter.platformVersion, '42');
+    expect(await Glassfy.platformVersion, '42');
   });
 }

@@ -29,26 +29,26 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
-      var version = await GlassfyFlutter.sdkVersion();
+      var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
 
-      await GlassfyFlutter.initialize(
+      await Glassfy.initialize(
           '8NOV6FQBHHRJ4F9N2HV0HUXOQ5LL0QA3/OBMVM0E1ZZQ77TZOQNOETSHHPQOZX6LQ');
     } catch(e) {
       debugPrint(e.toString());
       platformVersion = e.toString();
     }
     try {
-      var offerings = await GlassfyFlutter.offerings();
+      var offerings = await Glassfy.offerings();
       debugPrint(offerings.toString());
 
-      var permission = await GlassfyFlutter.permissions();
+      var permission = await Glassfy.permissions();
       debugPrint(permission.toString());
 
-      var sku = await GlassfyFlutter.skuWithIdentifier('monthly_article_subscription');
+      var sku = await Glassfy.skuWithIdentifier('monthly_article_subscription');
       debugPrint(sku.toString());
 
-      await GlassfyFlutter.purchaseSku(sku);
+      await Glassfy.purchaseSku(sku);
 
     } catch (e) {
       debugPrint(e.toString());

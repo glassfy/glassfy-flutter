@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'models.dart';
 
-class GlassfyFlutter {
+class Glassfy {
   static const MethodChannel _channel = MethodChannel('glassfy_flutter');
 
   static Future<String?> get platformVersion async {
