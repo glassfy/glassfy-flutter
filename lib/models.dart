@@ -76,14 +76,44 @@ enum GlassfyEntitlement {
 }
 
 @JsonSerializable()
+class GlassfyProductDiscount {
+  final num? price;
+  final String? period;
+  final int? numberOfPeriods;
+  final String? type;
+
+  GlassfyProductDiscount(
+      this.price, this.period, this.numberOfPeriods, this.type);
+  factory GlassfyProductDiscount.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyProductDiscountFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfyProductDiscountToJson(this);
+}
+
+@JsonSerializable()
+class GlassfyProduct {
+  final String? description;
+  final String? currencyCode;
+  final num? price;
+  final GlassfyProductDiscount? introductoryPrice;
+  final List<GlassfyProductDiscount>? discounts;
+
+  GlassfyProduct(this.description, this.currencyCode, this.price,
+      this.introductoryPrice, this.discounts);
+  factory GlassfyProduct.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyProductFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);
+}
+
+@JsonSerializable()
 class GlassfySku {
   final String? skuId;
   final String? productId;
   final GlassfyElegibility? introductoryEligibility;
   final GlassfyElegibility? promotionalEligibility;
+  final GlassfyProduct? product;
 
   GlassfySku(this.skuId, this.productId, this.introductoryEligibility,
-      this.promotionalEligibility);
+      this.promotionalEligibility, this.product);
 
   factory GlassfySku.fromJson(Map<String, dynamic> json) =>
       _$GlassfySkuFromJson(json);
@@ -148,7 +178,8 @@ class GlassfyPermissions {
   final int? originalApplicationDate;
   List<GlassfyPermission>? all;
 
-  GlassfyPermissions(this.installationId, this.subscriberId,this.originalApplicationVersion,this.originalApplicationDate,this.all);
+  GlassfyPermissions(this.installationId, this.subscriberId,
+      this.originalApplicationVersion, this.originalApplicationDate, this.all);
   factory GlassfyPermissions.fromJson(Map<String, dynamic> json) =>
       _$GlassfyPermissionsFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);

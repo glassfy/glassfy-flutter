@@ -64,6 +64,7 @@ fun Sku.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("skuId",this.skuId)
     jo.put("productId",this.productId)
+    jo.put("product",this.skuDetails.econdedJson())
     return jo
 }
 
@@ -79,3 +80,28 @@ fun skuFromJsonObject(jo:JSONObject):Sku {
     return Sku(skuId,productId, emptyMap<String, String>())
 }
 
+fun SkuDetails.econdedJson():JSONObject{
+    val jo = JSONObject()
+
+    jo.put("currencyCode", this.priceCurrencyCode)
+    jo.put("description", this.description)
+    jo.put("price",this.priceAmountMicro / 1000000.0)
+
+    if (this.freeTrialPeriod.isNotBlank()) {
+        val ftjo = JSONObject()
+
+        ftjo.put("price",0)
+        ftjo.put("period",this.freeTrialPeriod)
+        ftjo.put("numberOfPeriods",1)
+        ftjo.put("type","introductory")
+        jo.put("introductoryPrice",ftjo)
+    } else if (introductoryPrice.isNotBlank()) {
+        val ipjo = JSONObject()
+        ipjo.put("price",introductoryPriceAmountMicro / 1000000.0)
+        ipjo.put("period",introductoryPriceAmountPeriod)
+        ipjo.put("numberOfPeriods",introductoryPriceAmountCycles)
+        ipjo.put("type","introductory")
+        jo.put("introductoryPrice",ipjo)
+    }
+    return jo;
+}

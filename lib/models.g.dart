@@ -6,6 +6,48 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+GlassfyProductDiscount _$GlassfyProductDiscountFromJson(
+        Map<String, dynamic> json) =>
+    GlassfyProductDiscount(
+      json['price'] as num?,
+      json['period'] as String?,
+      json['numberOfPeriods'] as int?,
+      json['type'] as String?,
+    );
+
+Map<String, dynamic> _$GlassfyProductDiscountToJson(
+        GlassfyProductDiscount instance) =>
+    <String, dynamic>{
+      'price': instance.price,
+      'period': instance.period,
+      'numberOfPeriods': instance.numberOfPeriods,
+      'type': instance.type,
+    };
+
+GlassfyProduct _$GlassfyProductFromJson(Map<String, dynamic> json) =>
+    GlassfyProduct(
+      json['description'] as String?,
+      json['currencyCode'] as String?,
+      json['price'] as num?,
+      json['introductoryPrice'] == null
+          ? null
+          : GlassfyProductDiscount.fromJson(
+              json['introductoryPrice'] as Map<String, dynamic>),
+      (json['discounts'] as List<dynamic>?)
+          ?.map(
+              (e) => GlassfyProductDiscount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
+    <String, dynamic>{
+      'description': instance.description,
+      'currencyCode': instance.currencyCode,
+      'price': instance.price,
+      'introductoryPrice': instance.introductoryPrice,
+      'discounts': instance.discounts,
+    };
+
 GlassfySku _$GlassfySkuFromJson(Map<String, dynamic> json) => GlassfySku(
       json['skuId'] as String?,
       json['productId'] as String?,
@@ -13,6 +55,9 @@ GlassfySku _$GlassfySkuFromJson(Map<String, dynamic> json) => GlassfySku(
           _$GlassfyElegibilityEnumMap, json['introductoryEligibility']),
       $enumDecodeNullable(
           _$GlassfyElegibilityEnumMap, json['promotionalEligibility']),
+      json['product'] == null
+          ? null
+          : GlassfyProduct.fromJson(json['product'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GlassfySkuToJson(GlassfySku instance) =>
@@ -23,6 +68,7 @@ Map<String, dynamic> _$GlassfySkuToJson(GlassfySku instance) =>
           _$GlassfyElegibilityEnumMap[instance.introductoryEligibility],
       'promotionalEligibility':
           _$GlassfyElegibilityEnumMap[instance.promotionalEligibility],
+      'product': instance.product,
     };
 
 const _$GlassfyElegibilityEnumMap = {
