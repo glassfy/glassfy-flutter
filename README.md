@@ -2,7 +2,7 @@
 
 [![Platform](https://img.shields.io/cocoapods/p/Glassfy.svg?style=flat)](https://glassfy.io)
 [![License](https://img.shields.io/cocoapods/l/Glassfy.svg?style=flat)](https://glassfy.io)
-[![pub package](https://img.shields.io/pub/v/glassfy_flutter)](https://pub.dev/packages/glassfy_flutte)
+[![pub package](https://img.shields.io/pub/v/glassfy_flutter)](https://pub.dev/packages/glassfy_flutter)
 
 ### Glassfy Flutter SDK
 
