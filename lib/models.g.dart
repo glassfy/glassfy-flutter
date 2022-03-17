@@ -44,8 +44,8 @@ Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
       'description': instance.description,
       'currencyCode': instance.currencyCode,
       'price': instance.price,
-      'introductoryPrice': instance.introductoryPrice,
-      'discounts': instance.discounts,
+      'introductoryPrice': instance.introductoryPrice?.toJson(),
+      'discounts': instance.discounts?.map((e) => e.toJson()).toList(),
     };
 
 GlassfySku _$GlassfySkuFromJson(Map<String, dynamic> json) => GlassfySku(
@@ -68,7 +68,7 @@ Map<String, dynamic> _$GlassfySkuToJson(GlassfySku instance) =>
           _$GlassfyElegibilityEnumMap[instance.introductoryEligibility],
       'promotionalEligibility':
           _$GlassfyElegibilityEnumMap[instance.promotionalEligibility],
-      'product': instance.product,
+      'product': instance.product?.toJson(),
     };
 
 const _$GlassfyElegibilityEnumMap = {
@@ -88,7 +88,7 @@ GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$GlassfyOfferingToJson(GlassfyOffering instance) =>
     <String, dynamic>{
       'offeringId': instance.offeringId,
-      'skus': instance.skus,
+      'skus': instance.skus?.map((e) => e.toJson()).toList(),
     };
 
 GlassfyOfferings _$GlassfyOfferingsFromJson(Map<String, dynamic> json) =>
@@ -100,7 +100,7 @@ GlassfyOfferings _$GlassfyOfferingsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GlassfyOfferingsToJson(GlassfyOfferings instance) =>
     <String, dynamic>{
-      'all': instance.all,
+      'all': instance.all?.map((e) => e.toJson()).toList(),
     };
 
 GlassfyVersion _$GlassfyVersionFromJson(Map<String, dynamic> json) =>
@@ -168,7 +168,7 @@ Map<String, dynamic> _$GlassfyPermissionsToJson(GlassfyPermissions instance) =>
       'subscriberId': instance.subscriberId,
       'originalApplicationVersion': instance.originalApplicationVersion,
       'originalApplicationDate': instance.originalApplicationDate,
-      'all': instance.all,
+      'all': instance.all?.map((e) => e.toJson()).toList(),
     };
 
 GlassfyTransaction _$GlassfyTransactionFromJson(Map<String, dynamic> json) =>
@@ -185,5 +185,5 @@ Map<String, dynamic> _$GlassfyTransactionToJson(GlassfyTransaction instance) =>
     <String, dynamic>{
       'productIdentifier': instance.productIdentifier,
       'receiptValidated': instance.receiptValidated,
-      'permissions': instance.permissions,
+      'permissions': instance.permissions?.toJson(),
     };

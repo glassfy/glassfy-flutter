@@ -47,8 +47,7 @@ class Glassfy {
   }
 
   static Future<GlassfyTransaction> purchaseSku(GlassfySku sku) async {
-    final json =
-        await _channel.invokeMethod('purchaseSku', {'sku': sku.toJson()});
+    final json = await _channel.invokeMethod('purchaseSku', {'sku': sku.toJson()});
     return GlassfyTransaction.fromJson(jsonDecode(json));
   }
 
@@ -67,7 +66,8 @@ class Glassfy {
 
   static Future<void> setExtraUserProperty(
       Map<String, dynamic> extraProp) async {
-    await _channel.invokeMethod('setExtraUserProperty', {'extraProp': extraProp});
+    await _channel
+        .invokeMethod('setExtraUserProperty', {'extraProp': extraProp});
   }
 
   static Future<Map<String, dynamic>> getExtraUserProperty() async {

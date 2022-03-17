@@ -75,7 +75,7 @@ enum GlassfyEntitlement {
   autorenewon,
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyProductDiscount {
   final num? price;
   final String? period;
@@ -89,7 +89,7 @@ class GlassfyProductDiscount {
   Map<String, dynamic> toJson() => _$GlassfyProductDiscountToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyProduct {
   final String? description;
   final String? currencyCode;
@@ -104,13 +104,15 @@ class GlassfyProduct {
   Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfySku {
   final String? skuId;
   final String? productId;
   final GlassfyElegibility? introductoryEligibility;
   final GlassfyElegibility? promotionalEligibility;
+
   final GlassfyProduct? product;
+
 
   GlassfySku(this.skuId, this.productId, this.introductoryEligibility,
       this.promotionalEligibility, this.product);
@@ -120,7 +122,7 @@ class GlassfySku {
   Map<String, dynamic> toJson() => _$GlassfySkuToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyOffering {
   final String? offeringId;
   final List<GlassfySku>? skus;
@@ -132,7 +134,7 @@ class GlassfyOffering {
   Map<String, dynamic> toJson() => _$GlassfyOfferingToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyOfferings {
   List<GlassfyOffering>? all;
 
@@ -144,7 +146,7 @@ class GlassfyOfferings {
   Map<String, dynamic> toJson() => _$GlassfyOfferingsToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyVersion {
   final String? version;
 
@@ -155,7 +157,7 @@ class GlassfyVersion {
   Map<String, dynamic> toJson() => _$GlassfyVersionToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyPermission {
   final String? permissionId;
   final GlassfyEntitlement? entitlement;
@@ -170,7 +172,7 @@ class GlassfyPermission {
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyPermissions {
   final String? installationId;
   final String? subscriberId;
@@ -185,7 +187,7 @@ class GlassfyPermissions {
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GlassfyTransaction {
   final String? productIdentifier;
   final bool? receiptValidated;
