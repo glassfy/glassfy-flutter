@@ -1,7 +1,7 @@
 name: glassfy_flutter
 description: Glassfy flutter plugin
 version: 0.9.1
-homepage:
+homepage: https://github.com/glassfy/glassfy-flutter
 
 environment:
   sdk: ">=2.16.1 <3.0.0"
