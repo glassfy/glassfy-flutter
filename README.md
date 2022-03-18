@@ -14,13 +14,13 @@ To use this plugin, add glassfy_flutter in your `pubspec.yaml`
 
 ```
 dependencies:
-purchases_flutter: ^3.0.0
+glassfy_flutter: ^0.9.1
 ```
 
 Or install automatically using this command
 
 ```
-$ flutter pub add purchases_flutter`
+$ flutter pub add glassfy_flutter`
 ```
 
 ### More Info
