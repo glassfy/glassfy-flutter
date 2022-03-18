@@ -5,3 +5,7 @@ initial release
 ## 0.9.1
 
 add README.md file
+
+## 0.9.2
+
+Update repository
