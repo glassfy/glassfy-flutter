@@ -54,7 +54,19 @@ object GlassfyGlue {
     }
   }
 
-  fun skuWithIdentifier(identifier: String, callback: GlueCallback) {
+  fun skuWithId(identifier: String, callback: GlueCallback) {
+    Glassfy.sku(identifier) { sku, err ->
+      if (err != null) {
+        callback(null, err.toString())
+        return@sku
+      } else if (sku != null) {
+        val permissionsEncode = sku.encodedJson()
+        callback(permissionsEncode.toString(), null)
+      }
+    }
+  }
+
+  fun skuWithIdAndStore(identifier: String,store:Int, callback: GlueCallback) {
     Glassfy.sku(identifier) { sku, err ->
       if (err != null) {
         callback(null, err.toString())
@@ -85,10 +97,9 @@ object GlassfyGlue {
      }
   }
 
-
-   fun purchaseSku(activity: Activity, purchaseSku: Sku, callback: GlueCallback) {
+  fun purchaseSku(activity: Activity, purchaseSku: Sku, callback: GlueCallback) {
      return purchaseSku(activity,purchaseSku.skuId,callback)
-   }
+  }
 
   fun restorePurchases(callback: GlueCallback) {
     Glassfy.restore() { permissions, err ->
@@ -101,6 +112,44 @@ object GlassfyGlue {
       }
       val permissionsEncode = permissions.encodedJson()
       callback(permissionsEncode.toString(), null)
+    }
+  }
+
+  fun setEmailUserProperty(email: String,callback: GlueCallback) {
+    Glassfy.setEmailUserProperty(email) { err ->
+      callback(null, err?.toString())
+    }
+  }
+
+  fun setExtraUserProperty(extra:Map<String, String>?,callback: GlueCallback) {
+    Glassfy.setExtraUserProperty(extra) { err ->
+      callback(null, err?.toString())
+    }
+  }
+
+  fun getExtraUserProperty(callback: GlueCallback) {
+    Glassfy.getUserProperties { extra, err ->
+      if (err != null) {
+        callback(null, err.toString())
+        return@getUserProperties
+      } else if (extra == null) {
+        callback(null, "InternalError")
+        return@getUserProperties
+      }
+      val extraEncode = extra.encodedJson()
+      callback(extraEncode.toString(), err?.toString())
+    }
+  }
+
+  fun connectCustomSubscriber(subscriberId:String?,callback: GlueCallback) {
+    Glassfy.connectCustomSubscriber(subscriberId){ err ->
+      callback(null, err?.toString())
+    }
+  }
+
+  fun connectPaddleLicenseKey(licenseKey:String,force:Boolean,callback: GlueCallback) {
+    Glassfy.connectPaddleLicenseKey(licenseKey,force){ err ->
+      callback(null, err?.toString())
     }
   }
 }

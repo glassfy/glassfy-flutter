@@ -48,9 +48,30 @@ Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
       'discounts': instance.discounts?.map((e) => e.toJson()).toList(),
     };
 
+GlassfySkuBase _$GlassfySkuBaseFromJson(Map<String, dynamic> json) =>
+    GlassfySkuBase(
+      json['skuId'] as String?,
+      json['productId'] as String?,
+      $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
+    );
+
+Map<String, dynamic> _$GlassfySkuBaseToJson(GlassfySkuBase instance) =>
+    <String, dynamic>{
+      'skuId': instance.skuId,
+      'productId': instance.productId,
+      'store': _$GlassfyStoreEnumMap[instance.store],
+    };
+
+const _$GlassfyStoreEnumMap = {
+  GlassfyStore.storeAppStore: 1,
+  GlassfyStore.storePlayStore: 2,
+  GlassfyStore.storePaddle: 3,
+};
+
 GlassfySku _$GlassfySkuFromJson(Map<String, dynamic> json) => GlassfySku(
       json['skuId'] as String?,
       json['productId'] as String?,
+      $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
       $enumDecodeNullable(
           _$GlassfyElegibilityEnumMap, json['introductoryEligibility']),
       $enumDecodeNullable(
@@ -58,17 +79,20 @@ GlassfySku _$GlassfySkuFromJson(Map<String, dynamic> json) => GlassfySku(
       json['product'] == null
           ? null
           : GlassfyProduct.fromJson(json['product'] as Map<String, dynamic>),
+      json['extravars'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$GlassfySkuToJson(GlassfySku instance) =>
     <String, dynamic>{
       'skuId': instance.skuId,
       'productId': instance.productId,
+      'store': _$GlassfyStoreEnumMap[instance.store],
       'introductoryEligibility':
           _$GlassfyElegibilityEnumMap[instance.introductoryEligibility],
       'promotionalEligibility':
           _$GlassfyElegibilityEnumMap[instance.promotionalEligibility],
       'product': instance.product?.toJson(),
+      'extravars': instance.extravars,
     };
 
 const _$GlassfyElegibilityEnumMap = {
@@ -76,6 +100,36 @@ const _$GlassfyElegibilityEnumMap = {
   GlassfyElegibility.nonElegible: -1,
   GlassfyElegibility.unknown: 0,
 };
+
+GlassfySkuPaddle _$GlassfySkuPaddleFromJson(Map<String, dynamic> json) =>
+    GlassfySkuPaddle(
+      json['skuId'] as String?,
+      json['productId'] as String?,
+      $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
+      json['name'] as String?,
+      json['initialPrice'] as num?,
+      json['initialPriceLocale'] as String?,
+      json['initialPriceCode'] as String?,
+      json['recurringPrice'] as num?,
+      json['recurringPriceLocale'] as String?,
+      json['recurringPriceCode'] as String?,
+      json['extravars'] as Map<String, dynamic>?,
+    );
+
+Map<String, dynamic> _$GlassfySkuPaddleToJson(GlassfySkuPaddle instance) =>
+    <String, dynamic>{
+      'skuId': instance.skuId,
+      'productId': instance.productId,
+      'store': _$GlassfyStoreEnumMap[instance.store],
+      'name': instance.name,
+      'initialPrice': instance.initialPrice,
+      'initialPriceLocale': instance.initialPriceLocale,
+      'initialPriceCode': instance.initialPriceCode,
+      'recurringPrice': instance.recurringPrice,
+      'recurringPriceLocale': instance.recurringPriceLocale,
+      'recurringPriceCode': instance.recurringPriceCode,
+      'extravars': instance.extravars,
+    };
 
 GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
     GlassfyOffering(

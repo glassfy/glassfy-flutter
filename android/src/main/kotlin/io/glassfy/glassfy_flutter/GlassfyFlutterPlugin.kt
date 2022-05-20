@@ -77,9 +77,14 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "permissions" -> {
         GlassfyGlue.permissions() { v, e -> pluginCompletion(result, v, e) }
       }
-      "skuWithIdentifier" -> {
+      "skuWithId" -> {
         val identifier: String = call.argument("identifier") ?: ""
-        GlassfyGlue.skuWithIdentifier(identifier) { v, e -> pluginCompletion(result, v, e) }
+        GlassfyGlue.skuWithId(identifier) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "skuWithIdAndStore" -> {
+        val identifier: String = call.argument("identifier") ?: ""
+        val store: Int = call.argument("store") ?: 0
+        GlassfyGlue.skuWithIdAndStore(identifier,store) { v, e -> pluginCompletion(result, v, e) }
       }
       "purchaseSku"-> {
         val sku:HashMap<String, String>? = call.argument("sku")
@@ -87,7 +92,33 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
           sku["skuId"]?.let { GlassfyGlue.purchaseSku(activity, it) { v, e -> pluginCompletion(result, v, e) } }
         }
       }
-      else -> {
+      "restorePurchases"-> {
+        GlassfyGlue.restorePurchases() { v, e -> pluginCompletion(result, v, e) }
+      }
+      "setDeviceToken"-> {
+       // not applicable in Android
+      }
+      "setEmailUserProperty"->{
+        val email: String = call.argument("email") ?: ""
+        GlassfyGlue.setEmailUserProperty(email) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "setExtraUserProperty"->{
+        val extra: Map<String, String>? = call.argument("extraProp")
+        GlassfyGlue.setExtraUserProperty(extra) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "getExtraUserProperty"->{
+        GlassfyGlue.getExtraUserProperty() { v, e -> pluginCompletion(result, v, e) }
+      }
+      "connectCustomSubscriber"->{
+        val subscriberId: String? = call.argument("subscriberId")
+        GlassfyGlue.connectCustomSubscriber(subscriberId) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "connectPaddleLicenseKey"->{
+        val licenseKey: String = call.argument("licenseKey") ?: ""
+        val force: Boolean = call.argument("force") ?: false
+        GlassfyGlue.connectPaddleLicenseKey(licenseKey,force) { v, e -> pluginCompletion(result, v, e) }
+      }
+     else -> {
         result.notImplemented()
       }
     }

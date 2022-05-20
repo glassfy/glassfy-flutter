@@ -28,15 +28,32 @@ class Glassfy {
   }
 
   static Future<GlassfySku> skuWithId(String identifier) async {
-    final json = await _channel
-        .invokeMethod('skuWithIdentifier', {'identifier': identifier});
+    final json =
+        await _channel.invokeMethod('skuWithId', {'identifier': identifier});
+
     return GlassfySku.fromJson(jsonDecode(json));
   }
 
+  static Future<GlassfySkuBase> skuWithIdAndStore(String identifier, GlassfyStore store) async {
+    final st = glassfyStoreToInt(store);
+    final json = await _channel.invokeMethod('skuWithIdAndStore', {'identifier': identifier, 'store': st});
+
+    final skuBase = GlassfySkuBase.fromJson(jsonDecode(json));
+    if (skuBase.store == GlassfyStore.storeAppStore) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    }
+    else if (skuBase.store == GlassfyStore.storePaddle) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    }
+    return skuBase;
+  }
+
+  @Deprecated('Use the connectCustomSubscriber function instead.')
   static Future<void> login(String userid) async {
     await _channel.invokeMethod('login', {'userid': userid});
   }
 
+  @Deprecated('Use the connectCustomSubscriber with "null" function instead.')
   static Future<void> logout() async {
     await _channel.invokeMethod('logout');
   }
@@ -47,7 +64,8 @@ class Glassfy {
   }
 
   static Future<GlassfyTransaction> purchaseSku(GlassfySku sku) async {
-    final json = await _channel.invokeMethod('purchaseSku', {'sku': sku.toJson()});
+    final json =
+        await _channel.invokeMethod('purchaseSku', {'sku': sku.toJson()});
     return GlassfyTransaction.fromJson(jsonDecode(json));
   }
 
@@ -74,5 +92,16 @@ class Glassfy {
     final json = await _channel.invokeMethod('getExtraUserProperty');
     const JsonDecoder decoder = JsonDecoder();
     return decoder.convert(json);
+  }
+
+  static Future<void> connectCustomSubscriber(String? subscriberId) async {
+    await _channel.invokeMethod(
+        'connectCustomSubscriber', {'subscriberId': subscriberId});
+  }
+
+  static Future<void> connectPaddleLicenseKey(String licenseKey,
+      {force = false}) async {
+    await _channel.invokeMethod(
+        'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
 }

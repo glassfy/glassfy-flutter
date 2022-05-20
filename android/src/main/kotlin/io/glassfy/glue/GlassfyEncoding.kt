@@ -23,7 +23,6 @@ fun encodeStringArray(array:List<String>):JSONArray {
     return all
 }
 
-
 fun Offering.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("offeringId",this.offeringId)
@@ -40,15 +39,13 @@ fun Offerings.encodedJson(): JSONObject {
     return jo
 }
 
-
 fun Permission.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("permissionId",this.permissionId)
     jo.put("entitlement",this.entitlement.value)
     jo.put("isValid",this.isValid)
     jo.put("expireDate",this.expireDate)
-    val accountableSkus = encodeStringArray(this.accountableSkus)
-    jo.put("accountableSkus",accountableSkus)
+    jo.put("accountableSkus",encodeArray(this.accountableSkus.map { it.encodedJson()}))
     return jo
 }
 
@@ -64,8 +61,35 @@ fun Sku.encodedJson(): JSONObject {
     val jo = JSONObject()
     jo.put("skuId",this.skuId)
     jo.put("productId",this.productId)
-    jo.put("product",this.product.econdedJson())
+    jo.put("store",this.store.value)
+    jo.put("extravars",this.extravars)
+    jo.put("product",this.product.encodedJson())
     return jo
+}
+
+fun SkuPaddle.encodedJson(): JSONObject {
+    val jo = JSONObject()
+    jo.put("skuId",this.skuId)
+    jo.put("productId",this.productId)
+    jo.put("store",this.store.value)
+    jo.put("extravars",this.extravars)
+
+    jo.put("name",this.name)
+    jo.put("initialPrice",this.initialPrice)
+    jo.put("initialPriceCode",this.initialPriceCode)
+
+    jo.put("recurringPrice",this.recurringPrice)
+    jo.put("recurringPriceLocale",this.recurringPriceLocale)
+    jo.put("recurringPriceCode",this.recurringPriceCode)
+    return jo
+}
+
+fun ISkuBase.encodedJson(): JSONObject {
+    val jo = JSONObject()
+    jo.put("skuId",this.skuId)
+    jo.put("productId",this.productId)
+    jo.put("store",this.store.value)
+    return jo;
 }
 
 fun Transaction.encodedJson(): JSONObject {
@@ -80,7 +104,7 @@ fun skuFromJsonObject(jo:JSONObject):Sku {
     return Sku(skuId,productId, emptyMap<String, String>())
 }
 
-fun SkuDetails.econdedJson():JSONObject{
+fun SkuDetails.encodedJson():JSONObject{
     val jo = JSONObject()
 
     jo.put("currencyCode", this.priceCurrencyCode)
@@ -103,5 +127,13 @@ fun SkuDetails.econdedJson():JSONObject{
         ipjo.put("type","introductory")
         jo.put("introductoryPrice",ipjo)
     }
+    return jo;
+}
+
+fun UserProperties.encodedJson():JSONObject {
+    val jo = JSONObject()
+    jo.put("email",this.email)
+    jo.put("token",this.token)
+    jo.put("extra",this.extra)
     return jo;
 }

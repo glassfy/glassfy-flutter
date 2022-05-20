@@ -23,14 +23,18 @@
     [GlassfyGlue initializeWithApiKey:apiKey watcherMode:watcherMode withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"offerings" isEqualToString:call.method]) {
     [GlassfyGlue offeringsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
-  } else if ([@"skuWithIdentifier" isEqualToString:call.method]) {
+  } else if ([@"skuWithId" isEqualToString:call.method]) {
     NSString *identifier = arguments[@"identifier"];
     [GlassfyGlue skuWithId:identifier withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  }else if ([@"skuWithIdAndStore" isEqualToString:call.method]) {
+    NSString *identifier = arguments[@"identifier"];
+    int store = [arguments[@"store"] intValue];
+    [GlassfyGlue skuWithId:identifier store:store completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"login" isEqualToString:call.method]) {
     NSString *userid = arguments[@"userid"];
-    [GlassfyGlue loginUser:userid withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+    [GlassfyGlue connectCustomSubscriber:userid completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"logout" isEqualToString:call.method]) {
-      [GlassfyGlue logoutUserWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+    [GlassfyGlue connectCustomSubscriber:nil completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"permissions" isEqualToString:call.method]) {
       [GlassfyGlue permissionsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"purchaseSku" isEqualToString:call.method]) {
@@ -49,20 +53,25 @@
       [GlassfyGlue setExtraUserProperty:extraProp withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"getExtraUserProperty" isEqualToString:call.method]) {
       [GlassfyGlue getExtraUserPropertyWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"connectCustomSubscriber" isEqualToString:call.method]) {
+      NSString *subscriberId = arguments[@"subscriberId"];
+      [GlassfyGlue connectCustomSubscriber:subscriberId completion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"connectPaddleLicenseKey" isEqualToString:call.method]) {
+      NSString *licenseKey = arguments[@"licenseKey"];
+      BOOL force = [arguments[@"force"] boolValue];
+      [GlassfyGlue connectPaddleLicenseKey:licenseKey force:force completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else {
-    result(FlutterMethodNotImplemented);
+      result(FlutterMethodNotImplemented);
   }
 }
-
-
-
 
 - (void (^)(NSDictionary *, NSError *))convertGlassfyGlueResultToFlutter:(FlutterResult)result {
     return ^(NSDictionary * _Nullable resultDictionary, NSError * _Nullable error) {
         if (error) {
-            result([FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long) error.code]
-                                                                    message:error.localizedDescription
-                                                                    details:error.description]);
+            FlutterError *ferror = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long) error.code]
+                                                       message:error.localizedDescription
+                                                       details:error.description];
+            result(ferror);
         } else {
             if (resultDictionary==nil) {
                 result(nil);

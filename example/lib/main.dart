@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:glassfy_flutter/glassfy_flutter.dart';
+import 'package:glassfy_flutter/models.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,22 +33,28 @@ class _MyAppState extends State<MyApp> {
       var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
 
-      await Glassfy.initialize(
-          '50af3c1afb6f473bbaf1ad0d5fb19b41');
+      await Glassfy.initialize('50af3c1afb6f473bbaf1ad0d5fb19b41');
 
     } catch (e) {
       debugPrint(e.toString());
       platformVersion = e.toString();
     }
     try {
+      // await Glassfy.connectPaddleLicenseKey("adsads",force: true);
       var offerings = await Glassfy.offerings();
       debugPrint(offerings.toString());
+
+      await Glassfy.connectCustomSubscriber("pippo");
+      await Glassfy.connectCustomSubscriber(null);
 
       var permission = await Glassfy.permissions();
       debugPrint(permission.toString());
 
-      var sku = await Glassfy.skuWithId('monthly_article_subscription');
+      var sku = await Glassfy.skuWithId('read_10_article');
       debugPrint(sku.toString());
+
+      var sku2 = await Glassfy.skuWithIdAndStore('monthly_article_subscription', GlassfyStore.storeAppStore);
+      debugPrint(sku2.toString());
 
       await Glassfy.purchaseSku(sku);
     } catch (e) {

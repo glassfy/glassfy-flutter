@@ -13,6 +13,21 @@ enum GlassfyElegibility {
   unknown,
 }
 
+enum GlassfyStore {
+  @JsonValue(1)
+  storeAppStore,
+
+  @JsonValue(2)
+  storePlayStore,
+
+  @JsonValue(3)
+  storePaddle,
+}
+
+int glassfyStoreToInt(GlassfyStore store) {
+  return _$GlassfyStoreEnumMap[store] ?? 0;
+}
+
 enum GlassfyEntitlement {
   @JsonValue(-9)
   neverbuy,
@@ -105,21 +120,67 @@ class GlassfyProduct {
 }
 
 @JsonSerializable(explicitToJson: true)
-class GlassfySku {
+class GlassfySkuBase {
   final String? skuId;
   final String? productId;
+  final GlassfyStore? store;
+
+  GlassfySkuBase(this.skuId, this.productId, this.store);
+  factory GlassfySkuBase.fromJson(Map<String, dynamic> json) =>
+      _$GlassfySkuBaseFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfySkuBaseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfySku extends GlassfySkuBase {
   final GlassfyElegibility? introductoryEligibility;
   final GlassfyElegibility? promotionalEligibility;
 
   final GlassfyProduct? product;
 
+  final Map<String, dynamic>? extravars;
 
-  GlassfySku(this.skuId, this.productId, this.introductoryEligibility,
-      this.promotionalEligibility, this.product);
+  GlassfySku(String? skuId, String? productId, GlassfyStore? store,
+      this.introductoryEligibility, this.promotionalEligibility, this.product,this.extravars)
+      : super(skuId, productId, null);
 
   factory GlassfySku.fromJson(Map<String, dynamic> json) =>
       _$GlassfySkuFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GlassfySkuToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfySkuPaddle extends GlassfySkuBase {
+  final String? name;
+
+  final num? initialPrice;
+  final String? initialPriceLocale;
+  final String? initialPriceCode;
+
+  final num? recurringPrice;
+  final String? recurringPriceLocale;
+  final String? recurringPriceCode;
+  final Map<String, dynamic>? extravars;
+
+  GlassfySkuPaddle(
+      String? skuId,
+      String? productId,
+      GlassfyStore? store,
+      this.name,
+      this.initialPrice,
+      this.initialPriceLocale,
+      this.initialPriceCode,
+      this.recurringPrice,
+      this.recurringPriceLocale,
+      this.recurringPriceCode,
+      this.extravars)
+      : super(skuId, productId, null);
+
+  factory GlassfySkuPaddle.fromJson(Map<String, dynamic> json) =>
+      _$GlassfySkuPaddleFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$GlassfySkuPaddleToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
