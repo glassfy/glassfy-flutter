@@ -2,6 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
 
+class GlassfyLogLevel {
+  static int get logLevelOff => 0;
+  static int get logLevelError => 1;
+  static int get logLevelDebug => 2;
+  static int get logLevelInfo => 3;
+  static int get logLevelAll => 4;
+}
+
 enum GlassfyElegibility {
   @JsonValue(1)
   elegibile,
@@ -155,11 +163,9 @@ class GlassfySkuPaddle extends GlassfySkuBase {
   final String? name;
 
   final num? initialPrice;
-  final String? initialPriceLocale;
   final String? initialPriceCode;
 
   final num? recurringPrice;
-  final String? recurringPriceLocale;
   final String? recurringPriceCode;
   final Map<String, dynamic>? extravars;
 
@@ -169,10 +175,8 @@ class GlassfySkuPaddle extends GlassfySkuBase {
       GlassfyStore? store,
       this.name,
       this.initialPrice,
-      this.initialPriceLocale,
       this.initialPriceCode,
       this.recurringPrice,
-      this.recurringPriceLocale,
       this.recurringPriceCode,
       this.extravars)
       : super(skuId, productId, null);
@@ -224,7 +228,7 @@ class GlassfyPermission {
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
   final int? expireDate;
-  final List<String>? accountableSkus;
+  final List<GlassfySkuBase>? accountableSkus;
 
   GlassfyPermission(this.permissionId, this.entitlement, this.isValid,
       this.expireDate, this.accountableSkus);

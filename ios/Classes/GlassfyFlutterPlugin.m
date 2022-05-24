@@ -21,6 +21,9 @@
     NSString *apiKey = arguments[@"apiKey"];
     BOOL watcherMode = [arguments[@"watcherMode"] boolValue];
     [GlassfyGlue initializeWithApiKey:apiKey watcherMode:watcherMode withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"setLogLevel" isEqualToString:call.method]) {
+      int logLevel = [arguments[@"logLevel"] intValue];
+      [GlassfyGlue setLogLevel:logLevel];
   } else if ([@"offerings" isEqualToString:call.method]) {
     [GlassfyGlue offeringsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"skuWithId" isEqualToString:call.method]) {

@@ -3,8 +3,11 @@ package io.glassfy.glue
 
 import android.app.Activity
 import io.glassfy.androidsdk.Glassfy
+import io.glassfy.androidsdk.Glassfy.sku
 import io.glassfy.androidsdk.GlassfyError
+import io.glassfy.androidsdk.LogLevel
 import io.glassfy.androidsdk.model.Sku
+import io.glassfy.androidsdk.model.Store
 import org.json.JSONObject
 
 typealias GlueCallback = (String?, String?) -> Unit
@@ -32,6 +35,15 @@ object GlassfyGlue {
     }
   }
 
+  fun setLogLevel(logLevel:Int) {
+    if (logLevel == 0)
+      Glassfy.setLogLevel(LogLevel.NONE)
+    else if (logLevel == 1)
+      Glassfy.setLogLevel(LogLevel.ERROR)
+    else if (logLevel >= 2)
+      Glassfy.setLogLevel(LogLevel.DEBUG)
+  }
+
   fun offerings(callback: GlueCallback) {
     Glassfy.offerings { offerings, err ->
       if (err != null) {
@@ -48,38 +60,48 @@ object GlassfyGlue {
       if (err != null) {
         callback(null, err.toString())
       } else if (permissions != null) {
-        val permissionsEncode = permissions.encodedJson()
-        callback(permissionsEncode.toString(), null)
+        val permissionsEncoded = permissions.encodedJson()
+        callback(permissionsEncoded.toString(), null)
       }
     }
   }
 
   fun skuWithId(identifier: String, callback: GlueCallback) {
-    Glassfy.sku(identifier) { sku, err ->
+    sku(identifier) { sku, err ->
       if (err != null) {
         callback(null, err.toString())
         return@sku
       } else if (sku != null) {
-        val permissionsEncode = sku.encodedJson()
-        callback(permissionsEncode.toString(), null)
+        val skuEncode = sku.encodedJson()
+        callback(skuEncode.toString(), null)
       }
     }
   }
 
   fun skuWithIdAndStore(identifier: String,store:Int, callback: GlueCallback) {
-    Glassfy.sku(identifier) { sku, err ->
+    var gyStore:Store = Store.PlayStore
+    when (store) {
+      Store.AppStore.value -> gyStore = Store.AppStore;
+      Store.PlayStore.value -> gyStore = Store.PlayStore;
+      Store.Paddle.value -> gyStore = Store.Paddle;
+      else -> {
+        callback(null, "invalid store")
+        return
+      }
+    }
+    sku(identifier,gyStore) { sku, err ->
       if (err != null) {
         callback(null, err.toString())
         return@sku
       } else if (sku != null) {
-        val permissionsEncode = sku.encodedJson()
-        callback(permissionsEncode.toString(), null)
+        val skuEncode = sku.encodedJson()
+        callback(skuEncode.toString(), null)
       }
     }
   }
 
   fun purchaseSku(activity: Activity, skuId: String, callback: GlueCallback) {
-     Glassfy.sku(skuId) { sku, skuerr ->
+     sku(skuId) { sku, skuerr ->
        if (skuerr != null) {
          callback(null, skuerr.toString())
          return@sku

@@ -6,7 +6,6 @@ import org.json.JSONObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-
 fun encodeArray(array:List<JSONObject>):JSONArray {
     val all = JSONArray()
     array.forEach {
@@ -62,26 +61,33 @@ fun Sku.encodedJson(): JSONObject {
     jo.put("skuId",this.skuId)
     jo.put("productId",this.productId)
     jo.put("store",this.store.value)
-    jo.put("extravars",this.extravars)
+    jo.put("extravars",JSONObject(this.extravars))
     jo.put("product",this.product.encodedJson())
     return jo
 }
 
 fun SkuPaddle.encodedJson(): JSONObject {
     val jo = JSONObject()
+    jo.put("skuId", this.skuId)
+    jo.put("productId", this.productId)
+    jo.put("store", this.store.value)
+    jo.put("extravars", JSONObject(this.extravars))
+
+    jo.put("name", this.name)
+    jo.put("initialPrice", this.initialPrice)
+    jo.put("initialPriceCode", this.initialPriceCode)
+
+    jo.put("recurringPrice", this.recurringPrice)
+    jo.put("recurringPriceCode", this.recurringPriceCode)
+    return jo
+}
+
+fun SkuBase.encodedJson(): JSONObject {
+    val jo = JSONObject()
     jo.put("skuId",this.skuId)
     jo.put("productId",this.productId)
     jo.put("store",this.store.value)
-    jo.put("extravars",this.extravars)
-
-    jo.put("name",this.name)
-    jo.put("initialPrice",this.initialPrice)
-    jo.put("initialPriceCode",this.initialPriceCode)
-
-    jo.put("recurringPrice",this.recurringPrice)
-    jo.put("recurringPriceLocale",this.recurringPriceLocale)
-    jo.put("recurringPriceCode",this.recurringPriceCode)
-    return jo
+    return jo;
 }
 
 fun ISkuBase.encodedJson(): JSONObject {

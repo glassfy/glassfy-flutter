@@ -68,8 +68,11 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "initialize" -> {
         val apiKey: String = call.argument("apiKey") ?: ""
         val watcherMode: Boolean = call.argument("watcherMode") ?: false
-
         GlassfyGlue.initialize(context , apiKey, watcherMode) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "setLogLevel" -> {
+        val logLevel: Int = call.argument("logLevel") ?: 0
+        GlassfyGlue.setLogLevel(logLevel)
       }
       "offerings" -> {
         GlassfyGlue.offerings() { v, e -> pluginCompletion(result, v, e) }

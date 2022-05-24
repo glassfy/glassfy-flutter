@@ -24,39 +24,42 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
+
     try {
       var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
 
+      Glassfy.setLogLevel(GlassfyLogLevel.logLevelAll);
       await Glassfy.initialize('50af3c1afb6f473bbaf1ad0d5fb19b41');
 
-    } catch (e) {
-      debugPrint(e.toString());
-      platformVersion = e.toString();
-    }
-    try {
-      // await Glassfy.connectPaddleLicenseKey("adsads",force: true);
       var offerings = await Glassfy.offerings();
       debugPrint(offerings.toString());
+      var permission1 = await Glassfy.permissions();
 
-      await Glassfy.connectCustomSubscriber("pippo");
-      await Glassfy.connectCustomSubscriber(null);
+      await Glassfy.connectPaddleLicenseKey("89bf4c748e4a45e5829e6ee6",true);
+      await Glassfy.connectCustomSubscriber("topolino");
 
       var permission = await Glassfy.permissions();
       debugPrint(permission.toString());
 
-      var sku = await Glassfy.skuWithId('read_10_article');
+      var sku = await Glassfy.skuWithId('weekly_article_subscription');
       debugPrint(sku.toString());
 
-      var sku2 = await Glassfy.skuWithIdAndStore('monthly_article_subscription', GlassfyStore.storeAppStore);
-      debugPrint(sku2.toString());
+      await Glassfy.setEmailUserProperty("ppp4@email.com");
 
-      await Glassfy.purchaseSku(sku);
+      Map<String, String> extraProp = {
+        // "name": "Pinco Pallino22",
+        // "count": "3"
+      };
+
+      await Glassfy.setExtraUserProperty(extraProp);
+
+      var purchase = await Glassfy.purchaseSku(sku);
+      debugPrint(purchase.toString());
+
+      debugPrint("Done");
     } catch (e) {
       debugPrint(e.toString());
       platformVersion = e.toString();

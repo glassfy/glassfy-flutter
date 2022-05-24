@@ -108,10 +108,8 @@ GlassfySkuPaddle _$GlassfySkuPaddleFromJson(Map<String, dynamic> json) =>
       $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
       json['name'] as String?,
       json['initialPrice'] as num?,
-      json['initialPriceLocale'] as String?,
       json['initialPriceCode'] as String?,
       json['recurringPrice'] as num?,
-      json['recurringPriceLocale'] as String?,
       json['recurringPriceCode'] as String?,
       json['extravars'] as Map<String, dynamic>?,
     );
@@ -123,10 +121,8 @@ Map<String, dynamic> _$GlassfySkuPaddleToJson(GlassfySkuPaddle instance) =>
       'store': _$GlassfyStoreEnumMap[instance.store],
       'name': instance.name,
       'initialPrice': instance.initialPrice,
-      'initialPriceLocale': instance.initialPriceLocale,
       'initialPriceCode': instance.initialPriceCode,
       'recurringPrice': instance.recurringPrice,
-      'recurringPriceLocale': instance.recurringPriceLocale,
       'recurringPriceCode': instance.recurringPriceCode,
       'extravars': instance.extravars,
     };
@@ -174,7 +170,7 @@ GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
       json['isValid'] as bool?,
       json['expireDate'] as int?,
       (json['accountableSkus'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => GlassfySkuBase.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -184,7 +180,8 @@ Map<String, dynamic> _$GlassfyPermissionToJson(GlassfyPermission instance) =>
       'entitlement': _$GlassfyEntitlementEnumMap[instance.entitlement],
       'isValid': instance.isValid,
       'expireDate': instance.expireDate,
-      'accountableSkus': instance.accountableSkus,
+      'accountableSkus':
+          instance.accountableSkus?.map((e) => e.toJson()).toList(),
     };
 
 const _$GlassfyEntitlementEnumMap = {

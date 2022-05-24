@@ -22,6 +22,12 @@ class Glassfy {
         'watcherMode': watcherMode,
       });
 
+  static setLogLevel(int logLevel) {
+    _channel.invokeMethod('setLogLevel', {
+      'logLevel': logLevel,
+    });
+  }
+
   static Future<GlassfyOfferings> offerings() async {
     final json = await _channel.invokeMethod('offerings');
     return GlassfyOfferings.fromJson(jsonDecode(json));
@@ -34,15 +40,18 @@ class Glassfy {
     return GlassfySku.fromJson(jsonDecode(json));
   }
 
-  static Future<GlassfySkuBase> skuWithIdAndStore(String identifier, GlassfyStore store) async {
+  static Future<GlassfySkuBase> skuWithIdAndStore(
+      String identifier, GlassfyStore store) async {
     final st = glassfyStoreToInt(store);
-    final json = await _channel.invokeMethod('skuWithIdAndStore', {'identifier': identifier, 'store': st});
+    final json = await _channel.invokeMethod(
+        'skuWithIdAndStore', {'identifier': identifier, 'store': st});
 
     final skuBase = GlassfySkuBase.fromJson(jsonDecode(json));
     if (skuBase.store == GlassfyStore.storeAppStore) {
       return GlassfySku.fromJson(jsonDecode(json));
-    }
-    else if (skuBase.store == GlassfyStore.storePaddle) {
+    } else if (skuBase.store == GlassfyStore.storePlayStore) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    } else if (skuBase.store == GlassfyStore.storePaddle) {
       return GlassfySku.fromJson(jsonDecode(json));
     }
     return skuBase;
@@ -83,7 +92,7 @@ class Glassfy {
   }
 
   static Future<void> setExtraUserProperty(
-      Map<String, dynamic> extraProp) async {
+      Map<String, String> extraProp) async {
     await _channel
         .invokeMethod('setExtraUserProperty', {'extraProp': extraProp});
   }
@@ -100,7 +109,7 @@ class Glassfy {
   }
 
   static Future<void> connectPaddleLicenseKey(String licenseKey,
-      {force = false}) async {
+      [force = false]) async {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
