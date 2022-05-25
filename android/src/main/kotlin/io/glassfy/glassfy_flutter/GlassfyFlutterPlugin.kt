@@ -9,9 +9,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.glassfy.glue.GlassfyGlue
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.glassfy.glue.GlassfyGlue
 
 /** GlassfyFlutterPlugin */
 class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -26,11 +26,9 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   private lateinit var activity: Activity
 
   override fun onDetachedFromActivity() {
-    TODO("Not yet implemented")
   }
 
   override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-    TODO("Not yet implemented")
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
@@ -38,7 +36,6 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   }
 
   override fun onDetachedFromActivityForConfigChanges() {
-    TODO("Not yet implemented")
   }
 
 

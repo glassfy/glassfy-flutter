@@ -6,7 +6,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")}
     }
 
     dependencies {
@@ -19,7 +18,6 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")}
     }
 }
 
@@ -48,6 +46,6 @@ android {
 }
 
 dependencies {
-    implementation("io.glassfy:androidsdk:1.3.0-SNAPSHOT")
+    implementation("io.glassfy:androidglue:1.3.0")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

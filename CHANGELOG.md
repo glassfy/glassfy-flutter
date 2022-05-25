@@ -2,10 +2,6 @@
 
 initial release
 
-## 0.9.1
+## 1.3.0
 
-add README.md file
-
-## 0.9.2
-
-Update repository
+Add full support to Android and iOS SDK version 1.3.0 including Paddle integrations, custom identifiers and extra properties.
