@@ -20,6 +20,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
 
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +49,15 @@ class _MyAppState extends State<MyApp> {
       platformVersion = version.version!;
 
       await Glassfy.initialize('50af3c1afb6f473bbaf1ad0d5fb19b41');
+
+      Glassfy.addDidPurchaseListener((transaction) async{
+        debugPrint('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        printObject(transaction);
+      });
+
+      // Glassfy.addDidPurchaseListener((transaction) {
+      //   printObject(transaction);
+      // });
 
       // set custom identifier (optional)
       await Glassfy.connectCustomSubscriber("my_custom_identifier");
@@ -86,7 +96,6 @@ class _MyAppState extends State<MyApp> {
 
       var purchase = await Glassfy.purchaseSku(sku);
       printObject(purchase);
-
     } catch (e) {
       debugPrint(e.toString());
       platformVersion = e.toString();

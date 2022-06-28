@@ -1,10 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'models.dart';
 
+typedef DidPurchaseListener = void Function(
+  GlassfyTransaction transaction,
+);
+
 class Glassfy {
-  static const MethodChannel _channel = MethodChannel('glassfy_flutter');
+  static final Set<DidPurchaseListener> _didPurchaseListenerListeners = {};
+
+  static final MethodChannel _channel = const MethodChannel('glassfy_flutter')
+    ..setMethodCallHandler((call) async {
+      switch (call.method) {
+        case 'gy_did_purchase_product':
+          for (final listener in _didPurchaseListenerListeners) {
+            try {
+              final transaction =
+                  GlassfyTransaction.fromJson(jsonDecode(call.arguments));
+              listener(transaction);
+            } catch (e) {
+              debugPrint("Invalid didPurchaseListner Argument");
+            }
+          }
+          break;
+      }
+    });
 
   static Future<String?> get platformVersion async {
     final String? version = await _channel.invokeMethod('getPlatformVersion');
@@ -113,4 +135,14 @@ class Glassfy {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
+
+  static void addDidPurchaseListener(
+    DidPurchaseListener didPurchaseListenerListener,
+  ) =>
+      _didPurchaseListenerListeners.add(didPurchaseListenerListener);
+
+  static void removeDidPurchaseListener(
+    DidPurchaseListener didPurchaseListenerListener,
+  ) =>
+      _didPurchaseListenerListeners.remove(didPurchaseListenerListener);
 }
