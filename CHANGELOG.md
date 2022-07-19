@@ -14,3 +14,7 @@ Lowered the Android minSdkVersion to the same one (21) used on the Android SDK
 
 Add support to Glassfy Android SDK 1.3.1
 Add support for App Store purchase listner
+
+## 1.3.3
+
+Add support for subscription upgrade/dowgrade on Android
