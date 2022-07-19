@@ -238,3 +238,26 @@ Map<String, dynamic> _$GlassfyTransactionToJson(GlassfyTransaction instance) =>
       'receiptValidated': instance.receiptValidated,
       'permissions': instance.permissions?.toJson(),
     };
+
+GlassfySubscriptionUpdate _$GlassfySubscriptionUpdateFromJson(
+        Map<String, dynamic> json) =>
+    GlassfySubscriptionUpdate(
+      json['originalSkuIdentifier'],
+      json['proration'],
+    );
+
+Map<String, dynamic> _$GlassfySubscriptionUpdateToJson(
+        GlassfySubscriptionUpdate instance) =>
+    <String, dynamic>{
+      'originalSkuIdentifier': instance.originalSkuIdentifier,
+      'proration': _$GlassfyProrationModeEnumMap[instance.proration],
+    };
+
+const _$GlassfyProrationModeEnumMap = {
+  GlassfyProrationMode.unKnownUpgradeDowngradePolicy: 0,
+  GlassfyProrationMode.immediateWithTimeProration: 1,
+  GlassfyProrationMode.immediateWithChargeProratedPrice: 2,
+  GlassfyProrationMode.immediateWithoutProration: 3,
+  GlassfyProrationMode.deferred: 4,
+  GlassfyProrationMode.immediateAndChargeFullPrice: 4,
+};

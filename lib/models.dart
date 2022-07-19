@@ -32,6 +32,26 @@ enum GlassfyStore {
   storePaddle,
 }
 
+enum GlassfyProrationMode {
+  @JsonValue(0)
+  unKnownUpgradeDowngradePolicy,
+
+  @JsonValue(1)
+  immediateWithTimeProration,
+
+  @JsonValue(2)
+  immediateWithChargeProratedPrice,
+
+  @JsonValue(3)
+  immediateWithoutProration,
+
+  @JsonValue(4)
+  deferred,
+
+  @JsonValue(4)
+  immediateAndChargeFullPrice,
+}
+
 int glassfyStoreToInt(GlassfyStore store) {
   return _$GlassfyStoreEnumMap[store] ?? 0;
 }
@@ -148,8 +168,14 @@ class GlassfySku extends GlassfySkuBase {
 
   final Map<String, dynamic>? extravars;
 
-  GlassfySku(String? skuId, String? productId, GlassfyStore? store,
-      this.introductoryEligibility, this.promotionalEligibility, this.product,this.extravars)
+  GlassfySku(
+      String? skuId,
+      String? productId,
+      GlassfyStore? store,
+      this.introductoryEligibility,
+      this.promotionalEligibility,
+      this.product,
+      this.extravars)
       : super(skuId, productId, null);
 
   factory GlassfySku.fromJson(Map<String, dynamic> json) =>
@@ -264,4 +290,19 @@ class GlassfyTransaction {
   factory GlassfyTransaction.fromJson(Map<String, dynamic> json) =>
       _$GlassfyTransactionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyTransactionToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfySubscriptionUpdate {
+  String? originalSkuIdentifier;
+  GlassfyProrationMode? proration;
+
+  GlassfySubscriptionUpdate(GlassfySkuBase originalSku,[GlassfyProrationMode? prorationMode]) {
+    originalSkuIdentifier = originalSku.skuId;
+    proration = prorationMode;
+  }
+  
+  factory GlassfySubscriptionUpdate.fromJson(Map<String, dynamic> json) =>
+      _$GlassfySubscriptionUpdateFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfySubscriptionUpdateToJson(this);
 }

@@ -87,9 +87,18 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         GlassfyGlue.skuWithIdAndStore(identifier,store) { v, e -> pluginCompletion(result, v, e) }
       }
       "purchaseSku"-> {
-        val sku:HashMap<String, String>? = call.argument("sku")
-        if (sku != null) {
-          sku["skuId"]?.let { GlassfyGlue.purchaseSku(activity, it) { v, e -> pluginCompletion(result, v, e) } }
+        val sku: HashMap<String, String>? = call.argument("sku")
+        val subscriptionUpdate: HashMap<String, Any>? = call.argument("subscriptionUpdate")
+        val skuId = sku?.get("skuId");
+        val subscriptionUpdateId = subscriptionUpdate?.get("originalSkuIdentifier") as? String
+        val proration = subscriptionUpdate?.get("proration") as? Int
+
+        if (skuId != null) {
+          if (subscriptionUpdateId != null) {
+            GlassfyGlue.purchaseSku(activity, skuId, subscriptionUpdateId,proration) { v, e -> pluginCompletion(result, v, e) }
+          } else {
+            GlassfyGlue.purchaseSku(activity, skuId) { v, e -> pluginCompletion(result, v, e) }
+          }
         }
       }
       "restorePurchases"-> {

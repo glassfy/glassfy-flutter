@@ -94,9 +94,13 @@ class Glassfy {
     return GlassfyPermissions.fromJson(jsonDecode(json));
   }
 
-  static Future<GlassfyTransaction> purchaseSku(GlassfySku sku) async {
-    final json =
-        await _channel.invokeMethod('purchaseSku', {'sku': sku.toJson()});
+  static Future<GlassfyTransaction> purchaseSku(GlassfySku sku,
+      [GlassfySubscriptionUpdate? subscriptionUpdate]) async {
+    final param = {
+      'sku': sku.toJson(),
+      'subscriptionUpdate': subscriptionUpdate?.toJson()
+    };
+    final json = await _channel.invokeMethod('purchaseSku', param);
     return GlassfyTransaction.fromJson(jsonDecode(json));
   }
 
