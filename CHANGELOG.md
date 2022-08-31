@@ -18,3 +18,8 @@ Add support for App Store purchase listner
 ## 1.3.3
 
 Add support for subscription upgrade/dowgrade on Android
+
+## 1.3.4
+
+Add support for Glassfy iOS SDK 1.3.2
+Improved debug logging information

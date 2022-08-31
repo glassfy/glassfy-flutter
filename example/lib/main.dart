@@ -20,7 +20,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
 
-
   @override
   void initState() {
     super.initState();
@@ -47,10 +46,11 @@ class _MyAppState extends State<MyApp> {
     try {
       var version = await Glassfy.sdkVersion();
       platformVersion = version.version!;
+      printObject(version);
 
       await Glassfy.initialize('50af3c1afb6f473bbaf1ad0d5fb19b41');
 
-      Glassfy.addDidPurchaseListener((transaction) async{
+      Glassfy.addDidPurchaseListener((transaction) async {
         printObject(transaction);
       });
 
