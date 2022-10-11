@@ -1,7 +1,7 @@
 PODS:
   - FlutterMacOS (1.0.0)
   - Glassfy (1.3.4)
-  - glassfy_flutter (1.3.4):
+  - glassfy_flutter (1.3.5):
     - FlutterMacOS
     - GlassfyGlue (= 1.3.3)
   - GlassfyGlue (1.3.3):
@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   Glassfy: b8da70f5298d7067bba595256b2ea062474ad0ea
-  glassfy_flutter: 20c0af4c11bb433ea6ed94424a37087e1d2c62ab
+  glassfy_flutter: 49da6c01eacb41412061a93dceb70f2976d3ec0d
   GlassfyGlue: adcd24a3669f86ffccc393005dc39c0cf2e40aab
 
 PODFILE CHECKSUM: 0d3963a09fc94f580682bd88480486da345dc3f0
