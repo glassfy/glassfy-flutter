@@ -1,1 +1,9 @@
 rootProject.name = 'glassfy_flutter'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+    }
+}
