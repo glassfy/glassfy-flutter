@@ -1,11 +1,11 @@
 PODS:
   - Flutter (1.0.0)
-  - Glassfy (1.3.2)
+  - Glassfy (1.3.4)
   - glassfy_flutter (1.3.4):
     - Flutter
-    - GlassfyGlue (= 1.3.2)
-  - GlassfyGlue (1.3.2):
-    - Glassfy (= 1.3.2)
+    - GlassfyGlue (= 1.3.3)
+  - GlassfyGlue (1.3.3):
+    - Glassfy (= 1.3.4)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -23,10 +23,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/glassfy_flutter/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  Glassfy: 0c6a2312948e487a27360892d8569107b6616c94
-  glassfy_flutter: b10da7af1e2957a0b0830d67eea0ac325fa63177
-  GlassfyGlue: afdb58bbc5b8837225f10f31a778793d2bb6c3ed
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Glassfy: b8da70f5298d7067bba595256b2ea062474ad0ea
+  glassfy_flutter: 07dbdb7963a746e4fe27afa4abe249bfed75f8ed
+  GlassfyGlue: adcd24a3669f86ffccc393005dc39c0cf2e40aab
 
 PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
