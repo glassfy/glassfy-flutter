@@ -160,6 +160,21 @@ class GlassfySkuBase {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GlassfyAccountableSku extends GlassfySkuBase {
+  final bool? isInTrialPeriod;
+  final bool? isInIntroOfferPeriod;
+
+  GlassfyAccountableSku(String? skuId, String? productId, GlassfyStore? store,
+      this.isInTrialPeriod, this.isInIntroOfferPeriod)
+      : super(skuId, productId, store);
+
+  factory GlassfyAccountableSku.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyAccountableSkuFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => _$GlassfyAccountableSkuToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class GlassfySku extends GlassfySkuBase {
   final GlassfyElegibility? introductoryEligibility;
   final GlassfyElegibility? promotionalEligibility;
@@ -176,7 +191,7 @@ class GlassfySku extends GlassfySkuBase {
       this.promotionalEligibility,
       this.product,
       this.extravars)
-      : super(skuId, productId, null);
+      : super(skuId, productId, store);
 
   factory GlassfySku.fromJson(Map<String, dynamic> json) =>
       _$GlassfySkuFromJson(json);
@@ -254,7 +269,7 @@ class GlassfyPermission {
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
   final int? expireDate;
-  final List<GlassfySkuBase>? accountableSkus;
+  final List<GlassfyAccountableSku>? accountableSkus;
 
   GlassfyPermission(this.permissionId, this.entitlement, this.isValid,
       this.expireDate, this.accountableSkus);
@@ -297,11 +312,8 @@ class GlassfySubscriptionUpdate {
   String? originalSkuIdentifier;
   GlassfyProrationMode? proration;
 
-  GlassfySubscriptionUpdate(GlassfySkuBase originalSku,[GlassfyProrationMode? prorationMode]) {
-    originalSkuIdentifier = originalSku.skuId;
-    proration = prorationMode;
-  }
-  
+  GlassfySubscriptionUpdate(this.originalSkuIdentifier, this.proration);
+
   factory GlassfySubscriptionUpdate.fromJson(Map<String, dynamic> json) =>
       _$GlassfySubscriptionUpdateFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfySubscriptionUpdateToJson(this);
