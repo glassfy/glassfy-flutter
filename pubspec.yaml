@@ -31,3 +31,6 @@ flutter:
         pluginClass: GlassfyFlutterPlugin
       ios:
         pluginClass: GlassfyFlutterPlugin
+      macos: 
+        pluginClass: GlassfyFlutterPlugin
+        

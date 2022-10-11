@@ -1,0 +1,33 @@
+PODS:
+  - FlutterMacOS (1.0.0)
+  - Glassfy (1.3.4)
+  - glassfy_flutter (1.3.4):
+    - FlutterMacOS
+    - GlassfyGlue (= 1.3.3)
+  - GlassfyGlue (1.3.3):
+    - Glassfy (= 1.3.4)
+
+DEPENDENCIES:
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - glassfy_flutter (from `Flutter/ephemeral/.symlinks/plugins/glassfy_flutter/macos`)
+
+SPEC REPOS:
+  trunk:
+    - Glassfy
+    - GlassfyGlue
+
+EXTERNAL SOURCES:
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  glassfy_flutter:
+    :path: Flutter/ephemeral/.symlinks/plugins/glassfy_flutter/macos
+
+SPEC CHECKSUMS:
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
+  Glassfy: b8da70f5298d7067bba595256b2ea062474ad0ea
+  glassfy_flutter: 20c0af4c11bb433ea6ed94424a37087e1d2c62ab
+  GlassfyGlue: adcd24a3669f86ffccc393005dc39c0cf2e40aab
+
+PODFILE CHECKSUM: 0d3963a09fc94f580682bd88480486da345dc3f0
+
+COCOAPODS: 1.11.3
