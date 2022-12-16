@@ -29,3 +29,9 @@
 - Add support for Glassfy iOS SDK 1.3.4
 - Add support for Glassfy Android SDK 1.3.4
 - Added plugin for macOS 10.15
+
+## 1.3.6
+
+- Add support for Glassfy iOS SDK 1.3.5
+- Add support for Glassfy Android SDK 1.3.8
+- Support attribution API
