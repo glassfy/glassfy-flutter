@@ -27,6 +27,8 @@ const _$GlassfyAttributionEnumMap = {
   GlassfyAttribution.IDFA: 4,
   GlassfyAttribution.IDFV: 5,
   GlassfyAttribution.GAID: 6,
+  GlassfyAttribution.ASID: 7,
+  GlassfyAttribution.AID: 8,
 };
 
 GlassfyProductDiscount _$GlassfyProductDiscountFromJson(

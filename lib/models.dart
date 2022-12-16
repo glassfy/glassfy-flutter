@@ -39,6 +39,12 @@ enum GlassfyAttribution {
 
   @JsonValue(6)
   GAID,
+
+  @JsonValue(7)
+  ASID,
+
+  @JsonValue(8)
+  AID,
 }
 
 int glassfyAttributionToInt(GlassfyAttribution attribution) {

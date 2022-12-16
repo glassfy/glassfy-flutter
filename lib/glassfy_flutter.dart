@@ -148,8 +148,8 @@ class Glassfy {
 
   static Future<void> setAttributions(
       List<GlassfyAttributionItem>? items) async {
-    final itemsJson = json.encode(items);
-    await _channel.invokeMethod('setAttributions', {'items': itemsJson});
+    final itemsList = items?.map((item) => item.toJson()).toList();
+    await _channel.invokeMethod('setAttributions', {'items': itemsList});
   }
 
   static void addDidPurchaseListener(

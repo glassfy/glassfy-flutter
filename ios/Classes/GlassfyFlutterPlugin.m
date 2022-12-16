@@ -108,10 +108,7 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
                               value:value
                          completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"setAttributions" isEqualToString:call.method]) {
-    NSString *itemsStr = arguments[@"items"];
-    NSArray *items = [NSJSONSerialization JSONObjectWithData:[itemsStr dataUsingEncoding:NSUTF8StringEncoding]
-                                                     options:kNilOptions
-                                                       error:nil];
+    NSArray *items = arguments[@"items"];
     [GlassfyGlue setAttributions:items
                       completion:[self convertGlassfyGlueResultToFlutter:result]];
   }  
