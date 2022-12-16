@@ -6,6 +6,29 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+GlassfyAttributionItem _$GlassfyAttributionItemFromJson(
+        Map<String, dynamic> json) =>
+    GlassfyAttributionItem(
+      $enumDecodeNullable(_$GlassfyAttributionEnumMap, json['type']),
+      json['value'] as String?,
+    );
+
+Map<String, dynamic> _$GlassfyAttributionItemToJson(
+        GlassfyAttributionItem instance) =>
+    <String, dynamic>{
+      'type': _$GlassfyAttributionEnumMap[instance.type],
+      'value': instance.value,
+    };
+
+const _$GlassfyAttributionEnumMap = {
+  GlassfyAttribution.AdjustID: 1,
+  GlassfyAttribution.AppsFlyerID: 2,
+  GlassfyAttribution.IP: 3,
+  GlassfyAttribution.IDFA: 4,
+  GlassfyAttribution.IDFV: 5,
+  GlassfyAttribution.GAID: 6,
+};
+
 GlassfyProductDiscount _$GlassfyProductDiscountFromJson(
         Map<String, dynamic> json) =>
     GlassfyProductDiscount(

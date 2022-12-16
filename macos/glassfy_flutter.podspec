@@ -15,8 +15,8 @@ Glassfy SDK.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'FlutterMacOS'
-  s.dependency 'GlassfyGlue','1.3.3'
-  s.platform = :osx, '10.5'
+  s.dependency 'GlassfyGlue','1.3.4'
+  s.platform = :osx, '10.15'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

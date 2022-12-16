@@ -3,6 +3,7 @@ package io.glassfy.glassfy_flutter
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
+import org.json.JSONArray
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -127,6 +128,20 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         val force: Boolean = call.argument("force") ?: false
         GlassfyGlue.connectPaddleLicenseKey(licenseKey,force) { v, e -> pluginCompletion(result, v, e) }
       }
+      "setAttribution"->{
+        val type: Int = call.argument("type") ?: -1
+        val value: String = call.argument("value") ?: ""
+        GlassfyGlue.setAttribution(type,value) { v, e -> 
+          println("test"+e)
+          pluginCompletion(result, v, e) 
+        }
+      }
+      "setAttributions"->{
+        val itemsStr: String = call.argument("items") ?: "[]"
+        val items = JSONArray(itemsStr)
+        GlassfyGlue.setAttributions(items) { v, e -> pluginCompletion(result, v, e) }
+      }
+
      else -> {
         result.notImplemented()
       }

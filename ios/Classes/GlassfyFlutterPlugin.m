@@ -101,7 +101,21 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
                           force:force
                      completion:[self
                                     convertGlassfyGlueResultToFlutter:result]];
-  } else {
+  } else if ([@"setAttribution" isEqualToString:call.method]) {
+    NSNumber *type = arguments[@"type"];
+    NSString *value = arguments[@"value"];
+    [GlassfyGlue setAttributionType:type
+                              value:value
+                         completion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"setAttributions" isEqualToString:call.method]) {
+    NSString *itemsStr = arguments[@"items"];
+    NSArray *items = [NSJSONSerialization JSONObjectWithData:[itemsStr dataUsingEncoding:NSUTF8StringEncoding]
+                                                     options:kNilOptions
+                                                       error:nil];
+    [GlassfyGlue setAttributions:items
+                      completion:[self convertGlassfyGlueResultToFlutter:result]];
+  }  
+  else {
     result(FlutterMethodNotImplemented);
   }
 }

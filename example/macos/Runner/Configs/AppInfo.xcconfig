@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = glassfy_flutter_example
+PRODUCT_NAME = testapp
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = io.glassfy.glassfyFlutterExample
+PRODUCT_BUNDLE_IDENTIFIER = co.briseide.testapp
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 io.glassfy. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 Briseide. All rights reserved.

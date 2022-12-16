@@ -140,6 +140,18 @@ class Glassfy {
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
 
+  static Future<void> setAttribution(
+      GlassfyAttribution type, String? value) async {
+    final ty = glassfyAttributionToInt(type);
+    await _channel.invokeMethod('setAttribution', {'type': ty, "value": value});
+  }
+
+  static Future<void> setAttributions(
+      List<GlassfyAttributionItem>? items) async {
+    final itemsJson = json.encode(items);
+    await _channel.invokeMethod('setAttributions', {'items': itemsJson});
+  }
+
   static void addDidPurchaseListener(
     DidPurchaseListener didPurchaseListenerListener,
   ) =>

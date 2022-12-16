@@ -21,6 +21,30 @@ enum GlassfyElegibility {
   unknown,
 }
 
+enum GlassfyAttribution {
+  @JsonValue(1)
+  AdjustID,
+
+  @JsonValue(2)
+  AppsFlyerID,
+
+  @JsonValue(3)
+  IP,
+
+  @JsonValue(4)
+  IDFA,
+
+  @JsonValue(5)
+  IDFV,
+
+  @JsonValue(6)
+  GAID,
+}
+
+int glassfyAttributionToInt(GlassfyAttribution attribution) {
+  return _$GlassfyAttributionEnumMap[attribution] ?? -1;
+}
+
 enum GlassfyStore {
   @JsonValue(1)
   storeAppStore,
@@ -116,6 +140,17 @@ enum GlassfyEntitlement {
   // The subscription is active and auto-renew is on.
   @JsonValue(5)
   autorenewon,
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfyAttributionItem {
+  final GlassfyAttribution? type;
+  final String? value;
+
+  GlassfyAttributionItem(this.type, this.value);
+  factory GlassfyAttributionItem.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyAttributionItemFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfyAttributionItemToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

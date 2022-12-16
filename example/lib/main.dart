@@ -71,6 +71,13 @@ class _MyAppState extends State<MyApp> {
       // set extra property (optional)
       await Glassfy.setExtraUserProperty(extraProp);
 
+      await Glassfy.setAttribution(GlassfyAttribution.AdjustID, "_AdjustID_");
+      final attributions = [
+        GlassfyAttributionItem(GlassfyAttribution.AppsFlyerID, "_AppsFlyerID_"),
+        GlassfyAttributionItem(GlassfyAttribution.IP, "0.0.0.0")
+      ];
+      await Glassfy.setAttributions(attributions);
+
       // connect a paddle license key
       await Glassfy.connectPaddleLicenseKey("89bf4c748e4a45e5829e6ee6", true);
 
