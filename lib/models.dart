@@ -78,8 +78,27 @@ enum GlassfyProrationMode {
   @JsonValue(4)
   deferred,
 
-  @JsonValue(4)
+  @JsonValue(5)
   immediateAndChargeFullPrice,
+}
+
+int glassfyProrationModeToInt(GlassfyProrationMode mode) {
+  switch (mode) {
+    case GlassfyProrationMode.unKnownUpgradeDowngradePolicy:
+      return 0;
+    case GlassfyProrationMode.immediateWithTimeProration:
+      return 1;
+    case GlassfyProrationMode.immediateWithChargeProratedPrice:
+      return 2;
+    case GlassfyProrationMode.immediateWithoutProration:
+      return 3;
+    case GlassfyProrationMode.deferred:
+      return 4;
+    case GlassfyProrationMode.immediateAndChargeFullPrice:
+      return 5;
+    default:
+      return -1;
+  }
 }
 
 int glassfyStoreToInt(GlassfyStore store) {
@@ -346,16 +365,4 @@ class GlassfyTransaction {
   factory GlassfyTransaction.fromJson(Map<String, dynamic> json) =>
       _$GlassfyTransactionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyTransactionToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GlassfySubscriptionUpdate {
-  String? originalSkuIdentifier;
-  GlassfyProrationMode? proration;
-
-  GlassfySubscriptionUpdate(this.originalSkuIdentifier, this.proration);
-
-  factory GlassfySubscriptionUpdate.fromJson(Map<String, dynamic> json) =>
-      _$GlassfySubscriptionUpdateFromJson(json);
-  Map<String, dynamic> toJson() => _$GlassfySubscriptionUpdateToJson(this);
 }

@@ -95,11 +95,15 @@ class Glassfy {
   }
 
   static Future<GlassfyTransaction> purchaseSku(GlassfySku sku,
-      [GlassfySubscriptionUpdate? subscriptionUpdate]) async {
+      [GlassfySku? skuToUpgrade,
+      GlassfyProrationMode prorationMode =
+          GlassfyProrationMode.immediateWithTimeProration]) async {
     final param = {
       'sku': sku.toJson(),
-      'subscriptionUpdate': subscriptionUpdate?.toJson()
+      'skuToUpgrade': skuToUpgrade?.toJson(),
+      'prorationMode': glassfyProrationModeToInt(prorationMode),
     };
+
     final json = await _channel.invokeMethod('purchaseSku', param);
     return GlassfyTransaction.fromJson(jsonDecode(json));
   }

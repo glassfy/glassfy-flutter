@@ -35,3 +35,7 @@
 - Add support for Glassfy iOS SDK 1.3.5
 - Add support for Glassfy Android SDK 1.3.8
 - Support attribution API
+
+## 1.3.7
+
+- Deprecated function purchaseSku(sku,GlassfySubscriptionUpdate()), please use purchaseSku(sku,skuToUpgrade,prorationMode)

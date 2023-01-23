@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'glassfy_flutter'
-  s.version          = '1.3.6'
+  s.version          = '1.3.7'
   s.summary          = 'Glassfy SDK'
   s.description      = <<-DESC
 Glassfy SDK.

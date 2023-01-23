@@ -88,18 +88,24 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       }
       "purchaseSku"-> {
         val sku: HashMap<String, String>? = call.argument("sku")
-        val subscriptionUpdate: HashMap<String, Any>? = call.argument("subscriptionUpdate")
+        val skuToUpgrade: HashMap<String, Any>? = call.argument("skuToUpgrade")
         val skuId = sku?.get("skuId");
-        val subscriptionUpdateId = subscriptionUpdate?.get("originalSkuIdentifier") as? String
-        val proration = subscriptionUpdate?.get("proration") as? Int
-
-        if (skuId != null) {
-          if (subscriptionUpdateId != null) {
-            GlassfyGlue.purchaseSku(activity, skuId, subscriptionUpdateId,proration) { v, e -> pluginCompletion(result, v, e) }
-          } else {
-            GlassfyGlue.purchaseSku(activity, skuId) { v, e -> pluginCompletion(result, v, e) }
+        var subscriptionUpdateId:String? = null
+        var proration:Int? = null
+        if (skuToUpgrade != null) {
+          subscriptionUpdateId = skuToUpgrade.get("skuId") as String?;
+          if (subscriptionUpdateId == null) {
+            result.error("Invalid skuToUpgrade", null, null)
+            return
           }
+          proration = call.argument("prorationMode")
         }
+        if (skuId == null) {
+          result.error("Invalid SKU", null, null)
+          return
+        }
+
+        GlassfyGlue.purchaseSku(activity, skuId, subscriptionUpdateId,proration) { v, e -> pluginCompletion(result, v, e) }
       }
       "restorePurchases"-> {
         GlassfyGlue.restorePurchases() { v, e -> pluginCompletion(result, v, e) }
