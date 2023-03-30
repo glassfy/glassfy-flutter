@@ -24,12 +24,15 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
         sdkVersionWithCompletion:[self
                                      convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"initialize" isEqualToString:call.method]) {
-    NSString *apiKey = arguments[@"apiKey"];
+    NSString* apiKey = arguments[@"apiKey"];
+    NSString* version = arguments[@"version"];
     BOOL watcherMode = [arguments[@"watcherMode"] boolValue];
     [GlassfyGlue
-        initializeWithApiKey:apiKey
-                 watcherMode:watcherMode
-              withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+        initializeWithApiKey: apiKey
+                 watcherMode: watcherMode
+   crossPlatformSdkFramework: @"flutter"
+     crossPlatformSdkVersion: version
+              withCompletion: [self convertGlassfyGlueResultToFlutter:result]];
     [GlassfyGlue setPurchaseDelegate:self];
   } else if ([@"setLogLevel" isEqualToString:call.method]) {
     int logLevel = [arguments[@"logLevel"] intValue];

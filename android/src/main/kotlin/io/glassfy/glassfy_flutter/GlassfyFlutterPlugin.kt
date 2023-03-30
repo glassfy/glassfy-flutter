@@ -38,7 +38,6 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   override fun onDetachedFromActivityForConfigChanges() {
   }
 
-
   private fun pluginCompletion(@NonNull result: Result, value: String?, error: String?) {
     if (error != null) {
       result.error(error,null,null)
@@ -63,9 +62,13 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
         GlassfyGlue.sdkVersion() { v, e -> pluginCompletion(result, v, e) }
       }
       "initialize" -> {
+        val framework: String = "flutter";
         val apiKey: String = call.argument("apiKey") ?: ""
         val watcherMode: Boolean = call.argument("watcherMode") ?: false
-        GlassfyGlue.initialize(context , apiKey, watcherMode) { v, e -> pluginCompletion(result, v, e) }
+        val version: String = call.argument("version") ?: "unknown"
+        GlassfyGlue.initialize(context , apiKey, watcherMode, framework, version) { v, e -> 
+          pluginCompletion(result, v, e) 
+        }
       }
       "setLogLevel" -> {
         val logLevel: Int = call.argument("logLevel") ?: 0

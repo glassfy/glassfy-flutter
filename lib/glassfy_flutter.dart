@@ -42,6 +42,7 @@ class Glassfy {
       _channel.invokeMethod('initialize', {
         'apiKey': apiKey,
         'watcherMode': watcherMode,
+        'version': "1.3.8"
       });
 
   static setLogLevel(int logLevel) {
