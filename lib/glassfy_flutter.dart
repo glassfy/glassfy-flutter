@@ -55,6 +55,11 @@ class Glassfy {
     return GlassfyOfferings.fromJson(jsonDecode(json));
   }
 
+  static Future<GlassfyPurchasesHistory> purchaseHistory() async {
+    final json = await _channel.invokeMethod('purchaseHistory');
+    return GlassfyPurchasesHistory.fromJson(jsonDecode(json));
+  }
+
   static Future<GlassfySku> skuWithId(String identifier) async {
     final json =
         await _channel.invokeMethod('skuWithId', {'identifier': identifier});

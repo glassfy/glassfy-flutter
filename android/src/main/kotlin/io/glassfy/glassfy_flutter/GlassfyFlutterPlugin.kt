@@ -74,6 +74,9 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "offerings" -> {
         GlassfyGlue.offerings() { v, e -> pluginCompletion(result, v, e) }
       }
+      "purchaseHistory" -> {
+        GlassfyGlue.purchaseHistory() { v, e -> pluginCompletion(result, v, e) }
+      }
       "permissions" -> {
         GlassfyGlue.permissions() { v, e -> pluginCompletion(result, v, e) }
       }

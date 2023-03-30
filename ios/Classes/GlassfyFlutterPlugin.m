@@ -35,9 +35,9 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
     int logLevel = [arguments[@"logLevel"] intValue];
     [GlassfyGlue setLogLevel:logLevel];
   } else if ([@"offerings" isEqualToString:call.method]) {
-    [GlassfyGlue
-        offeringsWithCompletion:[self
-                                    convertGlassfyGlueResultToFlutter:result]];
+    [GlassfyGlue offeringsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"purchaseHistory" isEqualToString:call.method]) {
+    [GlassfyGlue purchaseHistoryWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"skuWithId" isEqualToString:call.method]) {
     NSString *identifier = arguments[@"identifier"];
     [GlassfyGlue skuWithId:identifier
