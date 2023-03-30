@@ -371,8 +371,8 @@ class GlassfyPurchaseHistory {
   final String? skuId;
   final GlassfyEventType? type;
   final GlassfyStore? store;
-  // final int? purchaseDate;
-  // final int? expireDate;
+  final int? purchaseDate;
+  final int? expireDate;
   final String? transactionId;
   final String? subscriberId;
   final String? currencyCode;
@@ -389,8 +389,8 @@ class GlassfyPurchaseHistory {
     this.skuId,
     this.type,
     this.store,
-    // this.purchaseDate,
-    // this.expireDate,
+    this.purchaseDate,
+    this.expireDate,
     this.transactionId,
     this.subscriberId,
     this.currencyCode,
