@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'glassfy_flutter'
-  s.version          = '1.3.7'
+  s.version          = '1.3.8'
   s.summary          = 'Glassfy SDK'
   s.description      = <<-DESC
 Glassfy SDK.
@@ -15,7 +15,7 @@ Glassfy SDK.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'FlutterMacOS'
-  s.dependency 'GlassfyGlue','1.3.4'
+  s.dependency 'GlassfyGlue', '1.3.5'
   s.platform = :osx, '10.15'
 
   # Flutter.framework does not contain a i386 slice.

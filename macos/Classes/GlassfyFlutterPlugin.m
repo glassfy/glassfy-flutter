@@ -24,20 +24,23 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
         sdkVersionWithCompletion:[self
                                      convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"initialize" isEqualToString:call.method]) {
-    NSString *apiKey = arguments[@"apiKey"];
+    NSString* apiKey = arguments[@"apiKey"];
+    NSString* version = arguments[@"version"];
     BOOL watcherMode = [arguments[@"watcherMode"] boolValue];
     [GlassfyGlue
-        initializeWithApiKey:apiKey
-                 watcherMode:watcherMode
-              withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+        initializeWithApiKey: apiKey
+                 watcherMode: watcherMode
+   crossPlatformSdkFramework: @"flutter"
+     crossPlatformSdkVersion: version
+              withCompletion: [self convertGlassfyGlueResultToFlutter:result]];
     [GlassfyGlue setPurchaseDelegate:self];
   } else if ([@"setLogLevel" isEqualToString:call.method]) {
     int logLevel = [arguments[@"logLevel"] intValue];
     [GlassfyGlue setLogLevel:logLevel];
   } else if ([@"offerings" isEqualToString:call.method]) {
-    [GlassfyGlue
-        offeringsWithCompletion:[self
-                                    convertGlassfyGlueResultToFlutter:result]];
+    [GlassfyGlue offeringsWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"purchaseHistory" isEqualToString:call.method]) {
+    [GlassfyGlue purchaseHistoryWithCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"skuWithId" isEqualToString:call.method]) {
     NSString *identifier = arguments[@"identifier"];
     [GlassfyGlue skuWithId:identifier

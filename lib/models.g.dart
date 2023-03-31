@@ -198,6 +198,79 @@ Map<String, dynamic> _$GlassfyOfferingsToJson(GlassfyOfferings instance) =>
       'all': instance.all?.map((e) => e.toJson()).toList(),
     };
 
+GlassfyPurchasesHistory _$GlassfyPurchasesHistoryFromJson(
+        Map<String, dynamic> json) =>
+    GlassfyPurchasesHistory(
+      (json['all'] as List<dynamic>?)
+          ?.map(
+              (e) => GlassfyPurchaseHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GlassfyPurchasesHistoryToJson(
+        GlassfyPurchasesHistory instance) =>
+    <String, dynamic>{
+      'all': instance.all?.map((e) => e.toJson()).toList(),
+    };
+
+GlassfyPurchaseHistory _$GlassfyPurchaseHistoryFromJson(
+        Map<String, dynamic> json) =>
+    GlassfyPurchaseHistory(
+      json['offeringId'] as String?,
+      json['productId'] as String?,
+      json['skuId'] as String?,
+      $enumDecodeNullable(_$GlassfyEventTypeEnumMap, json['type']),
+      $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
+      json['purchaseDate'] as int?,
+      json['expireDate'] as int?,
+      json['transactionId'] as String?,
+      json['subscriberId'] as String?,
+      json['currencyCode'] as String?,
+      json['countryCode'] as String?,
+      json['isInIntroOfferPeriod'] as bool?,
+      json['promotionalOfferId'] as String?,
+      json['offerCodeRefName'] as String?,
+      json['licenseCode'] as String?,
+      json['webOrderLineItemId'] as String?,
+    );
+
+Map<String, dynamic> _$GlassfyPurchaseHistoryToJson(
+        GlassfyPurchaseHistory instance) =>
+    <String, dynamic>{
+      'offeringId': instance.offeringId,
+      'productId': instance.productId,
+      'skuId': instance.skuId,
+      'type': _$GlassfyEventTypeEnumMap[instance.type],
+      'store': _$GlassfyStoreEnumMap[instance.store],
+      'purchaseDate': instance.purchaseDate,
+      'expireDate': instance.expireDate,
+      'transactionId': instance.transactionId,
+      'subscriberId': instance.subscriberId,
+      'currencyCode': instance.currencyCode,
+      'countryCode': instance.countryCode,
+      'isInIntroOfferPeriod': instance.isInIntroOfferPeriod,
+      'promotionalOfferId': instance.promotionalOfferId,
+      'offerCodeRefName': instance.offerCodeRefName,
+      'licenseCode': instance.licenseCode,
+      'webOrderLineItemId': instance.webOrderLineItemId,
+    };
+
+const _$GlassfyEventTypeEnumMap = {
+  GlassfyEventType.InitialBuy: 5001,
+  GlassfyEventType.Restarted: 5002,
+  GlassfyEventType.Renewed: 5003,
+  GlassfyEventType.Expired: 5004,
+  GlassfyEventType.DidChangeRenewalStatus: 5005,
+  GlassfyEventType.IsInBillingRetryPeriod: 5006,
+  GlassfyEventType.ProductChange: 5007,
+  GlassfyEventType.InAppPurchase: 5008,
+  GlassfyEventType.Refund: 5009,
+  GlassfyEventType.Paused: 5010,
+  GlassfyEventType.Resumed: 5011,
+  GlassfyEventType.ConnectLicense: 5012,
+  GlassfyEventType.DisconnectLicense: 5013,
+};
+
 GlassfyVersion _$GlassfyVersionFromJson(Map<String, dynamic> json) =>
     GlassfyVersion(
       json['version'] as String?,

@@ -51,6 +51,47 @@ int glassfyAttributionToInt(GlassfyAttribution attribution) {
   return _$GlassfyAttributionEnumMap[attribution] ?? -1;
 }
 
+enum GlassfyEventType {
+  @JsonValue(5001)
+  InitialBuy,
+
+  @JsonValue(5002)
+  Restarted,
+
+  @JsonValue(5003)
+  Renewed,
+
+  @JsonValue(5004)
+  Expired,
+  
+  @JsonValue(5005)
+  DidChangeRenewalStatus,
+
+  @JsonValue(5006)
+  IsInBillingRetryPeriod,
+
+  @JsonValue(5007)
+  ProductChange,
+
+  @JsonValue(5008)
+  InAppPurchase,
+
+  @JsonValue(5009)
+  Refund,
+
+  @JsonValue(5010)
+  Paused,
+
+  @JsonValue(5011)
+  Resumed,
+
+  @JsonValue(5012)
+  ConnectLicense,
+
+  @JsonValue(5013)
+  DisconnectLicense
+}
+
 enum GlassfyStore {
   @JsonValue(1)
   storeAppStore,
@@ -310,6 +351,59 @@ class GlassfyOfferings {
   GlassfyOfferings(this.all);
 
   Map<String, dynamic> toJson() => _$GlassfyOfferingsToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfyPurchasesHistory {
+  List<GlassfyPurchaseHistory>? all;
+
+  factory GlassfyPurchasesHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchasesHistoryFromJson(json);
+
+  GlassfyPurchasesHistory(this.all);
+
+  Map<String, dynamic> toJson() => _$GlassfyPurchasesHistoryToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfyPurchaseHistory {
+  final String? offeringId;
+  final String? productId;
+  final String? skuId;
+  final GlassfyEventType? type;
+  final GlassfyStore? store;
+  final int? purchaseDate;
+  final int? expireDate;
+  final String? transactionId;
+  final String? subscriberId;
+  final String? currencyCode;
+  final String? countryCode;
+  final bool? isInIntroOfferPeriod;
+  final String? promotionalOfferId;
+  final String? offerCodeRefName;
+  final String? licenseCode;
+  final String? webOrderLineItemId;
+
+  GlassfyPurchaseHistory(
+    this.offeringId,
+    this.productId,
+    this.skuId,
+    this.type,
+    this.store,
+    this.purchaseDate,
+    this.expireDate,
+    this.transactionId,
+    this.subscriberId,
+    this.currencyCode,
+    this.countryCode,
+    this.isInIntroOfferPeriod,
+    this.promotionalOfferId,
+    this.offerCodeRefName,
+    this.licenseCode,
+    this.webOrderLineItemId
+  );
+
+  factory GlassfyPurchaseHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchaseHistoryFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfyPurchaseHistoryToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
