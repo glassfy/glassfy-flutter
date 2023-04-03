@@ -81,6 +81,10 @@ class Glassfy {
       return GlassfySku.fromJson(jsonDecode(json));
     } else if (skuBase.store == GlassfyStore.storePaddle) {
       return GlassfySku.fromJson(jsonDecode(json));
+    } else if (skuBase.store == GlassfyStore.storeStripe) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    } else if (skuBase.store == GlassfyStore.storeGlassfy) {
+      return GlassfySku.fromJson(jsonDecode(json));
     }
     return skuBase;
   }

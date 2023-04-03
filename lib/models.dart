@@ -101,6 +101,12 @@ enum GlassfyStore {
 
   @JsonValue(3)
   storePaddle,
+
+  @JsonValue(4)
+  storeStripe,
+
+  @JsonValue(5)
+  storeGlassfy,
 }
 
 enum GlassfyProrationMode {
