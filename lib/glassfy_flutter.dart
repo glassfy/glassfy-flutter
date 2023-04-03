@@ -144,10 +144,14 @@ class Glassfy {
         'connectCustomSubscriber', {'subscriberId': subscriberId});
   }
 
-  static Future<void> connectPaddleLicenseKey(String licenseKey,
-      [force = false]) async {
+  static Future<void> connectPaddleLicenseKey(String licenseKey, [force = false]) async {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
+  }
+
+  static Future<void> connectGlassfyUniversalCode(String universalCode, [force = false]) async {
+    await _channel.invokeMethod(
+        'connectGlassfyUniversalCode', {'universalCode': universalCode, 'force': force});
   }
 
   static Future<void> setAttribution(

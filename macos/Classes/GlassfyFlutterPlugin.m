@@ -104,6 +104,13 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
                           force:force
                      completion:[self
                                     convertGlassfyGlueResultToFlutter:result]];
+  } else if ([@"connectGlassfyUniversalCode" isEqualToString:call.method]) {
+    NSString *universalCode = arguments[@"universalCode"];
+    BOOL force = [arguments[@"force"] boolValue];
+    [GlassfyGlue
+        connectGlassfyUniversalCode:universalCode
+                              force:force
+                         completion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"setAttribution" isEqualToString:call.method]) {
     NSNumber *type = arguments[@"type"];
     NSString *value = arguments[@"value"];

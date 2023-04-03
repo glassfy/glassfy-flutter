@@ -137,7 +137,12 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "connectPaddleLicenseKey"->{
         val licenseKey: String = call.argument("licenseKey") ?: ""
         val force: Boolean = call.argument("force") ?: false
-        GlassfyGlue.connectPaddleLicenseKey(licenseKey,force) { v, e -> pluginCompletion(result, v, e) }
+        GlassfyGlue.connectPaddleLicenseKey(licenseKey, force) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "connectGlassfyUniversalCode"->{
+        val universalCode: String = call.argument("universalCode") ?: ""
+        val force: Boolean = call.argument("force") ?: false
+        GlassfyGlue.connectGlassfyUniversalCode(universalCode, force) { v, e -> pluginCompletion(result, v, e) }
       }
       "setAttribution"->{
         val type: Int = call.argument("type") ?: -1
