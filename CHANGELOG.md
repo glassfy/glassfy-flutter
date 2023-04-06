@@ -48,6 +48,6 @@
 
 ## 1.3.9
 
-- Add support for Glassfy iOS SDK 1.3.7
+- Add support for Glassfy iOS SDK 1.3.8
 - Add support for Glassfy Android SDK 1.3.11
 - Support for Glassfy Universal Codes
