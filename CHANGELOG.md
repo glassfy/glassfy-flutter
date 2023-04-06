@@ -39,3 +39,15 @@
 ## 1.3.7
 
 - Deprecated function purchaseSku(sku,GlassfySubscriptionUpdate()), please use purchaseSku(sku,skuToUpgrade,prorationMode)
+
+## 1.3.8
+
+- Add support for Glassfy iOS SDK 1.3.6
+- Add support for Glassfy Android SDK 1.3.10
+- Support for Purchase History API
+
+## 1.3.9
+
+- Add support for Glassfy iOS SDK 1.3.8
+- Add support for Glassfy Android SDK 1.3.11
+- Support for Glassfy Universal Codes

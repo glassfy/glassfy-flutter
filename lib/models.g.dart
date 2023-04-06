@@ -91,6 +91,8 @@ const _$GlassfyStoreEnumMap = {
   GlassfyStore.storeAppStore: 1,
   GlassfyStore.storePlayStore: 2,
   GlassfyStore.storePaddle: 3,
+  GlassfyStore.storeStripe: 4,
+  GlassfyStore.storeGlassfy: 5,
 };
 
 GlassfyAccountableSku _$GlassfyAccountableSkuFromJson(

@@ -42,7 +42,7 @@ class Glassfy {
       _channel.invokeMethod('initialize', {
         'apiKey': apiKey,
         'watcherMode': watcherMode,
-        'version': "1.3.8"
+        'version': "1.3.9"
       });
 
   static setLogLevel(int logLevel) {
@@ -80,6 +80,10 @@ class Glassfy {
     } else if (skuBase.store == GlassfyStore.storePlayStore) {
       return GlassfySku.fromJson(jsonDecode(json));
     } else if (skuBase.store == GlassfyStore.storePaddle) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    } else if (skuBase.store == GlassfyStore.storeStripe) {
+      return GlassfySku.fromJson(jsonDecode(json));
+    } else if (skuBase.store == GlassfyStore.storeGlassfy) {
       return GlassfySku.fromJson(jsonDecode(json));
     }
     return skuBase;
@@ -144,10 +148,14 @@ class Glassfy {
         'connectCustomSubscriber', {'subscriberId': subscriberId});
   }
 
-  static Future<void> connectPaddleLicenseKey(String licenseKey,
-      [force = false]) async {
+  static Future<void> connectPaddleLicenseKey(String licenseKey, [force = false]) async {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
+  }
+
+  static Future<void> connectGlassfyUniversalCode(String universalCode, [force = false]) async {
+    await _channel.invokeMethod(
+        'connectGlassfyUniversalCode', {'universalCode': universalCode, 'force': force});
   }
 
   static Future<void> setAttribution(
