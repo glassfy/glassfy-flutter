@@ -63,7 +63,7 @@ enum GlassfyEventType {
 
   @JsonValue(5004)
   Expired,
-  
+
   @JsonValue(5005)
   DidChangeRenewalStatus,
 
@@ -363,7 +363,8 @@ class GlassfyOfferings {
 class GlassfyPurchasesHistory {
   List<GlassfyPurchaseHistory>? all;
 
-  factory GlassfyPurchasesHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchasesHistoryFromJson(json);
+  factory GlassfyPurchasesHistory.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyPurchasesHistoryFromJson(json);
 
   GlassfyPurchasesHistory(this.all);
 
@@ -377,8 +378,8 @@ class GlassfyPurchaseHistory {
   final String? skuId;
   final GlassfyEventType? type;
   final GlassfyStore? store;
-  final int? purchaseDate;
-  final int? expireDate;
+  DateTime? purchaseDate;
+  DateTime? expireDate;
   final String? transactionId;
   final String? subscriberId;
   final String? currencyCode;
@@ -408,7 +409,11 @@ class GlassfyPurchaseHistory {
     this.webOrderLineItemId
   );
 
-  factory GlassfyPurchaseHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchaseHistoryFromJson(json);
+  factory GlassfyPurchaseHistory.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyPurchaseHistoryFromJson(json)
+        ..expireDate = _dateTimeFromJsonEpoch(json, 'expireDate')
+        ..purchaseDate = _dateTimeFromJsonEpoch(json, 'purchaseDate');
+
   Map<String, dynamic> toJson() => _$GlassfyPurchaseHistoryToJson(this);
 }
 
@@ -428,13 +433,21 @@ class GlassfyPermission {
   final String? permissionId;
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
-  final int? expireDate;
+  DateTime? expireDate;
   final List<GlassfyAccountableSku>? accountableSkus;
 
-  GlassfyPermission(this.permissionId, this.entitlement, this.isValid,
-      this.expireDate, this.accountableSkus);
+  GlassfyPermission(
+    this.permissionId, 
+    this.entitlement, 
+    this.isValid,
+    this.expireDate, 
+    this.accountableSkus
+  );
+
   factory GlassfyPermission.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyPermissionFromJson(json);
+      _$GlassfyPermissionFromJson(json)
+        ..expireDate = _dateTimeFromJsonEpoch(json, 'expireDate');
+
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
 }
 
@@ -443,13 +456,21 @@ class GlassfyPermissions {
   final String? installationId;
   final String? subscriberId;
   final String? originalApplicationVersion;
-  final int? originalApplicationDate;
+  DateTime? originalApplicationDate;
   List<GlassfyPermission>? all;
 
-  GlassfyPermissions(this.installationId, this.subscriberId,
-      this.originalApplicationVersion, this.originalApplicationDate, this.all);
+  GlassfyPermissions(
+    this.installationId, 
+    this.subscriberId,
+    this.originalApplicationVersion, 
+    this.originalApplicationDate, 
+    this.all
+  );
+
   factory GlassfyPermissions.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyPermissionsFromJson(json);
+      _$GlassfyPermissionsFromJson(json)
+        ..originalApplicationDate = _dateTimeFromJsonEpoch(json, 'originalApplicationDate');
+
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);
 }
 
@@ -465,4 +486,12 @@ class GlassfyTransaction {
   factory GlassfyTransaction.fromJson(Map<String, dynamic> json) =>
       _$GlassfyTransactionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyTransactionToJson(this);
+}
+
+DateTime? _dateTimeFromJsonEpoch(Map<String, dynamic> json, String key) {
+  final epoch = json[key];
+  if (epoch == null) {
+    return null;
+  }
+  return DateTime.fromMillisecondsSinceEpoch((epoch * 1000).round());
 }
