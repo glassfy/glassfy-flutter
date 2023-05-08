@@ -34,6 +34,10 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
      crossPlatformSdkVersion: version
               withCompletion: [self convertGlassfyGlueResultToFlutter:result]];
     [GlassfyGlue setPurchaseDelegate:self];
+  } else if ([@"paywall" isEqualToString:call.method]) {
+    NSString *remoteConfig = arguments[@"remoteConfig"];
+    [GlassfyGlue paywall:remoteConfig
+          withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
   } else if ([@"setLogLevel" isEqualToString:call.method]) {
     int logLevel = [arguments[@"logLevel"] intValue];
     [GlassfyGlue setLogLevel:logLevel];

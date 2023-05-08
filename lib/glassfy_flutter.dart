@@ -45,6 +45,12 @@ class Glassfy {
         'version': "1.3.9"
       });
 
+  static Future<GlassfyPaywall> paywall(String remoteConfig) async {
+    final json = await _channel.invokeMethod('paywall', {'remoteConfig': remoteConfig});
+    debugPrint(json);
+    return GlassfyPaywall.fromJson(jsonDecode(json));
+  }
+
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
       'logLevel': logLevel,
