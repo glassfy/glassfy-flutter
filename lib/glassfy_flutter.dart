@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'paywall.dart';
 import 'models.dart';
 
 typedef DidPurchaseListener = void Function(
@@ -39,16 +40,27 @@ class Glassfy {
   }
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
-      _channel.invokeMethod('initialize', {
-        'apiKey': apiKey,
-        'watcherMode': watcherMode,
-        'version': "1.3.9"
-      });
+      _channel.invokeMethod('initialize',
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.3.9"});
 
-  static Future<GlassfyPaywall> paywall(String remoteConfig) async {
-    final json = await _channel.invokeMethod('paywall', {'remoteConfig': remoteConfig});
-    debugPrint(json);
-    return GlassfyPaywall.fromJson(jsonDecode(json));
+  static Future<Widget> paywall({
+    required String remoteConfig,
+    void Function(GlassfyTransaction? transaction, Object? error)? onClose,
+    void Function(Uri url)? onLink,
+    void Function()? onRestore,
+    void Function(GlassfySku sku)? onPurchase,
+  }) async {
+    final remoteConfigId = {'remoteConfig': remoteConfig};
+    final config = await _channel.invokeMethod('paywall', remoteConfigId);
+    final paywall = GlassfyPaywall.fromJson(jsonDecode(config));
+    final view = PaywallView(
+      paywall: paywall,
+      onClose: onClose,
+      onLink: onLink,
+      onRestore: onRestore,
+      onPurchase: onPurchase,
+    );
+    return view;
   }
 
   static setLogLevel(int logLevel) {
@@ -154,14 +166,16 @@ class Glassfy {
         'connectCustomSubscriber', {'subscriberId': subscriberId});
   }
 
-  static Future<void> connectPaddleLicenseKey(String licenseKey, [force = false]) async {
+  static Future<void> connectPaddleLicenseKey(String licenseKey,
+      [force = false]) async {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
 
-  static Future<void> connectGlassfyUniversalCode(String universalCode, [force = false]) async {
-    await _channel.invokeMethod(
-        'connectGlassfyUniversalCode', {'universalCode': universalCode, 'force': force});
+  static Future<void> connectGlassfyUniversalCode(String universalCode,
+      [force = false]) async {
+    await _channel.invokeMethod('connectGlassfyUniversalCode',
+        {'universalCode': universalCode, 'force': force});
   }
 
   static Future<void> setAttribution(

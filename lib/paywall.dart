@@ -1,23 +1,31 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:glassfy_flutter/paywall/paywall_listener.dart';
 import 'package:glassfy_flutter/glassfy_flutter.dart';
 import 'package:glassfy_flutter/models.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 class PaywallView extends StatefulWidget {
   final GlassfyPaywall paywall;
+  final void Function(GlassfyTransaction? transaction, Object? error)? onClose;
+  final void Function(Uri url)? onLink;
+  final void Function()? onRestore;
+  final void Function(GlassfySku sku)? onPurchase;
 
-  const PaywallView({Key? key, required this.paywall}) : super(key: key);
+  const PaywallView({
+    Key? key,
+    required this.paywall,
+    this.onClose,
+    this.onLink,
+    this.onRestore,
+    this.onPurchase,
+  }) : super(key: key);
 
   @override
-  State<PaywallView> createState() => _PaywallViewState();
+  State<PaywallView> createState() => PaywallViewState();
 }
 
-class _PaywallViewState extends State<PaywallView> implements PaywallListener {
+class PaywallViewState extends State<PaywallView> {
   late final WebViewController controller;
   bool contentLoaded = false;
 
@@ -36,8 +44,6 @@ class _PaywallViewState extends State<PaywallView> implements PaywallListener {
         onPageFinished(url);
       }));
   }
-
-  void dismiss() {}
 
   void onPageFinished(String url) {
     debugPrint('Page finished: $url');
@@ -58,10 +64,6 @@ class _PaywallViewState extends State<PaywallView> implements PaywallListener {
   }
 
   void initializeJs() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    // final deviceInfoPlugin = DeviceInfoPlugin();
-    // import 'package:device_info_plus/device_info_plus.dart';
-
     final script = buildJSCode('setSkuDetails', widget.paywall.config);
     if (script.isNotEmpty == true) {
       controller.runJavaScript(script);
@@ -119,20 +121,25 @@ class _PaywallViewState extends State<PaywallView> implements PaywallListener {
     controller.runJavaScript('window.alert("$text")');
   }
 
-  @override
   void onClose(GlassfyTransaction? transaction, Object? error) {
-    dismiss();
+    widget.onClose?.call(transaction, error);
   }
 
-  @override
   void onLink(Uri url) async {
+    if (widget.onLink != null) {
+      widget.onLink?.call(url);
+      return;
+    }
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     }
   }
 
-  @override
   void onRestore() async {
+    if (widget.onRestore != null) {
+      widget.onRestore?.call();
+      return;
+    }
     try {
       await Glassfy.restorePurchases();
       onClose(null, null);
@@ -141,8 +148,11 @@ class _PaywallViewState extends State<PaywallView> implements PaywallListener {
     }
   }
 
-  @override
   void onPurchase(GlassfySku sku) async {
+    if (widget.onPurchase != null) {
+      widget.onPurchase?.call(sku);
+      return;
+    }
     try {
       var transaction = await Glassfy.purchaseSku(sku);
       onClose(transaction, null);
