@@ -11,6 +11,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.glassfy.glassfy_flutter.utils.Constants
 import io.glassfy.glue.GlassfyGlue
 
 /** GlassfyFlutterPlugin */
@@ -55,56 +56,56 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
 
     when (call.method) {
-      "getPlatformVersion" -> {
+      Constants.Methods.GET_PLATFORM_VERSION -> {
         result.success("Android ${android.os.Build.VERSION.RELEASE}")
       }
-      "sdkVersion" -> {
+      Constants.Methods.SDK_VERSION -> {
         GlassfyGlue.sdkVersion() { v, e -> pluginCompletion(result, v, e) }
       }
-      "initialize" -> {
+      Constants.Methods.INITIALIZE -> {
         val framework: String = "flutter";
-        val apiKey: String = call.argument("apiKey") ?: ""
-        val watcherMode: Boolean = call.argument("watcherMode") ?: false
-        val version: String = call.argument("version") ?: "unknown"
+        val apiKey: String = call.argument(Constants.Parameter.API_KEY) ?: ""
+        val watcherMode: Boolean = call.argument(Constants.Parameter.WATCHER_MODE) ?: false
+        val version: String = call.argument(Constants.Parameter.VERSION) ?: "unknown"
         GlassfyGlue.initialize(context , apiKey, watcherMode, framework, version) { v, e -> 
           pluginCompletion(result, v, e) 
         }
       }
-      "setLogLevel" -> {
-        val logLevel: Int = call.argument("logLevel") ?: 0
+      Constants.Methods.SET_LOG_LEVEL -> {
+        val logLevel: Int = call.argument(Constants.Parameter.LOG_LEVEL) ?: 0
         GlassfyGlue.setLogLevel(logLevel)
       }
-      "offerings" -> {
+      Constants.Methods.OFFERINGS -> {
         GlassfyGlue.offerings() { v, e -> pluginCompletion(result, v, e) }
       }
-      "purchaseHistory" -> {
+      Constants.Methods.PURCHASE_HISTORY -> {
         GlassfyGlue.purchaseHistory() { v, e -> pluginCompletion(result, v, e) }
       }
-      "permissions" -> {
+      Constants.Methods.PERMISSIONS -> {
         GlassfyGlue.permissions() { v, e -> pluginCompletion(result, v, e) }
       }
-      "skuWithId" -> {
-        val identifier: String = call.argument("identifier") ?: ""
+      Constants.Methods.SKU_WITH_ID -> {
+        val identifier: String = call.argument(Constants.Parameter.IDENTIFIER) ?: ""
         GlassfyGlue.skuWithId(identifier) { v, e -> pluginCompletion(result, v, e) }
       }
-      "skuWithIdAndStore" -> {
-        val identifier: String = call.argument("identifier") ?: ""
-        val store: Int = call.argument("store") ?: 0
+      Constants.Methods.SKU_WITH_ID_AND_STORE -> {
+        val identifier: String = call.argument(Constants.Parameter.IDENTIFIER) ?: ""
+        val store: Int = call.argument(Constants.Parameter.STORE) ?: 0
         GlassfyGlue.skuWithIdAndStore(identifier,store) { v, e -> pluginCompletion(result, v, e) }
       }
-      "purchaseSku"-> {
-        val sku: HashMap<String, String>? = call.argument("sku")
-        val skuToUpgrade: HashMap<String, Any>? = call.argument("skuToUpgrade")
-        val skuId = sku?.get("skuId");
+      Constants.Methods.PURCHASE_SKU-> {
+        val sku: HashMap<String, String>? = call.argument(Constants.Parameter.SKU)
+        val skuToUpgrade: HashMap<String, Any>? = call.argument(Constants.Parameter.SKU_TO_UPGRADE)
+        val skuId = sku?.get(Constants.Parameter.SKU_ID);
         var subscriptionUpdateId:String? = null
         var proration:Int? = null
         if (skuToUpgrade != null) {
-          subscriptionUpdateId = skuToUpgrade.get("skuId") as String?;
+          subscriptionUpdateId = skuToUpgrade.get(Constants.Parameter.SKU_ID) as String?;
           if (subscriptionUpdateId == null) {
             result.error("Invalid skuToUpgrade", null, null)
             return
           }
-          proration = call.argument("prorationMode")
+          proration = call.argument(Constants.Parameter.PRORATION_MODE)
         }
         if (skuId == null) {
           result.error("Invalid SKU", null, null)
@@ -113,46 +114,46 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
 
         GlassfyGlue.purchaseSku(activity, skuId, subscriptionUpdateId,proration) { v, e -> pluginCompletion(result, v, e) }
       }
-      "restorePurchases"-> {
+      Constants.Methods.RESTORE_PURCHASES-> {
         GlassfyGlue.restorePurchases() { v, e -> pluginCompletion(result, v, e) }
       }
-      "setDeviceToken"-> {
+      Constants.Methods.SET_DEVICE_TOKEN-> {
        // not applicable in Android
       }
-      "setEmailUserProperty"->{
-        val email: String = call.argument("email") ?: ""
+      Constants.Methods.SET_EMAIL_USER_PROPERTY->{
+        val email: String = call.argument(Constants.Parameter.EMAIL) ?: ""
         GlassfyGlue.setEmailUserProperty(email) { v, e -> pluginCompletion(result, v, e) }
       }
-      "setExtraUserProperty"->{
-        val extra: Map<String, String>? = call.argument("extraProp")
+      Constants.Methods.SET_EXTRA_USER_PROPERTY->{
+        val extra: Map<String, String>? = call.argument(Constants.Parameter.EXTRA_PROP)
         GlassfyGlue.setExtraUserProperty(extra) { v, e -> pluginCompletion(result, v, e) }
       }
-      "getExtraUserProperty"->{
+      Constants.Methods.GET_EXTRA_USER_PROPERTY->{
         GlassfyGlue.getExtraUserProperty() { v, e -> pluginCompletion(result, v, e) }
       }
-      "connectCustomSubscriber"->{
-        val subscriberId: String? = call.argument("subscriberId")
+      Constants.Methods.CONNECT_CUSTOM_SUBSCRIBER->{
+        val subscriberId: String? = call.argument(Constants.Parameter.SUBSCRIBER_ID)
         GlassfyGlue.connectCustomSubscriber(subscriberId) { v, e -> pluginCompletion(result, v, e) }
       }
-      "connectPaddleLicenseKey"->{
-        val licenseKey: String = call.argument("licenseKey") ?: ""
-        val force: Boolean = call.argument("force") ?: false
+      Constants.Methods.CONNECT_PADDLE_LICENSE_KEY->{
+        val licenseKey: String = call.argument(Constants.Parameter.LICENSE_KEY) ?: ""
+        val force: Boolean = call.argument(Constants.Parameter.FORCE) ?: false
         GlassfyGlue.connectPaddleLicenseKey(licenseKey, force) { v, e -> pluginCompletion(result, v, e) }
       }
-      "connectGlassfyUniversalCode"->{
-        val universalCode: String = call.argument("universalCode") ?: ""
-        val force: Boolean = call.argument("force") ?: false
+      Constants.Methods.CONNECT_GLASSFY_UNIVERSAL_CODE->{
+        val universalCode: String = call.argument(Constants.Parameter.UNIVERSAL_CODE) ?: ""
+        val force: Boolean = call.argument(Constants.Parameter.FORCE) ?: false
         GlassfyGlue.connectGlassfyUniversalCode(universalCode, force) { v, e -> pluginCompletion(result, v, e) }
       }
-      "setAttribution"->{
-        val type: Int = call.argument("type") ?: -1
-        val value: String = call.argument("value") ?: ""
+      Constants.Methods.SET_ATTRIBUTION->{
+        val type: Int = call.argument(Constants.Parameter.TYPE) ?: -1
+        val value: String = call.argument(Constants.Parameter.VALUE) ?: ""
         GlassfyGlue.setAttribution(type,value) { v, e -> 
           pluginCompletion(result, v, e)
         }
       }
-      "setAttributions"->{
-        val items: List<Map<String, Any?>> = call.argument("items") ?: listOf()
+      Constants.Methods.SET_ATTRIBUTIONS->{
+        val items: List<Map<String, Any?>> = call.argument(Constants.Parameter.ITEMS) ?: listOf()
         GlassfyGlue.setAttributions(items) { v, e -> pluginCompletion(result, v, e) }
       }
 
