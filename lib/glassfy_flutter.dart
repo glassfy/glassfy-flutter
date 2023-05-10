@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:glassfy_flutter/utils/constants.dart';
 import 'models.dart';
 
 typedef DidPurchaseListener = void Function(
@@ -14,7 +15,7 @@ class Glassfy {
   static final MethodChannel _channel = const MethodChannel('glassfy_flutter')
     ..setMethodCallHandler((call) async {
       switch (call.method) {
-        case 'gy_did_purchase_product':
+        case Constants.mGy_did_purchase_product:
           for (final listener in _didPurchaseListenerListeners) {
             try {
               final transaction =
@@ -29,41 +30,41 @@ class Glassfy {
     });
 
   static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
+    final String? version = await _channel.invokeMethod(Constants.mGetPlatformVersion);
     return version;
   }
 
   static Future<GlassfyVersion> sdkVersion() async {
-    final json = await _channel.invokeMethod('sdkVersion');
+    final json = await _channel.invokeMethod(Constants.mSdkVersion);
     return GlassfyVersion.fromJson(jsonDecode(json));
   }
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
-      _channel.invokeMethod('initialize', {
-        'apiKey': apiKey,
-        'watcherMode': watcherMode,
-        'version': "1.3.9"
+      _channel.invokeMethod(Constants.mInitialize, {
+        Constants.pApiKey: apiKey,
+        Constants.pWatcherMode: watcherMode,
+        Constants.pVersion: "1.3.9"
       });
 
   static setLogLevel(int logLevel) {
-    _channel.invokeMethod('setLogLevel', {
-      'logLevel': logLevel,
+    _channel.invokeMethod(Constants.mSetLogLevel, {
+      Constants.pLogLevel: logLevel,
     });
   }
 
   static Future<GlassfyOfferings> offerings() async {
-    final json = await _channel.invokeMethod('offerings');
+    final json = await _channel.invokeMethod(Constants.mOfferings);
     return GlassfyOfferings.fromJson(jsonDecode(json));
   }
 
   static Future<GlassfyPurchasesHistory> purchaseHistory() async {
-    final json = await _channel.invokeMethod('purchaseHistory');
+    final json = await _channel.invokeMethod(Constants.mPurchaseHistory);
     return GlassfyPurchasesHistory.fromJson(jsonDecode(json));
   }
 
   static Future<GlassfySku> skuWithId(String identifier) async {
     final json =
-        await _channel.invokeMethod('skuWithId', {'identifier': identifier});
+        await _channel.invokeMethod(Constants.mSkuWithId, {Constants.pIdentifier: identifier});
 
     return GlassfySku.fromJson(jsonDecode(json));
   }
@@ -72,7 +73,7 @@ class Glassfy {
       String identifier, GlassfyStore store) async {
     final st = glassfyStoreToInt(store);
     final json = await _channel.invokeMethod(
-        'skuWithIdAndStore', {'identifier': identifier, 'store': st});
+        Constants.mSkuWithIdAndStore, {Constants.pIdentifier: identifier, Constants.pStore: st});
 
     final skuBase = GlassfySkuBase.fromJson(jsonDecode(json));
     if (skuBase.store == GlassfyStore.storeAppStore) {
@@ -91,16 +92,16 @@ class Glassfy {
 
   @Deprecated('Use the connectCustomSubscriber function instead.')
   static Future<void> login(String userid) async {
-    await _channel.invokeMethod('login', {'userid': userid});
+    await _channel.invokeMethod(Constants.mLogin, {Constants.pUserId: userid});
   }
 
   @Deprecated('Use the connectCustomSubscriber with "null" function instead.')
   static Future<void> logout() async {
-    await _channel.invokeMethod('logout');
+    await _channel.invokeMethod(Constants.mLogOut);
   }
 
   static Future<GlassfyPermissions> permissions() async {
-    final json = await _channel.invokeMethod('permissions');
+    final json = await _channel.invokeMethod(Constants.mPermissions);
     return GlassfyPermissions.fromJson(jsonDecode(json));
   }
 
@@ -109,65 +110,65 @@ class Glassfy {
       GlassfyProrationMode prorationMode =
           GlassfyProrationMode.immediateWithTimeProration]) async {
     final param = {
-      'sku': sku.toJson(),
-      'skuToUpgrade': skuToUpgrade?.toJson(),
-      'prorationMode': glassfyProrationModeToInt(prorationMode),
+      Constants.pSku: sku.toJson(),
+      Constants.pSkuToUpgrade: skuToUpgrade?.toJson(),
+      Constants.pProrationMode: glassfyProrationModeToInt(prorationMode),
     };
 
-    final json = await _channel.invokeMethod('purchaseSku', param);
+    final json = await _channel.invokeMethod(Constants.mPurchaseSku, param);
     return GlassfyTransaction.fromJson(jsonDecode(json));
   }
 
   static Future<GlassfyPermissions> restorePurchases() async {
-    final json = await _channel.invokeMethod('restorePurchases');
+    final json = await _channel.invokeMethod(Constants.mRestorePurchases);
     return GlassfyPermissions.fromJson(jsonDecode(json));
   }
 
   static Future<void> setDeviceToken(String token) async {
-    await _channel.invokeMethod('setDeviceToken', {'token': token});
+    await _channel.invokeMethod(Constants.mSetDeviceToken, {Constants.pToken: token});
   }
 
   static Future<void> setEmailUserProperty(String email) async {
-    await _channel.invokeMethod('setEmailUserProperty', {'email': email});
+    await _channel.invokeMethod(Constants.mSetEmailUserProperty, {Constants.pEmail: email});
   }
 
   static Future<void> setExtraUserProperty(
       Map<String, String> extraProp) async {
     await _channel
-        .invokeMethod('setExtraUserProperty', {'extraProp': extraProp});
+        .invokeMethod(Constants.mSetExtraUserProperty, {Constants.pExtraProp: extraProp});
   }
 
   static Future<Map<String, dynamic>> getExtraUserProperty() async {
-    final json = await _channel.invokeMethod('getExtraUserProperty');
+    final json = await _channel.invokeMethod(Constants.mGetExtraUserProperty);
     const JsonDecoder decoder = JsonDecoder();
     return decoder.convert(json);
   }
 
   static Future<void> connectCustomSubscriber(String? subscriberId) async {
     await _channel.invokeMethod(
-        'connectCustomSubscriber', {'subscriberId': subscriberId});
+        Constants.mConnectCustomSubscriber, {Constants.pSubscriberId: subscriberId});
   }
 
   static Future<void> connectPaddleLicenseKey(String licenseKey, [force = false]) async {
     await _channel.invokeMethod(
-        'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
+        Constants.mConnectPaddleLicenseKey, {Constants.pLicenseKey: licenseKey, Constants.pForce: force});
   }
 
   static Future<void> connectGlassfyUniversalCode(String universalCode, [force = false]) async {
     await _channel.invokeMethod(
-        'connectGlassfyUniversalCode', {'universalCode': universalCode, 'force': force});
+        Constants.mConnectGlassfyUniversalCode, {Constants.pUniversalCode: universalCode, Constants.pForce: force});
   }
 
   static Future<void> setAttribution(
       GlassfyAttribution type, String? value) async {
     final ty = glassfyAttributionToInt(type);
-    await _channel.invokeMethod('setAttribution', {'type': ty, "value": value});
+    await _channel.invokeMethod(Constants.mSetAttribution, {Constants.pType: ty, Constants.pType: value});
   }
 
   static Future<void> setAttributions(
       List<GlassfyAttributionItem>? items) async {
     final itemsList = items?.map((item) => item.toJson()).toList();
-    await _channel.invokeMethod('setAttributions', {'items': itemsList});
+    await _channel.invokeMethod(Constants.mSetAttributions, {Constants.pItems: itemsList});
   }
 
   static void addDidPurchaseListener(
