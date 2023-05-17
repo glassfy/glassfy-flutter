@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'paywall.dart';
 import 'models.dart';
+import 'package:http/http.dart' as http;
 
 typedef DidPurchaseListener = void Function(
   GlassfyTransaction transaction,
@@ -53,8 +54,12 @@ class Glassfy {
     final remoteConfigId = {'remoteConfig': remoteConfig};
     final config = await _channel.invokeMethod('paywall', remoteConfigId);
     final paywall = GlassfyPaywall.fromJson(jsonDecode(config));
+
+    var preloadedContent = await http.get(Uri.parse(paywall.contentUrl ?? ""));
+
     final view = PaywallView(
       paywall: paywall,
+      preloadedContent: preloadedContent.body,
       onClose: onClose,
       onLink: onLink,
       onRestore: onRestore,

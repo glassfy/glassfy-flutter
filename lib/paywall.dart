@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:glassfy_flutter/glassfy_flutter.dart';
@@ -5,20 +6,24 @@ import 'package:glassfy_flutter/models.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class PaywallView extends StatefulWidget {
   final GlassfyPaywall paywall;
+  final String preloadedContent;
   final void Function(GlassfyTransaction? transaction, Object? error)? onClose;
   final void Function(Uri url)? onLink;
   final void Function()? onRestore;
   final void Function(GlassfySku sku)? onPurchase;
+  final Completer<void> pageLoadedCompleter = Completer<void>();
 
-  const PaywallView({
+  PaywallView({
     Key? key,
     required this.paywall,
+    required this.preloadedContent,
     this.onClose,
     this.onLink,
     this.onRestore,
-    this.onPurchase,
+    this.onPurchase
   }) : super(key: key);
 
   @override
@@ -27,14 +32,14 @@ class PaywallView extends StatefulWidget {
 
 class PaywallViewState extends State<PaywallView> {
   late final WebViewController controller;
-  bool contentLoaded = false;
+  var contentLoaded = false;
 
   @override
   void initState() {
     super.initState();
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse(widget.paywall.contentUrl ?? ""))
+      ..loadHtmlString(widget.preloadedContent, baseUrl: widget.paywall.contentUrl)
       ..removeJavaScriptChannel("AndroidHandler")
       ..addJavaScriptChannel("AndroidHandler",
           onMessageReceived: (JavaScriptMessage message) {
@@ -46,11 +51,7 @@ class PaywallViewState extends State<PaywallView> {
   }
 
   void onPageFinished(String url) {
-    debugPrint('Page finished: $url');
-    if (url != widget.paywall.contentUrl) {
-      return;
-    }
-    if (contentLoaded) {
+    if (url != widget.paywall.contentUrl || contentLoaded) {
       return;
     }
     contentLoaded = true;
