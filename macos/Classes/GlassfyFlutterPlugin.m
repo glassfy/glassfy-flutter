@@ -125,7 +125,14 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
     NSArray *items = arguments[@"items"];
     [GlassfyGlue setAttributions:items
                       completion:[self convertGlassfyGlueResultToFlutter:result]];
-  }  
+  } else if ([@"openUrl" isEqualToString:call.method]) {
+    NSString *urlString = arguments[@"url"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (url) {
+      [[NSWorkspace sharedWorkspace] openURL:url];
+    }
+    result(@"");
+  }
   else {
     result(FlutterMethodNotImplemented);
   }

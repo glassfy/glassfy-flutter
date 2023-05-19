@@ -204,4 +204,8 @@ class Glassfy {
     DidPurchaseListener didPurchaseListenerListener,
   ) =>
       _didPurchaseListenerListeners.remove(didPurchaseListenerListener);
+
+  static void openUrl(Uri url) async {
+    await _channel.invokeMethod('openUrl', {'url': url.toString()});
+  }
 }

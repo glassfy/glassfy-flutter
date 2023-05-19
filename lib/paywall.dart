@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:glassfy_flutter/glassfy_flutter.dart';
 import 'package:glassfy_flutter/models.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 class PaywallView extends StatefulWidget {
@@ -131,9 +130,7 @@ class PaywallViewState extends State<PaywallView> {
       widget.onLink?.call(url);
       return;
     }
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    }
+    Glassfy.openUrl(url);
   }
 
   void onRestore() async {

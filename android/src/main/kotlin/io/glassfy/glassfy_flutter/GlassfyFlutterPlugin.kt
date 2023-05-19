@@ -2,6 +2,8 @@ package io.glassfy.glassfy_flutter
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -154,6 +156,16 @@ class GlassfyFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
       "setAttributions" -> {
         val items: List<Map<String, Any?>> = call.argument("items") ?: listOf()
         GlassfyGlue.setAttributions(items) { v, e -> pluginCompletion(result, v, e) }
+      }
+      "openUrl" -> {
+        try {
+          val urlString: String = call.argument("url") ?: ""
+          val i = Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(urlString) }
+          activity?.startActivity(i)
+          result.success("")
+        } catch (e: Exception) {
+          result.error(e.toString(), null, null)
+        }
       }
 
      else -> {
