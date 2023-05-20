@@ -174,6 +174,34 @@ Map<String, dynamic> _$GlassfySkuPaddleToJson(GlassfySkuPaddle instance) =>
       'extravars': instance.extravars,
     };
 
+GlassfyPaywall _$GlassfyPaywallFromJson(Map<String, dynamic> json) =>
+    GlassfyPaywall(
+      json['contentUrl'] as String?,
+      json['pwid'] as String?,
+      json['locale'] as String?,
+      $enumDecodeNullable(_$GlassfyPaywallTypeEnumMap, json['type']),
+      (json['skus'] as List<dynamic>?)
+          ?.map((e) => GlassfySku.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['config'] as Map<String, dynamic>,
+    );
+
+Map<String, dynamic> _$GlassfyPaywallToJson(GlassfyPaywall instance) =>
+    <String, dynamic>{
+      'contentUrl': instance.contentUrl,
+      'pwid': instance.pwid,
+      'locale': instance.locale,
+      'type': _$GlassfyPaywallTypeEnumMap[instance.type],
+      'skus': instance.skus?.map((e) => e.toJson()).toList(),
+      'config': instance.config,
+    };
+
+const _$GlassfyPaywallTypeEnumMap = {
+  GlassfyPaywallType.html: 'html',
+  GlassfyPaywallType.nocode: 'nocode',
+  GlassfyPaywallType.unknown: 'unknown',
+};
+
 GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
     GlassfyOffering(
       json['offeringId'] as String?,
@@ -223,8 +251,12 @@ GlassfyPurchaseHistory _$GlassfyPurchaseHistoryFromJson(
       json['skuId'] as String?,
       $enumDecodeNullable(_$GlassfyEventTypeEnumMap, json['type']),
       $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
-      json['purchaseDate'] as int?,
-      json['expireDate'] as int?,
+      json['purchaseDate'] == null
+          ? null
+          : DateTime.parse(json['purchaseDate'] as String),
+      json['expireDate'] == null
+          ? null
+          : DateTime.parse(json['expireDate'] as String),
       json['transactionId'] as String?,
       json['subscriberId'] as String?,
       json['currencyCode'] as String?,
@@ -244,8 +276,8 @@ Map<String, dynamic> _$GlassfyPurchaseHistoryToJson(
       'skuId': instance.skuId,
       'type': _$GlassfyEventTypeEnumMap[instance.type],
       'store': _$GlassfyStoreEnumMap[instance.store],
-      'purchaseDate': instance.purchaseDate,
-      'expireDate': instance.expireDate,
+      'purchaseDate': instance.purchaseDate?.toIso8601String(),
+      'expireDate': instance.expireDate?.toIso8601String(),
       'transactionId': instance.transactionId,
       'subscriberId': instance.subscriberId,
       'currencyCode': instance.currencyCode,
@@ -288,7 +320,9 @@ GlassfyPermission _$GlassfyPermissionFromJson(Map<String, dynamic> json) =>
       json['permissionId'] as String?,
       $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
       json['isValid'] as bool?,
-      json['expireDate'] as int?,
+      json['expireDate'] == null
+          ? null
+          : DateTime.parse(json['expireDate'] as String),
       (json['accountableSkus'] as List<dynamic>?)
           ?.map(
               (e) => GlassfyAccountableSku.fromJson(e as Map<String, dynamic>))
@@ -300,7 +334,7 @@ Map<String, dynamic> _$GlassfyPermissionToJson(GlassfyPermission instance) =>
       'permissionId': instance.permissionId,
       'entitlement': _$GlassfyEntitlementEnumMap[instance.entitlement],
       'isValid': instance.isValid,
-      'expireDate': instance.expireDate,
+      'expireDate': instance.expireDate?.toIso8601String(),
       'accountableSkus':
           instance.accountableSkus?.map((e) => e.toJson()).toList(),
     };
@@ -328,7 +362,9 @@ GlassfyPermissions _$GlassfyPermissionsFromJson(Map<String, dynamic> json) =>
       json['installationId'] as String?,
       json['subscriberId'] as String?,
       json['originalApplicationVersion'] as String?,
-      json['originalApplicationDate'] as int?,
+      json['originalApplicationDate'] == null
+          ? null
+          : DateTime.parse(json['originalApplicationDate'] as String),
       (json['all'] as List<dynamic>?)
           ?.map((e) => GlassfyPermission.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -339,7 +375,8 @@ Map<String, dynamic> _$GlassfyPermissionsToJson(GlassfyPermissions instance) =>
       'installationId': instance.installationId,
       'subscriberId': instance.subscriberId,
       'originalApplicationVersion': instance.originalApplicationVersion,
-      'originalApplicationDate': instance.originalApplicationDate,
+      'originalApplicationDate':
+          instance.originalApplicationDate?.toIso8601String(),
       'all': instance.all?.map((e) => e.toJson()).toList(),
     };
 
