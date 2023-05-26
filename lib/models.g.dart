@@ -174,34 +174,6 @@ Map<String, dynamic> _$GlassfySkuPaddleToJson(GlassfySkuPaddle instance) =>
       'extravars': instance.extravars,
     };
 
-GlassfyPaywall _$GlassfyPaywallFromJson(Map<String, dynamic> json) =>
-    GlassfyPaywall(
-      json['contentUrl'] as String?,
-      json['pwid'] as String?,
-      json['locale'] as String?,
-      $enumDecodeNullable(_$GlassfyPaywallTypeEnumMap, json['type']),
-      (json['skus'] as List<dynamic>?)
-          ?.map((e) => GlassfySku.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      json['config'] as Map<String, dynamic>,
-    );
-
-Map<String, dynamic> _$GlassfyPaywallToJson(GlassfyPaywall instance) =>
-    <String, dynamic>{
-      'contentUrl': instance.contentUrl,
-      'pwid': instance.pwid,
-      'locale': instance.locale,
-      'type': _$GlassfyPaywallTypeEnumMap[instance.type],
-      'skus': instance.skus?.map((e) => e.toJson()).toList(),
-      'config': instance.config,
-    };
-
-const _$GlassfyPaywallTypeEnumMap = {
-  GlassfyPaywallType.html: 'html',
-  GlassfyPaywallType.nocode: 'nocode',
-  GlassfyPaywallType.unknown: 'unknown',
-};
-
 GlassfyOffering _$GlassfyOfferingFromJson(Map<String, dynamic> json) =>
     GlassfyOffering(
       json['offeringId'] as String?,

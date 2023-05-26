@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'paywall.dart';
+import 'package:glassfy_flutter/paywall.dart';
 import 'models.dart';
-import 'package:http/http.dart' as http;
 
 typedef DidPurchaseListener = void Function(
   GlassfyTransaction transaction,
@@ -43,30 +43,6 @@ class Glassfy {
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
           {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.4.0"});
-
-  static Future<Widget> paywall({
-    required String remoteConfig,
-    void Function(GlassfyTransaction? transaction, Object? error)? onClose,
-    void Function(Uri url)? onLink,
-    void Function()? onRestore,
-    void Function(GlassfySku sku)? onPurchase,
-  }) async {
-    final remoteConfigId = {'remoteConfig': remoteConfig};
-    final config = await _channel.invokeMethod('paywall', remoteConfigId);
-    final paywall = GlassfyPaywall.fromJson(jsonDecode(config));
-
-    var preloadedContent = await http.get(Uri.parse(paywall.contentUrl ?? ""));
-
-    final view = PaywallView(
-      paywall: paywall,
-      preloadedContent: preloadedContent.body,
-      onClose: onClose,
-      onLink: onLink,
-      onRestore: onRestore,
-      onPurchase: onPurchase,
-    );
-    return view;
-  }
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
@@ -204,6 +180,17 @@ class Glassfy {
     DidPurchaseListener didPurchaseListenerListener,
   ) =>
       _didPurchaseListenerListeners.remove(didPurchaseListenerListener);
+
+  static void showPaywall(String remoteConfigId, bool awaitLoading) {
+    _channel.invokeMethod('showPaywall', {
+      'remoteConfig': remoteConfigId, 
+      'awaitLoading': awaitLoading
+    });
+  }
+
+  static void closePaywall() async {
+    await _channel.invokeMethod('closePaywall');
+  }
 
   static void openUrl(Uri url) async {
     await _channel.invokeMethod('openUrl', {'url': url.toString()});

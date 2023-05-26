@@ -94,17 +94,6 @@ enum GlassfyEventType {
   DisconnectLicense
 }
 
-enum GlassfyPaywallType {
-  @JsonValue("html")
-  html,
-
-  @JsonValue("nocode")
-  nocode,
-
-  @JsonValue("unknown")
-  unknown,
-}
-
 enum GlassfyStore {
   @JsonValue(1)
   storeAppStore,
@@ -344,22 +333,6 @@ class GlassfySkuPaddle extends GlassfySkuBase {
       _$GlassfySkuPaddleFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$GlassfySkuPaddleToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class GlassfyPaywall {
-  final String? contentUrl;
-  final String? pwid;
-  final String? locale;
-  final GlassfyPaywallType? type;
-  final List<GlassfySku>? skus;
-  final Map<String, dynamic> config;
-
-  GlassfyPaywall(this.contentUrl, this.pwid, this.locale, this.type, this.skus, this.config);
-
-  factory GlassfyPaywall.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyPaywallFromJson(json);
-  Map<String, dynamic> toJson() => _$GlassfyPaywallToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

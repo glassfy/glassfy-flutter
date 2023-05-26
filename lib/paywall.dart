@@ -1,173 +1,120 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:glassfy_flutter/glassfy_flutter.dart';
 import 'package:glassfy_flutter/models.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:async';
+import 'dart:convert';
 
+class GlassfyPaywall {
+  static const EventChannel _eventChannel = EventChannel('paywallEvent');
+  static bool didSetupEventsChannel = false;
+  static PaywallListener? _listener;
 
-class PaywallView extends StatefulWidget {
-  final GlassfyPaywall paywall;
-  final String preloadedContent;
-  final void Function(GlassfyTransaction? transaction, Object? error)? onClose;
-  final void Function(Uri url)? onLink;
-  final void Function()? onRestore;
-  final void Function(GlassfySku sku)? onPurchase;
-  final Completer<void> pageLoadedCompleter = Completer<void>();
+  static Future<void> showPaywall(
+      {required String remoteConfig,
+      bool awaitLoading = true,
+      PaywallListener? listener}) async {
+    _listener = listener;
+    if (!didSetupEventsChannel) {
+      setupEventsChannel();
+    }
+    Glassfy.showPaywall(remoteConfig, awaitLoading);
+  }
 
-  PaywallView({
-    Key? key,
-    required this.paywall,
-    required this.preloadedContent,
-    this.onClose,
-    this.onLink,
-    this.onRestore,
-    this.onPurchase
-  }) : super(key: key);
+  static void setupEventsChannel() {
+    _eventChannel.receiveBroadcastStream().listen((event) {
+      Map<String, dynamic> map = jsonDecode(event);
+      var name = map['name'];
+      var payload = map['payload'];
 
-  @override
-  State<PaywallView> createState() => PaywallViewState();
+      switch (name) {
+        case 'onClose':
+          GlassfyTransaction? transaction;
+          try {
+            transaction = GlassfyTransaction.fromJson(payload['transaction']);
+          } catch (_) {}
+          var error = payload['error'];
+          _listener?.onClose(transaction, error);
+          break;
+
+        case 'onPurchase':
+          try {
+            var sku = GlassfySku.fromJson(payload['sku']);
+            _listener?.onPurchase(sku);
+          } catch (_) {}
+          break;
+
+        case 'onLink':
+          try {
+            Uri url = Uri.parse(payload['url']);
+            _listener?.onLink(url);
+          } catch (_) {}
+          break;
+
+        case 'onRestore':
+          _listener?.onRestore();
+          break;
+
+        default:
+          debugPrint('PAYWALL - Received unknwon event $name');
+      }
+    });
+  }
+
+  static void close() {
+    _listener = null;
+    Glassfy.closePaywall();
+  }
 }
 
-class PaywallViewState extends State<PaywallView> {
-  late final WebViewController controller;
-  var contentLoaded = false;
+class PaywallListener {
+  final Function(GlassfyTransaction?, dynamic)? onCloseCallback;
+  final Function(Uri)? onLinkCallback;
+  final Function()? onRestoreCallback;
+  final Function(GlassfySku)? onPurchaseCallback;
 
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadHtmlString(widget.preloadedContent, baseUrl: widget.paywall.contentUrl)
-      ..removeJavaScriptChannel("AndroidHandler")
-      ..addJavaScriptChannel("AndroidHandler",
-          onMessageReceived: (JavaScriptMessage message) {
-        onPostedMessage(message);
-      })
-      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {
-        onPageFinished(url);
-      }));
-  }
+  PaywallListener({
+    this.onCloseCallback,
+    this.onLinkCallback,
+    this.onRestoreCallback,
+    this.onPurchaseCallback,
+  });
 
-  void onPageFinished(String url) {
-    if (url != widget.paywall.contentUrl || contentLoaded) {
-      return;
+  void onClose(GlassfyTransaction? transaction, dynamic error) async {
+    if (onCloseCallback != null) {
+      onCloseCallback!(transaction, error);
+    } else {
+      GlassfyPaywall.close();
     }
-    contentLoaded = true;
-    initializeJs();
-  }
-
-  Future<String> uiStyle() async {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
-    return isDarkMode ? 'dark' : 'light';
-  }
-
-  void initializeJs() async {
-    final script = buildJSCode('setSkuDetails', widget.paywall.config);
-    if (script.isNotEmpty == true) {
-      controller.runJavaScript(script);
-    }
-  }
-
-  String buildJSCode(String action, Map<String, dynamic> data) {
-    final jsonObject = {'action': action, 'data': data};
-    final jsonString = jsonEncode(jsonObject);
-    final bytes = utf8.encode(jsonString);
-    final base64String = base64.encode(bytes);
-    return "callJs('$base64String');";
-  }
-
-  void onPostedMessage(JavaScriptMessage message) {
-    final msg = jsonDecode(message.message);
-    debugPrint('PAYWALL - postMessage ${msg['action']}');
-    switch (msg['action']) {
-      case 'restore':
-        onRestore();
-        break;
-      case 'link':
-        final urlStr = msg['data']?['url'] as String?;
-        if (urlStr == null || urlStr.isEmpty) {
-          debugPrint('PAYWALL Link action: url is missing');
-          return;
-        }
-        try {
-          final url = Uri.parse(urlStr);
-          onLink(url);
-        } catch (e) {
-          debugPrint('PAYWALL Link action: url malformed');
-        }
-        break;
-      case 'purchase':
-        final skuId = msg['data']?['sku'] as String?;
-        if (skuId == null || skuId.isEmpty) {
-          debugPrint('PAYWALL Purchase action: SKU is missing');
-          return;
-        }
-        onPurchaseAction(skuId);
-        break;
-      case 'close':
-        onClose(null, null);
-        break;
-      case '':
-        debugPrint('PAYWALL Missing action from paywall\'s js');
-        break;
-      default:
-        debugPrint('PAYWALL Paywall message not handled');
-    }
-  }
-
-  void postMessage(String text) {
-    controller.runJavaScript('window.alert("$text")');
-  }
-
-  void onClose(GlassfyTransaction? transaction, Object? error) {
-    widget.onClose?.call(transaction, error);
   }
 
   void onLink(Uri url) async {
-    if (widget.onLink != null) {
-      widget.onLink?.call(url);
-      return;
+    if (onLinkCallback != null) {
+      onLinkCallback!(url);
+    } else {
+      Glassfy.openUrl(url);
     }
-    Glassfy.openUrl(url);
   }
 
   void onRestore() async {
-    if (widget.onRestore != null) {
-      widget.onRestore?.call();
-      return;
-    }
-    try {
+    if (onRestoreCallback != null) {
+      onRestoreCallback!();
+    } else {
       await Glassfy.restorePurchases();
       onClose(null, null);
-    } catch (error) {
-      onClose(null, error);
     }
   }
 
   void onPurchase(GlassfySku sku) async {
-    if (widget.onPurchase != null) {
-      widget.onPurchase?.call(sku);
-      return;
+    if (onPurchaseCallback != null) {
+      onPurchaseCallback!(sku);
+    } else {
+      try {
+        final transaction = await Glassfy.purchaseSku(sku);
+        onClose(transaction, null);
+      } catch (error) {
+        onClose(null, error);
+      }
     }
-    try {
-      var transaction = await Glassfy.purchaseSku(sku);
-      onClose(transaction, null);
-    } catch (error) {
-      onClose(null, error);
-    }
-  }
-
-  void onPurchaseAction(String skuId) async {
-    final sku = widget.paywall.skus?.firstWhere((s) => s.skuId == skuId);
-    if (sku != null) {
-      onPurchase(sku);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return WebViewWidget(controller: controller);
   }
 }
