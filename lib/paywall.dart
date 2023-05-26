@@ -35,6 +35,7 @@ class GlassfyPaywall {
           } catch (_) {}
           var error = payload['error'];
           _listener?.onClose(transaction, error);
+          GlassfyPaywall.close();
           break;
 
         case 'onPurchase':
@@ -83,8 +84,6 @@ class PaywallListener {
   void onClose(GlassfyTransaction? transaction, dynamic error) async {
     if (onCloseCallback != null) {
       onCloseCallback!(transaction, error);
-    } else {
-      GlassfyPaywall.close();
     }
   }
 
