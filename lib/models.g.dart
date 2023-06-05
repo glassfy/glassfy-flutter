@@ -34,7 +34,7 @@ const _$GlassfyAttributionEnumMap = {
 GlassfyProductDiscount _$GlassfyProductDiscountFromJson(
         Map<String, dynamic> json) =>
     GlassfyProductDiscount(
-      json['price'] as num?,
+      json['price'] == null ? null : Decimal.fromJson(json['price'] as String),
       json['period'] as String?,
       json['numberOfPeriods'] as int?,
       json['type'] as String?,
@@ -43,7 +43,7 @@ GlassfyProductDiscount _$GlassfyProductDiscountFromJson(
 Map<String, dynamic> _$GlassfyProductDiscountToJson(
         GlassfyProductDiscount instance) =>
     <String, dynamic>{
-      'price': instance.price,
+      'price': instance.price?.toJson(),
       'period': instance.period,
       'numberOfPeriods': instance.numberOfPeriods,
       'type': instance.type,
@@ -53,7 +53,7 @@ GlassfyProduct _$GlassfyProductFromJson(Map<String, dynamic> json) =>
     GlassfyProduct(
       json['description'] as String?,
       json['currencyCode'] as String?,
-      json['price'] as num?,
+      json['price'] == null ? null : Decimal.fromJson(json['price'] as String),
       json['introductoryPrice'] == null
           ? null
           : GlassfyProductDiscount.fromJson(
@@ -68,7 +68,7 @@ Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
     <String, dynamic>{
       'description': instance.description,
       'currencyCode': instance.currencyCode,
-      'price': instance.price,
+      'price': instance.price?.toJson(),
       'introductoryPrice': instance.introductoryPrice?.toJson(),
       'discounts': instance.discounts?.map((e) => e.toJson()).toList(),
     };

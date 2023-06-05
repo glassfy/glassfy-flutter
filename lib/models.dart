@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:decimal/decimal.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
@@ -227,31 +229,75 @@ class GlassfyAttributionItem {
 
 @JsonSerializable(explicitToJson: true)
 class GlassfyProductDiscount {
-  final num? price;
+  final Decimal? price;
   final String? period;
   final int? numberOfPeriods;
   final String? type;
 
   GlassfyProductDiscount(
       this.price, this.period, this.numberOfPeriods, this.type);
-  factory GlassfyProductDiscount.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyProductDiscountFromJson(json);
-  Map<String, dynamic> toJson() => _$GlassfyProductDiscountToJson(this);
+
+  factory GlassfyProductDiscount.fromJson(Map<String, dynamic> json) {
+    var price = json['price'];
+    return GlassfyProductDiscount(
+      price == null ? null : Decimal.parse(price is num ? price.toString() : price),
+      json['period'] as String?,
+      json['numberOfPeriods'] as int?,
+      json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'price': price?.toString(),
+      'period': period,
+      'numberOfPeriods': numberOfPeriods,
+      'type': type,
+    };
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
 class GlassfyProduct {
   final String? description;
   final String? currencyCode;
-  final num? price;
+  final Decimal? price;
   final GlassfyProductDiscount? introductoryPrice;
   final List<GlassfyProductDiscount>? discounts;
 
-  GlassfyProduct(this.description, this.currencyCode, this.price,
-      this.introductoryPrice, this.discounts);
-  factory GlassfyProduct.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyProductFromJson(json);
-  Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);
+  GlassfyProduct(
+    this.description,
+    this.currencyCode,
+    this.price,
+    this.introductoryPrice,
+    this.discounts,
+  );
+
+  factory GlassfyProduct.fromJson(Map<String, dynamic> json) {
+    var price = json['price'];
+    return GlassfyProduct(
+      json['description'] as String?,
+      json['currencyCode'] as String?,
+      price == null ? null : Decimal.parse(price is num ? price.toString() : price),
+      json['introductoryPrice'] == null
+          ? null
+          : GlassfyProductDiscount.fromJson(json['introductoryPrice'] as Map<String, dynamic>),
+      (json['discounts'] as List<dynamic>?)
+          ?.map((item) =>
+              GlassfyProductDiscount.fromJson(item as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'description': description,
+      'currencyCode': currencyCode,
+      'price': price?.toString(),
+      'introductoryPrice': introductoryPrice?.toJson(),
+      'discounts': discounts?.map((item) => item.toJson()).toList(),
+    };
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
