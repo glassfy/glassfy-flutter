@@ -257,13 +257,9 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     sendEvent(eventName, payload)
                 }
 
-                GlassfyPaywall.fragment(
-                    remoteConfig,
-                    activity,
-                    listener,
-                    awaitLoading
-                ) { paywall, error ->
+                GlassfyPaywall.fragment(remoteConfig, awaitLoading) { paywall, error ->
                     if (paywall != null) {
+                        paywall?.listener = listener
                         paywall?.show(fragmentActivity.supportFragmentManager, "paywall")
                         paywallFragment = paywall
                         paywallListener = listener
