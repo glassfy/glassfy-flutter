@@ -259,7 +259,10 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                 GlassfyPaywall.fragment(remoteConfig, awaitLoading) { paywall, error ->
                     if (paywall != null) {
-                        paywall?.listener = listener
+                        paywall?.setCloseHandler(listener.onClose)
+                        paywall?.setPurchaseHandler(listener.onPurchase)
+                        paywall?.setRestoreHandler(listener.onRestore)
+                        paywall?.setLinkHandler(listener.onLink)
                         paywall?.show(fragmentActivity.supportFragmentManager, "paywall")
                         paywallFragment = paywall
                         paywallListener = listener
@@ -271,11 +274,7 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             "closePaywall" -> {
-                activity.runOnUiThread {
-                    paywallFragment?.dismiss()
-                    paywallFragment = null
-                    paywallListener = null
-                }
+                closePaywall()
             }
 
             "openUrl" -> {
@@ -292,6 +291,14 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             else -> {
                 result.notImplemented()
             }
+        }
+    }
+
+    internal fun closePaywall() {
+        activity.runOnUiThread {
+            paywallFragment?.dismiss()
+            paywallFragment = null
+            paywallListener = null
         }
     }
 

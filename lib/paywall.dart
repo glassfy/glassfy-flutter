@@ -114,6 +114,8 @@ class PaywallListener {
       } catch (error) {
         onClose(null, error);
       }
+      GlassfyPaywall._listener = null;
+      GlassfyPaywall.close();
     }
   }
 }
