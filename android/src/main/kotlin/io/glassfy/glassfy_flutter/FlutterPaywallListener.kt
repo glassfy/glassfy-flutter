@@ -11,7 +11,7 @@ import org.json.JSONObject
 
 class FlutterPaywallListener(private val handler: (String, JSONObject) -> Unit) {
     val onClose: (Transaction?, GlassfyError?) -> Unit = { transaction, error -> 
-        Log.d("FlutteractPaywallListener", "onClose")
+        Log.d("FlutterPaywallListener", "onClose")
         val payload = JSONObject().apply {
             put("transaction", transaction?.encodedJson())
             put("error", error?.toString())
