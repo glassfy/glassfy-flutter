@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'models.dart';
 
@@ -39,11 +39,8 @@ class Glassfy {
   }
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
-      _channel.invokeMethod('initialize', {
-        'apiKey': apiKey,
-        'watcherMode': watcherMode,
-        'version': "1.3.9"
-      });
+      _channel.invokeMethod('initialize',
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.4.0"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
@@ -148,14 +145,16 @@ class Glassfy {
         'connectCustomSubscriber', {'subscriberId': subscriberId});
   }
 
-  static Future<void> connectPaddleLicenseKey(String licenseKey, [force = false]) async {
+  static Future<void> connectPaddleLicenseKey(String licenseKey,
+      [force = false]) async {
     await _channel.invokeMethod(
         'connectPaddleLicenseKey', {'licenseKey': licenseKey, 'force': force});
   }
 
-  static Future<void> connectGlassfyUniversalCode(String universalCode, [force = false]) async {
-    await _channel.invokeMethod(
-        'connectGlassfyUniversalCode', {'universalCode': universalCode, 'force': force});
+  static Future<void> connectGlassfyUniversalCode(String universalCode,
+      [force = false]) async {
+    await _channel.invokeMethod('connectGlassfyUniversalCode',
+        {'universalCode': universalCode, 'force': force});
   }
 
   static Future<void> setAttribution(
@@ -179,4 +178,19 @@ class Glassfy {
     DidPurchaseListener didPurchaseListenerListener,
   ) =>
       _didPurchaseListenerListeners.remove(didPurchaseListenerListener);
+
+  static void showPaywall(String remoteConfigId, bool awaitLoading) {
+    _channel.invokeMethod('showPaywall', {
+      'remoteConfig': remoteConfigId, 
+      'awaitLoading': awaitLoading
+    });
+  }
+
+  static void closePaywall() async {
+    await _channel.invokeMethod('closePaywall');
+  }
+
+  static void openUrl(Uri url) async {
+    await _channel.invokeMethod('openUrl', {'url': url.toString()});
+  }
 }

@@ -63,7 +63,7 @@ enum GlassfyEventType {
 
   @JsonValue(5004)
   Expired,
-  
+
   @JsonValue(5005)
   DidChangeRenewalStatus,
 
@@ -285,9 +285,7 @@ class GlassfyAccountableSku extends GlassfySkuBase {
 class GlassfySku extends GlassfySkuBase {
   final GlassfyElegibility? introductoryEligibility;
   final GlassfyElegibility? promotionalEligibility;
-
   final GlassfyProduct? product;
-
   final Map<String, dynamic>? extravars;
 
   GlassfySku(
@@ -363,7 +361,8 @@ class GlassfyOfferings {
 class GlassfyPurchasesHistory {
   List<GlassfyPurchaseHistory>? all;
 
-  factory GlassfyPurchasesHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchasesHistoryFromJson(json);
+  factory GlassfyPurchasesHistory.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyPurchasesHistoryFromJson(json);
 
   GlassfyPurchasesHistory(this.all);
 
@@ -377,8 +376,8 @@ class GlassfyPurchaseHistory {
   final String? skuId;
   final GlassfyEventType? type;
   final GlassfyStore? store;
-  final int? purchaseDate;
-  final int? expireDate;
+  DateTime? purchaseDate;
+  DateTime? expireDate;
   final String? transactionId;
   final String? subscriberId;
   final String? currencyCode;
@@ -390,25 +389,44 @@ class GlassfyPurchaseHistory {
   final String? webOrderLineItemId;
 
   GlassfyPurchaseHistory(
-    this.offeringId,
-    this.productId,
-    this.skuId,
-    this.type,
-    this.store,
-    this.purchaseDate,
-    this.expireDate,
-    this.transactionId,
-    this.subscriberId,
-    this.currencyCode,
-    this.countryCode,
-    this.isInIntroOfferPeriod,
-    this.promotionalOfferId,
-    this.offerCodeRefName,
-    this.licenseCode,
-    this.webOrderLineItemId
-  );
+      this.offeringId,
+      this.productId,
+      this.skuId,
+      this.type,
+      this.store,
+      this.purchaseDate,
+      this.expireDate,
+      this.transactionId,
+      this.subscriberId,
+      this.currencyCode,
+      this.countryCode,
+      this.isInIntroOfferPeriod,
+      this.promotionalOfferId,
+      this.offerCodeRefName,
+      this.licenseCode,
+      this.webOrderLineItemId);
 
-  factory GlassfyPurchaseHistory.fromJson(Map<String, dynamic> json) => _$GlassfyPurchaseHistoryFromJson(json);
+  factory GlassfyPurchaseHistory.fromJson(Map<String, dynamic> json) {
+    return GlassfyPurchaseHistory(
+      json['offeringId'] as String?,
+      json['productId'] as String?,
+      json['skuId'] as String?,
+      $enumDecodeNullable(_$GlassfyEventTypeEnumMap, json['type']),
+      $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
+      _dateTimeFromJsonEpoch(json, 'purchaseDate'),
+      _dateTimeFromJsonEpoch(json, 'expireDate'),
+      json['transactionId'] as String?,
+      json['subscriberId'] as String?,
+      json['currencyCode'] as String?,
+      json['countryCode'] as String?,
+      json['isInIntroOfferPeriod'] as bool?,
+      json['promotionalOfferId'] as String?,
+      json['offerCodeRefName'] as String?,
+      json['licenseCode'] as String?,
+      json['webOrderLineItemId'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() => _$GlassfyPurchaseHistoryToJson(this);
 }
 
@@ -428,13 +446,25 @@ class GlassfyPermission {
   final String? permissionId;
   final GlassfyEntitlement? entitlement;
   final bool? isValid;
-  final int? expireDate;
+  DateTime? expireDate;
   final List<GlassfyAccountableSku>? accountableSkus;
 
   GlassfyPermission(this.permissionId, this.entitlement, this.isValid,
       this.expireDate, this.accountableSkus);
-  factory GlassfyPermission.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyPermissionFromJson(json);
+
+  factory GlassfyPermission.fromJson(Map<String, dynamic> json) {
+    return GlassfyPermission(
+      json['permissionId'] as String?,
+      $enumDecodeNullable(_$GlassfyEntitlementEnumMap, json['entitlement']),
+      json['isValid'] as bool?,
+      _dateTimeFromJsonEpoch(json, 'expireDate'),
+      (json['accountableSkus'] as List<dynamic>?)
+          ?.map(
+              (e) => GlassfyAccountableSku.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() => _$GlassfyPermissionToJson(this);
 }
 
@@ -443,13 +473,24 @@ class GlassfyPermissions {
   final String? installationId;
   final String? subscriberId;
   final String? originalApplicationVersion;
-  final int? originalApplicationDate;
+  DateTime? originalApplicationDate;
   List<GlassfyPermission>? all;
 
   GlassfyPermissions(this.installationId, this.subscriberId,
       this.originalApplicationVersion, this.originalApplicationDate, this.all);
-  factory GlassfyPermissions.fromJson(Map<String, dynamic> json) =>
-      _$GlassfyPermissionsFromJson(json);
+
+  factory GlassfyPermissions.fromJson(Map<String, dynamic> json) {
+    return GlassfyPermissions(
+      json['installationId'] as String?,
+      json['subscriberId'] as String?,
+      json['originalApplicationVersion'] as String?,
+      _dateTimeFromJsonEpoch(json, 'originalApplicationDate'),
+      (json['all'] as List<dynamic>?)
+          ?.map((e) => GlassfyPermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() => _$GlassfyPermissionsToJson(this);
 }
 
@@ -465,4 +506,15 @@ class GlassfyTransaction {
   factory GlassfyTransaction.fromJson(Map<String, dynamic> json) =>
       _$GlassfyTransactionFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyTransactionToJson(this);
+}
+
+DateTime? _dateTimeFromJsonEpoch(Map<String, dynamic> json, String key) {
+  var epoch = json[key];
+  if (epoch == null) {
+    return null;
+  }
+  if (epoch is String) {
+    epoch = int.tryParse(epoch);
+  }
+  return DateTime.fromMillisecondsSinceEpoch((epoch * 1000).round());
 }
