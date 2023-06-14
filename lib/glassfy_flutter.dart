@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:glassfy_flutter/paywall.dart';
 import 'models.dart';
 
 typedef DidPurchaseListener = void Function(
