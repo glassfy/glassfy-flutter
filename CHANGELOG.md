@@ -1,3 +1,6 @@
+## 1.5.0
+- Add support for Glassfy Android SDK 1.5.0
+- Support for Google Play Billing 5
 ## 1.4.0
 - Increased Android minSdkVersion to api level 24
 - Add support for Glassfy iOS SDK 1.4.0

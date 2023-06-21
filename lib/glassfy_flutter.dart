@@ -40,7 +40,7 @@ class Glassfy {
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
-          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.4.0"});
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.5.0"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
@@ -180,10 +180,8 @@ class Glassfy {
       _didPurchaseListenerListeners.remove(didPurchaseListenerListener);
 
   static void showPaywall(String remoteConfigId, bool awaitLoading) {
-    _channel.invokeMethod('showPaywall', {
-      'remoteConfig': remoteConfigId, 
-      'awaitLoading': awaitLoading
-    });
+    _channel.invokeMethod('showPaywall',
+        {'remoteConfig': remoteConfigId, 'awaitLoading': awaitLoading});
   }
 
   static void closePaywall() async {
