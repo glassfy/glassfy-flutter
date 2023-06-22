@@ -138,6 +138,11 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
 
             "purchaseSku" -> {
+                if (!this::activity.isInitialized) {
+                    result.error("Activity context is needed to successfully purchase a sku", null, null)
+                    return
+                }
+
                 val sku: HashMap<String, String>? = call.argument("sku")
                 val skuToUpgrade: HashMap<String, Any>? = call.argument("skuToUpgrade")
                 val skuId = sku?.get("skuId");
