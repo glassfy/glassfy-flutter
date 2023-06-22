@@ -1,6 +1,6 @@
 name: glassfy_flutter
 description: Flutter plugin for Glassfy, build in-app purchases in minutes and offload the complexity of managing subscriptions and on-time purchases. Supports iOS, macOS and Android.
-version: 1.5.0
+version: 1.5.1
 homepage: https://github.com/glassfy/glassfy-flutter
 
 environment:

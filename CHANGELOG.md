@@ -1,3 +1,6 @@
+## 1.5.1
+- Removed http dependency
+- Throw error on `purchaseSku` from non-activity context
 ## 1.5.0
 - Add support for Glassfy Android SDK 1.5.0
 - Support for Google Play Billing 5
