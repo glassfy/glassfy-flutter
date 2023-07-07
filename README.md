@@ -14,7 +14,7 @@ To use this plugin, add glassfy_flutter in your `pubspec.yaml`
 
 ```
 dependencies:
-glassfy_flutter: ^1.5.1
+glassfy_flutter: ^1.5.2
 ```
 
 Or install automatically using this command

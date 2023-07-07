@@ -1,3 +1,5 @@
+## 1.5.2
+- Fixed link issues on macos
 ## 1.5.1
 - Removed http dependency
 - Throw error on `purchaseSku` from non-activity context
