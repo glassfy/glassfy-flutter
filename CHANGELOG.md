@@ -1,3 +1,5 @@
+## 1.5.3
+- Fixed sku encoding
 ## 1.5.2
 - Fixed link issues on macos
 ## 1.5.1

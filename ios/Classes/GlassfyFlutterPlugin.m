@@ -171,7 +171,11 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
                                                awaitLoading:awaitLoading
                                                  completion:^(GYPaywallViewController * _Nullable viewController, NSError * _Nullable error) {
         if (error != nil) {
-            result(error);
+            FlutterError *ferror = [FlutterError
+                                    errorWithCode:[NSString stringWithFormat:@"%ld", (long)error.code]
+                                    message:error.localizedDescription
+                                    details:error.description];
+            result(ferror);
             return;
         }
         self.paywallViewController = viewController;
