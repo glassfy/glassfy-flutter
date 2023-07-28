@@ -246,9 +246,10 @@ class GlassfyProduct {
   final num? price;
   final GlassfyProductDiscount? introductoryPrice;
   final List<GlassfyProductDiscount>? discounts;
+  final String? period;
 
   GlassfyProduct(this.description, this.currencyCode, this.price,
-      this.introductoryPrice, this.discounts);
+      this.introductoryPrice, this.discounts, this.period);
   factory GlassfyProduct.fromJson(Map<String, dynamic> json) =>
       _$GlassfyProductFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);

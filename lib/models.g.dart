@@ -62,6 +62,7 @@ GlassfyProduct _$GlassfyProductFromJson(Map<String, dynamic> json) =>
           ?.map(
               (e) => GlassfyProductDiscount.fromJson(e as Map<String, dynamic>))
           .toList(),
+      json['period'] as String?,
     );
 
 Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
@@ -71,6 +72,7 @@ Map<String, dynamic> _$GlassfyProductToJson(GlassfyProduct instance) =>
       'price': instance.price,
       'introductoryPrice': instance.introductoryPrice?.toJson(),
       'discounts': instance.discounts?.map((e) => e.toJson()).toList(),
+      'period': instance.period,
     };
 
 GlassfySkuBase _$GlassfySkuBaseFromJson(Map<String, dynamic> json) =>
