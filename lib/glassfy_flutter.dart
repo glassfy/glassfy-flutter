@@ -40,7 +40,7 @@ class Glassfy {
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
-          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.5.3"});
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.5.4"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
