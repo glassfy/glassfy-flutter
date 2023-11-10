@@ -147,14 +147,14 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val skuToUpgrade: HashMap<String, Any>? = call.argument("skuToUpgrade")
                 val skuId = sku?.get("skuId");
                 var subscriptionUpdateId: String? = null
-                var proration: Int? = null
+                var replacementMode: Int? = null
                 if (skuToUpgrade != null) {
                     subscriptionUpdateId = skuToUpgrade.get("skuId") as String?;
                     if (subscriptionUpdateId == null) {
                         result.error("Invalid skuToUpgrade", null, null)
                         return
                     }
-                    proration = call.argument("prorationMode")
+                    replacementMode = call.argument("replacementMode")
                 }
                 if (skuId == null) {
                     result.error("Invalid SKU", null, null)
@@ -165,7 +165,7 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     activity,
                     skuId,
                     subscriptionUpdateId,
-                    proration
+                    replacementMode
                 ) { v, e -> pluginCompletion(result, v, e) }
             }
 

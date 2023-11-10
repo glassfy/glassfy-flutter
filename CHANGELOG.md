@@ -1,3 +1,7 @@
+## 1.6.0
+
+- Add support for Glassfy Android SDK 1.6.0
+
 ## 1.5.4
 
 - Update Android SDK to support improved WatcherMode
