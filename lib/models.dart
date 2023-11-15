@@ -109,40 +109,40 @@ enum GlassfyStore {
   storeGlassfy,
 }
 
-enum GlassfyProrationMode {
+enum GlassfyReplacementMode {
   @JsonValue(0)
-  unKnownUpgradeDowngradePolicy,
+  unknownReplacementMode,
 
   @JsonValue(1)
-  immediateWithTimeProration,
+  withTimeProration,
 
   @JsonValue(2)
-  immediateWithChargeProratedPrice,
+  chargeProratedPrice,
 
   @JsonValue(3)
-  immediateWithoutProration,
-
-  @JsonValue(4)
-  deferred,
+  withoutProration,
 
   @JsonValue(5)
-  immediateAndChargeFullPrice,
+  chargeFullPrice,
+
+  @JsonValue(6)
+  deferred,
 }
 
-int glassfyProrationModeToInt(GlassfyProrationMode mode) {
+int glassfyReplacementModeToInt(GlassfyReplacementMode mode) {
   switch (mode) {
-    case GlassfyProrationMode.unKnownUpgradeDowngradePolicy:
+    case GlassfyReplacementMode.unknownReplacementMode:
       return 0;
-    case GlassfyProrationMode.immediateWithTimeProration:
+    case GlassfyReplacementMode.withTimeProration:
       return 1;
-    case GlassfyProrationMode.immediateWithChargeProratedPrice:
+    case GlassfyReplacementMode.chargeProratedPrice:
       return 2;
-    case GlassfyProrationMode.immediateWithoutProration:
+    case GlassfyReplacementMode.withoutProration:
       return 3;
-    case GlassfyProrationMode.deferred:
-      return 4;
-    case GlassfyProrationMode.immediateAndChargeFullPrice:
+    case GlassfyReplacementMode.chargeFullPrice:
       return 5;
+    case GlassfyReplacementMode.deferred:
+      return 6;
     default:
       return -1;
   }
@@ -247,9 +247,10 @@ class GlassfyProduct {
   final GlassfyProductDiscount? introductoryPrice;
   final List<GlassfyProductDiscount>? discounts;
   final String? period;
+  final String? basePlanId;
 
   GlassfyProduct(this.description, this.currencyCode, this.price,
-      this.introductoryPrice, this.discounts, this.period);
+      this.introductoryPrice, this.discounts, this.period, this.basePlanId);
   factory GlassfyProduct.fromJson(Map<String, dynamic> json) =>
       _$GlassfyProductFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);
@@ -271,9 +272,17 @@ class GlassfySkuBase {
 class GlassfyAccountableSku extends GlassfySkuBase {
   final bool? isInTrialPeriod;
   final bool? isInIntroOfferPeriod;
+  final String? basePlanId;
+  final String? offerId;
 
-  GlassfyAccountableSku(String? skuId, String? productId, GlassfyStore? store,
-      this.isInTrialPeriod, this.isInIntroOfferPeriod)
+  GlassfyAccountableSku(
+      String? skuId,
+      String? productId,
+      GlassfyStore? store,
+      this.isInTrialPeriod,
+      this.isInIntroOfferPeriod,
+      this.basePlanId,
+      this.offerId)
       : super(skuId, productId, store);
 
   factory GlassfyAccountableSku.fromJson(Map<String, dynamic> json) =>
@@ -288,6 +297,9 @@ class GlassfySku extends GlassfySkuBase {
   final GlassfyElegibility? promotionalEligibility;
   final GlassfyProduct? product;
   final Map<String, dynamic>? extravars;
+  final String? basePlanId;
+  final String? offerId;
+  final GlassfyProductDiscount? discount;
 
   GlassfySku(
       String? skuId,
@@ -296,7 +308,10 @@ class GlassfySku extends GlassfySkuBase {
       this.introductoryEligibility,
       this.promotionalEligibility,
       this.product,
-      this.extravars)
+      this.extravars,
+      this.basePlanId,
+      this.offerId,
+      this.discount)
       : super(skuId, productId, store);
 
   factory GlassfySku.fromJson(Map<String, dynamic> json) =>

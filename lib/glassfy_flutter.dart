@@ -40,7 +40,7 @@ class Glassfy {
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
-          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.5.4"});
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.6.0"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
@@ -103,12 +103,12 @@ class Glassfy {
 
   static Future<GlassfyTransaction> purchaseSku(GlassfySku sku,
       [GlassfySku? skuToUpgrade,
-      GlassfyProrationMode prorationMode =
-          GlassfyProrationMode.immediateWithTimeProration]) async {
+      GlassfyReplacementMode prorationMode =
+          GlassfyReplacementMode.withTimeProration]) async {
     final param = {
       'sku': sku.toJson(),
       'skuToUpgrade': skuToUpgrade?.toJson(),
-      'prorationMode': glassfyProrationModeToInt(prorationMode),
+      'replacementMode': glassfyReplacementModeToInt(prorationMode),
     };
 
     final json = await _channel.invokeMethod('purchaseSku', param);
