@@ -15,14 +15,14 @@ class Glassfy {
     ..setMethodCallHandler((call) async {
       switch (call.method) {
         case 'gy_did_purchase_product':
-          for (final listener in _didPurchaseListenerListeners) {
-            try {
-              final transaction =
-                  GlassfyTransaction.fromJson(jsonDecode(call.arguments));
+          try{
+            final transaction =
+            GlassfyTransaction.fromJson(jsonDecode(call.arguments));
+            for (final listener in _didPurchaseListenerListeners) {
               listener(transaction);
-            } catch (e) {
-              debugPrint("Invalid didPurchaseListner Argument");
             }
+          } catch(e){
+            debugPrint("Invalid didPurchaseListner Argument");
           }
           break;
       }
