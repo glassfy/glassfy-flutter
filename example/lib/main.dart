@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     debugPrint("Setting up Glassfy SDK...");
 
     try {
-      const apiKey = "YOUR_API_KEY";
+      const apiKey = "50af3c1afb6f473bbaf1ad0d5fb19b41";
       Glassfy.setLogLevel(GlassfyLogLevel.logLevelAll);
       Glassfy.initialize(apiKey);
     } catch (error) {

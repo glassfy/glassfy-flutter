@@ -55,6 +55,20 @@ class _SkuItemState extends State<SkuItem> {
             child: Column(
               children: <Widget>[
                 Row(children: [
+                  const Text("Title"),
+                  Expanded(
+                      child: Container(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: Text("${sku.product?.title}")))
+                ]),
+                Row(children: [
+                  const Text("Description"),
+                  Expanded(
+                      child: Container(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: Text("${sku.product?.description}")))
+                ]),
+                Row(children: [
                   const Text("SkuId"),
                   Expanded(
                       child: Container(

@@ -1,3 +1,7 @@
+## 1.6.1
+
+- Add missing GlassfyProduct properties
+
 ## 1.6.0
 
 - Add support for Glassfy Android SDK 1.6.0

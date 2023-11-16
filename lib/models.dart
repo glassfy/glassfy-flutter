@@ -241,16 +241,26 @@ class GlassfyProductDiscount {
 
 @JsonSerializable(explicitToJson: true)
 class GlassfyProduct {
+  final String? title;
   final String? description;
-  final String? currencyCode;
+  final String? identifier;
+  final String? basePlanId;
   final num? price;
+  final String? currencyCode;
+  final String? period;
   final GlassfyProductDiscount? introductoryPrice;
   final List<GlassfyProductDiscount>? discounts;
-  final String? period;
-  final String? basePlanId;
 
-  GlassfyProduct(this.description, this.currencyCode, this.price,
-      this.introductoryPrice, this.discounts, this.period, this.basePlanId);
+  GlassfyProduct(
+      this.title,
+      this.description,
+      this.identifier,
+      this.basePlanId,
+      this.price,
+      this.currencyCode,
+      this.period,
+      this.introductoryPrice,
+      this.discounts);
   factory GlassfyProduct.fromJson(Map<String, dynamic> json) =>
       _$GlassfyProductFromJson(json);
   Map<String, dynamic> toJson() => _$GlassfyProductToJson(this);

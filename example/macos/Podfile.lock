@@ -1,7 +1,7 @@
 PODS:
   - FlutterMacOS (1.0.0)
   - Glassfy (1.4.0)
-  - glassfy_flutter (1.6.0):
+  - glassfy_flutter (1.6.1):
     - FlutterMacOS
     - GlassfyGlue (= 1.4.0)
   - GlassfyGlue (1.4.0):

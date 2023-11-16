@@ -15,13 +15,13 @@ class Glassfy {
     ..setMethodCallHandler((call) async {
       switch (call.method) {
         case 'gy_did_purchase_product':
-          try{
+          try {
             final transaction =
-            GlassfyTransaction.fromJson(jsonDecode(call.arguments));
+                GlassfyTransaction.fromJson(jsonDecode(call.arguments));
             for (final listener in _didPurchaseListenerListeners) {
               listener(transaction);
             }
-          } catch(e){
+          } catch (e) {
             debugPrint("Invalid didPurchaseListner Argument");
           }
           break;
@@ -40,7 +40,7 @@ class Glassfy {
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
-          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.6.0"});
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.6.1"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
