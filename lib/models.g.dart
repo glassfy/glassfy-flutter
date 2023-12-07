@@ -389,3 +389,49 @@ Map<String, dynamic> _$GlassfyTransactionToJson(GlassfyTransaction instance) =>
       'receiptValidated': instance.receiptValidated,
       'permissions': instance.permissions?.toJson(),
     };
+
+GlassfyStoreInfo _$GlassfyStoreInfoFromJson(Map<String, dynamic> json) =>
+    GlassfyStoreInfo(
+      store: $enumDecodeNullable(_$GlassfyStoreEnumMap, json['store']),
+      rawData: json['rawInfo'] as Map<String, dynamic>?,
+    );
+
+Map<String, dynamic> _$GlassfyStoreInfoToJson(GlassfyStoreInfo instance) =>
+    <String, dynamic>{
+      'store': _$GlassfyStoreEnumMap[instance.store],
+      'rawInfo': instance.rawData,
+    };
+
+GlassfyStoreInfoPaddle _$GlassfyStoreInfoPaddleFromJson(
+        Map<String, dynamic> json) =>
+    GlassfyStoreInfoPaddle(
+      json['userid'] as String?,
+      json['planId'] as String?,
+      json['subscriptionId'] as String?,
+      json['updateURL'] as String?,
+      json['cancelURL'] as String?,
+      json['rawInfo'] as Map<String, dynamic>?,
+    );
+
+Map<String, dynamic> _$GlassfyStoreInfoPaddleToJson(
+        GlassfyStoreInfoPaddle instance) =>
+    <String, dynamic>{
+      'rawInfo': instance.rawData,
+      'userid': instance.userid,
+      'planId': instance.planId,
+      'subscriptionId': instance.subscriptionId,
+      'updateURL': instance.updateURL,
+      'cancelURL': instance.cancelURL,
+    };
+
+GlassfyStoresInfo _$GlassfyStoresInfoFromJson(Map<String, dynamic> json) =>
+    GlassfyStoresInfo(
+      (json['all'] as List<dynamic>?)
+          ?.map((e) => GlassfyStoreInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$GlassfyStoresInfoToJson(GlassfyStoresInfo instance) =>
+    <String, dynamic>{
+      'all': instance.all?.map((e) => e.toJson()).toList(),
+    };

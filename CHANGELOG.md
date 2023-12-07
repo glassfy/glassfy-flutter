@@ -1,3 +1,7 @@
+## 1.6.2
+
+- Support StoreInfo API
+
 ## 1.6.1
 
 - Add missing GlassfyProduct properties

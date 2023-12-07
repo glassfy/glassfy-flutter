@@ -236,6 +236,10 @@ class GlassfyFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 GlassfyGlue.setAttributions(items) { v, e -> pluginCompletion(result, v, e) }
             }
 
+            "storeInfo" -> {
+                GlassfyGlue.storeInfo() { v, e -> pluginCompletion(result, v, e) }
+            }
+
             "showPaywall" -> {
                 val fragmentActivity = this.fragmentActivity
                 val remoteConfig: String = call.argument("remoteConfig") ?: ""

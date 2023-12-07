@@ -1,5 +1,5 @@
 group 'io.glassfy.glassfy_flutter'
-version '1.6.1'
+version '1.6.2'
 
 buildscript {
     ext.kotlin_version = '1.8.10'
@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation("io.glassfy:androidglue:1.6.3")
+    implementation("io.glassfy:androidglue:1.6.4")
     implementation("io.glassfy:paywall:1.6.0")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

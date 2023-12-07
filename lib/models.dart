@@ -534,6 +534,55 @@ class GlassfyTransaction {
   Map<String, dynamic> toJson() => _$GlassfyTransactionToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
+class GlassfyStoreInfo {
+  final GlassfyStore? store;
+
+  @JsonKey(name: 'rawInfo')
+  final Map<String, dynamic>? rawData;
+
+  GlassfyStoreInfo({this.store, this.rawData});
+
+  factory GlassfyStoreInfo.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyStoreInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$GlassfyStoreInfoToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfyStoreInfoPaddle extends GlassfyStoreInfo {
+  final String? userid;
+  final String? planId;
+  final String? subscriptionId;
+  final String? updateURL;
+  final String? cancelURL;
+
+  GlassfyStoreInfoPaddle(this.userid, this.planId, this.subscriptionId,
+      this.updateURL, this.cancelURL, Map<String, dynamic>? rawData)
+      : super(store: GlassfyStore.storePaddle, rawData: rawData);
+
+  factory GlassfyStoreInfoPaddle.fromJson(Map<String, dynamic> json) =>
+      _$GlassfyStoreInfoPaddleFromJson(json);
+}
+
+@JsonSerializable(explicitToJson: true)
+class GlassfyStoresInfo {
+  final List<GlassfyStoreInfo>? all;
+
+  GlassfyStoresInfo(this.all);
+  factory GlassfyStoresInfo.fromJson(Map<String, dynamic> json) {
+    return GlassfyStoresInfo(
+        (json['all'] as List<dynamic>?)?.map<GlassfyStoreInfo>((e) {
+      final store = e['store'] as int?;
+      if (store == glassfyStoreToInt(GlassfyStore.storePaddle)) {
+        return GlassfyStoreInfoPaddle.fromJson(e as Map<String, dynamic>);
+      } else {
+        return GlassfyStoreInfo.fromJson(e as Map<String, dynamic>);
+      }
+    }).toList());
+  }
+  Map<String, dynamic> toJson() => _$GlassfyStoresInfoToJson(this);
+}
+
 DateTime? _dateTimeFromJsonEpoch(Map<String, dynamic> json, String key) {
   var epoch = json[key];
   if (epoch == null) {

@@ -40,7 +40,7 @@ class Glassfy {
 
   static Future<void> initialize(String apiKey, {bool watcherMode = false}) =>
       _channel.invokeMethod('initialize',
-          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.6.1"});
+          {'apiKey': apiKey, 'watcherMode': watcherMode, 'version': "1.6.2"});
 
   static setLogLevel(int logLevel) {
     _channel.invokeMethod('setLogLevel', {
@@ -167,6 +167,11 @@ class Glassfy {
       List<GlassfyAttributionItem>? items) async {
     final itemsList = items?.map((item) => item.toJson()).toList();
     await _channel.invokeMethod('setAttributions', {'items': itemsList});
+  }
+
+  static Future<GlassfyStoresInfo> storeInfo() async {
+    final json = await _channel.invokeMethod('storeInfo');
+    return GlassfyStoresInfo.fromJson(jsonDecode(json));
   }
 
   static void addDidPurchaseListener(

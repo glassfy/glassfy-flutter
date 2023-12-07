@@ -110,6 +110,9 @@ NSString *GlassfyDidPurchaseEventFromDelegate = @"gy_did_purchase_product";
         [GlassfyGlue
          setExtraUserProperty:extraProp
          withCompletion:[self convertGlassfyGlueResultToFlutter:result]];
+    } else if ([@"storeInfo" isEqualToString:call.method]) {
+        [GlassfyGlue storeInfoWithCompletion:
+         [self convertGlassfyGlueResultToFlutter:result]];
     } else if ([@"getExtraUserProperty" isEqualToString:call.method]) {
         [GlassfyGlue getExtraUserPropertyWithCompletion:
          [self convertGlassfyGlueResultToFlutter:result]];
