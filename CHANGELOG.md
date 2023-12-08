@@ -1,6 +1,7 @@
 ## 1.6.2
 
 - Support StoreInfo API
+- Fix namespace not specified
 
 ## 1.6.1
 
