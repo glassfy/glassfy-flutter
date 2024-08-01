@@ -1,3 +1,7 @@
+**Important:** Glassfy SDKs are deprecated. Glassfy will be ceasing operations by the end of 2024. [Read the blog post here](https://glassfy.io/blog/important-update-glassfy-services-ending-december-2024)
+
+-----
+
 <img src="https://media.glassfy.io/banner_purple.png" />
 
 [![Platform](https://img.shields.io/static/v1?label=platform&message=iOS%20|%20macOS%20|%20android&color=lightgray)](https://glassfy.io)
